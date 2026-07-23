@@ -1,0 +1,27 @@
+# Nuxt
+.nuxt/
+.output/
+.data/
+
+# Node
+node_modules/
+
+# IDE
+.vscode/
+.idea/
+.zcode/
+*.swp
+*.swo
+
+# 构建产物
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+*.log
+
+# AI 提示词文档（内部参考,不进仓库）
+保健品*.md

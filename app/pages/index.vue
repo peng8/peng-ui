@@ -1,0 +1,41 @@
+<script setup lang="ts">
+// 首页 —— 11 模块严格按需求布局
+useSeoMeta({
+  title: 'OEM/ODM Nutritional Supplement Manufacturer | MILDY Health',
+  description:
+    'MILDY Health is a leading Chinese dietary supplement contract manufacturer. One-stop OEM/ODM private-label solutions for gummies, softgels, tablets, capsules, powders and drops. GMP, FDA, BRC, HALAL certified. Serving 80+ countries.',
+  keywords:
+    'supplement manufacturer, OEM ODM, private label gummies, softgel manufacturer, contract manufacturing, dietary supplement factory, white label nutrition'
+})
+</script>
+
+<template>
+  <div>
+    <!-- 2. 首屏大图 Banner -->
+    <HomeHeroBanner />
+
+    <!-- 3. 企业优势板块 -->
+    <HomeAdvantages />
+
+    <!-- 4. 产品剂型分类板块 -->
+    <HomeProductCategories />
+
+    <!-- 5. 两大合作模式板块 -->
+    <HomeCooperationModes />
+
+    <!-- 6. 工厂实力展示板块 -->
+    <HomeFactoryShowcase />
+
+    <!-- 7. 资质证书预览板块 -->
+    <HomeCertPreview />
+
+    <!-- 8. 合作客户/品牌案例 -->
+    <HomeClientCases />
+
+    <!-- 9. 合作流程时间线 -->
+    <HomeProcessTimeline />
+
+    <!-- 10. 底部询价转化 -->
+    <HomeQuoteCTA />
+  </div>
+</template>
