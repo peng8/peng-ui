@@ -224,11 +224,11 @@ export const facilities: FacilityItem[] = [
     image: '/images/manufacturing/facility/rd-laboratory.jpeg'
   },
   {
-    title: 'Quality Control Lab',
-    titleZh: '质检实验室',
-    desc: 'Equipped with HPLC, GC, UV-Vis and microbiological testing — every batch verified for potency, purity and safety.',
-    descZh: '配备 HPLC、GC、UV-Vis 和微生物检测设备——每批次验证含量、纯度和安全性。',
-    image: '/images/manufacturing/facility/qc-laboratory.jpeg'
+    title: 'Fresh from the Line',
+    titleZh: '新鲜出炉',
+    desc: 'Gummies, softgels and tablets coming off the line moments after molding — still warm, perfectly shaped and ready for cooling, coating and packaging.',
+    descZh: '软糖、软胶囊和片剂成型后刚下线——余温尚存、形态完美,随即进入冷却、包衣与包装工序。',
+    image: '/images/banner-frames/frame-03s.jpg'
   },
   {
     title: 'Warehousing & Cold Storage',

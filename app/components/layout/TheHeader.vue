@@ -64,11 +64,11 @@ const navList = computed(() =>
     <div class="wrap flex h-16 items-center justify-between md:h-20">
       <!-- Logo -->
       <NuxtLink to="/" class="flex items-center gap-2.5" aria-label="MILDY Home">
-        <span
-          class="flex h-9 w-9 items-center justify-center rounded-lg bg-navy text-sm font-extrabold tracking-wider text-gold md:h-10 md:w-10"
-        >
-          M
-        </span>
+        <img
+          src="/logo/logo.png"
+          :alt="site.brand"
+          class="h-9 w-auto object-contain md:h-10"
+        />
         <span class="flex flex-col leading-none">
           <span
             class="text-lg font-extrabold tracking-tight md:text-xl"

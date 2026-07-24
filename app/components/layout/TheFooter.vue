@@ -32,9 +32,11 @@ const navKeyMap: Record<string, string> = {
       <!-- 品牌介绍 -->
       <div>
         <NuxtLink to="/" class="flex items-center gap-2.5">
-          <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 text-sm font-extrabold tracking-wider text-gold">
-            M
-          </span>
+          <img
+            src="/logo/logo.png"
+            :alt="site.brand"
+            class="h-10 w-auto object-contain"
+          />
           <span class="flex flex-col leading-none">
             <span class="text-xl font-extrabold tracking-tight text-white">{{ site.brand }}</span>
             <span class="mt-0.5 text-[10px] font-medium uppercase tracking-[0.2em] text-white/50">{{ t('footer.tagline') }}</span>
