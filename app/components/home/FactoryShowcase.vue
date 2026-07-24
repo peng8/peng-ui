@@ -11,13 +11,17 @@ const facilityStats = computed(() => [
   { value: '8', label: isZh.value ? '大车间' : 'Workshops', icon: 'shield-check' }
 ])
 
+const highlights = computed(() => [
+  { icon: 'gear', title: isZh.value ? '自动化生产线' : 'Automated Production Lines', desc: isZh.value ? '12 条高速产线,软糖 / 软胶囊 / 片剂 / 粉剂全覆盖。' : '12 high-speed lines covering gummies, softgels, tablets and powders.' },
+  { icon: 'shield-check', title: isZh.value ? 'GMP 洁净车间' : 'GMP Cleanrooms', desc: isZh.value ? '10 万级净化,温湿度与压差全程监控。' : 'Class 100,000 cleanrooms with full environmental monitoring.' },
+  { icon: 'flask', title: isZh.value ? '自建研发实验室' : 'In-house R&D Laboratory', desc: isZh.value ? '配方开发、稳定性测试与功效验证一站完成。' : 'Formulation, stability and efficacy testing under one roof.' }
+])
+
 const { openOne } = useLightbox()
-const mainImg = 'https://picsum.photos/seed/mildy-factory-main/1000/1200'
-const gallery = [
-  'https://picsum.photos/seed/mildy-factory-g1/600/600',
-  'https://picsum.photos/seed/mildy-factory-g2/600/600',
-  'https://picsum.photos/seed/mildy-factory-g3/600/600',
-  'https://picsum.photos/seed/mildy-factory-g4/600/600'
+const mainImg = '/images/banner-frames/frame-02s.jpg'
+const midImages = [
+  { src: '/images/banner-frames/frame-08s.jpg', alt: 'Production line detail' },
+  { src: '/images/banner-frames/frame-13s.jpg', alt: 'Facility interior' }
 ]
 </script>
 
@@ -44,18 +48,52 @@ const gallery = [
           </div>
         </div>
 
+        <!-- 工艺亮点 -->
+        <ul class="mt-8 grid gap-3">
+          <li
+            v-for="(h, i) in highlights"
+            :key="h.title"
+            class="reveal flex items-start gap-3 rounded-lg bg-white/[0.04] px-4 py-3 ring-1 ring-white/10"
+            :style="`transition-delay: ${i * 80}ms`"
+          >
+            <UiAppIcon :name="h.icon" :size="18" class="mt-0.5 shrink-0 text-gold" />
+            <div>
+              <p class="text-sm font-semibold text-white">{{ h.title }}</p>
+              <p class="mt-0.5 text-xs leading-relaxed text-white/55">{{ h.desc }}</p>
+            </div>
+          </li>
+        </ul>
+
         <UiAppButton to="/manufacturing" variant="primary" icon-right="arrow-right" class="mt-9">
           {{ t('fs.tour') }}
         </UiAppButton>
       </div>
 
-      <!-- 右：图片画廊 -->
+      <!-- 右:Bento 图片画廊 -->
       <div class="reveal grid grid-cols-2 gap-4">
-        <button class="group col-span-2 overflow-hidden rounded-xl" @click="openOne({ src: mainImg, alt: 'MILDY factory overview', caption: 'MILDY main manufacturing facility' })">
-          <UiLazyImage :src="mainImg" alt="MILDY factory overview" ratio="aspect-[16/9]" class="transition-transform duration-700 group-hover:scale-105" />
+        <button
+          class="group col-span-2 overflow-hidden rounded-xl"
+          @click="openOne({ src: mainImg, alt: 'MILDY factory overview', caption: 'MILDY main manufacturing facility' })"
+        >
+          <UiLazyImage
+            :src="mainImg"
+            alt="MILDY factory overview"
+            ratio="aspect-[16/9]"
+            class="transition-transform duration-700 group-hover:scale-105"
+          />
         </button>
-        <button v-for="(g, i) in gallery" :key="i" class="group overflow-hidden rounded-xl" @click="openOne({ src: g, alt: `Facility ${i + 1}` })">
-          <UiLazyImage :src="g" :alt="`Facility ${i + 1}`" ratio="aspect-square" class="transition-transform duration-700 group-hover:scale-105" />
+        <button
+          v-for="(m, i) in midImages"
+          :key="i"
+          class="group overflow-hidden rounded-xl"
+          @click="openOne({ src: m.src, alt: m.alt })"
+        >
+          <UiLazyImage
+            :src="m.src"
+            :alt="m.alt"
+            ratio="aspect-[4/3]"
+            class="h-full transition-transform duration-700 group-hover:scale-105"
+          />
         </button>
       </div>
     </div>
