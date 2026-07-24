@@ -62,7 +62,6 @@ export const navItems: NavItem[] = [
   { label: 'About Us', to: '/about' },
   { label: 'Products', to: '/products' },
   { label: 'Services', to: '/services' },
-  { label: 'Certifications', to: '/certifications' },
   { label: 'Manufacturing', to: '/manufacturing' },
   { label: 'How It Works', to: '/how-it-works' },
   { label: 'Contact', to: '/contact' }

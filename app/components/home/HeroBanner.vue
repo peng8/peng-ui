@@ -15,7 +15,7 @@ const advantages = computed(() =>
 const slides = [
   { image: '/images/hero/factory-strength.jpeg', eyebrowKey: 'hero.slide1' as MessageKey, link: '/manufacturing' },
   { image: '/images/hero/one-stop-service.jpeg', eyebrowKey: 'hero.slide2' as MessageKey, link: '/products' },
-  { image: '/images/hero/quality-rd.jpeg', eyebrowKey: 'hero.slide3' as MessageKey, link: '/certifications' },
+  { image: '/images/hero/quality-rd.jpeg', eyebrowKey: 'hero.slide3' as MessageKey, link: '/manufacturing' },
   { image: '/images/hero/global-export.jpeg', eyebrowKey: 'hero.slide4' as MessageKey, link: '/about' }
 ]
 

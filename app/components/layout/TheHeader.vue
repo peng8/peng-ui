@@ -4,6 +4,17 @@ import { site, navItems } from '~/data/site'
 const route = useRoute()
 const mobileOpen = ref(false)
 const scrolled = ref(false)
+const searchOpen = ref(false)
+
+// Ctrl/Cmd + K 打开搜索
+const onKeydown = (e: KeyboardEvent) => {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+    e.preventDefault()
+    searchOpen.value = true
+  }
+}
+onMounted(() => window.addEventListener('keydown', onKeydown))
+onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 
 // 滚动时给 header 加白底 + 阴影
 const onScroll = () => {
@@ -29,7 +40,6 @@ const navKeyMap: Record<string, string> = {
   '/about': 'about',
   '/products': 'products',
   '/services': 'services',
-  '/certifications': 'certifications',
   '/manufacturing': 'manufacturing',
   '/how-it-works': 'howItWorks',
   '/contact': 'contact'
@@ -98,6 +108,35 @@ const navList = computed(() =>
 
       <!-- 右侧操作 -->
       <div class="flex items-center gap-2 md:gap-3">
+        <!-- 搜索入口（桌面端按钮 + 快捷键提示） -->
+        <button
+          class="hidden items-center gap-2 rounded-md border px-2.5 py-1.5 text-xs font-medium transition-colors lg:flex"
+          :class="
+            scrolled || mobileOpen
+              ? 'border-navy/15 text-navy/60 hover:border-navy/40 hover:text-navy'
+              : 'border-white/40 text-white/70 hover:border-white hover:text-white'
+          "
+          :aria-label="isZh ? '搜索' : 'Search'"
+          @click="searchOpen = true"
+        >
+          <UiAppIcon name="search" :size="16" />
+          <span class="hidden xl:inline">{{ isZh ? '搜索' : 'Search' }}</span>
+          <kbd
+            class="hidden rounded border px-1.5 py-0.5 text-[10px] font-semibold xl:inline"
+            :class="scrolled || mobileOpen ? 'border-navy/15 text-navy/50' : 'border-white/30 text-white/60'"
+          >⌘K</kbd>
+        </button>
+
+        <!-- 移动端搜索图标按钮 -->
+        <button
+          class="flex h-10 w-10 items-center justify-center rounded-md lg:hidden"
+          :class="scrolled || mobileOpen ? 'text-navy' : 'text-white'"
+          :aria-label="isZh ? '搜索' : 'Search'"
+          @click="searchOpen = true"
+        >
+          <UiAppIcon name="search" :size="20" />
+        </button>
+
         <!-- 语言切换 -->
         <button
           class="hidden items-center gap-1 rounded-md border px-2.5 py-1.5 text-xs font-semibold transition-colors sm:flex"
@@ -164,6 +203,9 @@ const navList = computed(() =>
         </nav>
       </div>
     </Transition>
+
+    <!-- 全站搜索弹窗 -->
+    <PagefindSearch v-model:open="searchOpen" />
   </header>
 </template>
 

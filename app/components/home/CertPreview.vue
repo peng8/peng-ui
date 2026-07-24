@@ -26,7 +26,7 @@ const featured = computed(() => certifications.slice(0, 6))
       </div>
 
       <div class="reveal mt-10 text-center">
-        <UiAppButton to="/certifications" variant="ghost" icon-right="arrow-right">
+        <UiAppButton to="/manufacturing" variant="ghost" icon-right="arrow-right">
           {{ t('cert.viewAll') }}
         </UiAppButton>
       </div>

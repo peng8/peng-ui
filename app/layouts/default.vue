@@ -10,7 +10,8 @@ watch(() => useRoute().path, () => nextTick(() => observeAll()))
 <template>
   <div class="flex min-h-screen flex-col">
     <LayoutTheHeader />
-    <main class="flex-1">
+    <!-- data-pagefind-body：让 Pagefind 只索引 main 内容，排除 header/footer/悬浮按钮 -->
+    <main class="flex-1" data-pagefind-body>
       <slot />
     </main>
     <LayoutTheFooter />

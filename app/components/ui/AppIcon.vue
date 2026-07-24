@@ -126,6 +126,9 @@ defineProps<{ name: string; size?: number | string }>()
     <template v-else-if="name === 'star'">
       <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
     </template>
+    <template v-else-if="name === 'search'">
+      <circle cx="11" cy="11" r="7" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </template>
 
     <!-- 兜底：小圆点 -->
     <template v-else>

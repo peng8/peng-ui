@@ -19,7 +19,6 @@ const navKeyMap: Record<string, string> = {
   '/about': 'about',
   '/products': 'products',
   '/services': 'services',
-  '/certifications': 'certifications',
   '/manufacturing': 'manufacturing',
   '/how-it-works': 'howItWorks',
   '/contact': 'contact'

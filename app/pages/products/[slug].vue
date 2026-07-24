@@ -31,11 +31,11 @@ watch(gallery, () => (activeImg.value = 0))
 </script>
 
 <template>
-  <div v-if="product">
+  <div v-if="product" data-pagefind-body>
     <!-- 面包屑区（深色底，与透明导航栏协调，避免顶部留白无背景） -->
     <section class="border-b border-white/10 bg-navy pt-16 md:pt-20">
       <div class="wrap py-6">
-        <nav class="flex items-center gap-2 text-xs text-white/60">
+        <nav class="flex items-center gap-2 text-xs text-white/60" data-pagefind-ignore>
           <NuxtLink to="/" class="transition-colors hover:text-gold-light">Home</NuxtLink>
           <UiAppIcon name="chevron-right" :size="12" class="opacity-50" />
           <NuxtLink to="/products" class="transition-colors hover:text-gold-light">{{ isZh ? '产品中心' : 'Products' }}</NuxtLink>
