@@ -33,7 +33,7 @@ const { t, isZh } = useLocale()
       :eyebrow="isZh ? '关于 MILDY' : 'About MILDY Health'"
       :title="isZh ? '20 年营养补充剂制造卓越之路' : '20 Years of Supplement Manufacturing Excellence'"
       :subtitle="isZh ? '从广州的车间到 60,000 平方米的全球出口工厂——80+ 国家信赖品牌背后的故事。' : 'From a Guangzhou workshop to a 60,000 m² global export powerhouse — the story behind the brand trusted by 80+ countries.'"
-      image="https://picsum.photos/seed/mildy-about-hero/1920/700"
+      image="/images/about/hero.jpg"
       :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: '/' }, { label: isZh ? '关于我们' : 'About Us' }]"
     />
 

@@ -22,12 +22,14 @@ const searched = ref(false)
 const inputEl = ref<HTMLInputElement | null>(null)
 
 // 按需加载 Pagefind 的 search 入口
-// 路径 /pagefind/pagefind.js 由 Pagefind 构建时生成，开发环境不存在
+// 路径 /pagefind/pagefind.js 由 Pagefind 构建时生成,开发环境不存在
+// 用运行时拼接路径,避免 Vite 静态分析尝试解析(dev 模式下文件不存在会报错)
 let pagefind: any = null
 const loadPagefind = async () => {
   if (pagefind) return pagefind
   try {
-    pagefind = await import(/* @vite-ignore */ '/pagefind/pagefind.js')
+    const pagefindUrl = '/pagefind/' + 'pagefind.js'
+    pagefind = await import(/* @vite-ignore */ pagefindUrl)
     await pagefind.options({})
     await pagefind.init()
   } catch (e) {

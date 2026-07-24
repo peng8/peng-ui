@@ -65,7 +65,7 @@ const faqs = [
       :eyebrow="isZh ? '合作流程' : 'How It Works'"
       :title="isZh ? '从询盘到出货,6 步完成' : 'From Inquiry to Shipment in 6 Steps'"
       :subtitle="isZh ? '清晰透明的流程,从首次接触到出货通常只需 8–12 周。' : 'A clear, transparent process that takes you from first contact to a container on the water — typically 8 to 12 weeks.'"
-      image="https://picsum.photos/seed/mildy-process-hero/1920/700"
+      image="/images/how-it-works/hero.jpg"
       :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: '/' }, { label: isZh ? '合作流程' : 'How It Works' }]"
     />
 
@@ -144,7 +144,7 @@ const faqs = [
         <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <UiAppButton to="/contact" variant="primary" size="lg" icon="send">{{ isZh ? '提交询盘' : 'Submit Inquiry' }}</UiAppButton>
           <a
-            href="https://wa.me/86138000000000"
+            href="https://wa.me/8618613000659"
             target="_blank"
             rel="noopener noreferrer"
             class="btn btn-outline"

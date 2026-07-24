@@ -129,7 +129,7 @@ export const cooperationModes: CooperationMode[] = [
       '您的品牌、您的包装设计',
       '前期投入少'
     ],
-    image: 'https://picsum.photos/seed/mildy-white-label/900/700'
+    image: '/images/services/white-label.jpg'
   },
   {
     key: 'odm',
@@ -155,7 +155,7 @@ export const cooperationModes: CooperationMode[] = [
       '定制结构性包装',
       '完整法规与备案支持'
     ],
-    image: 'https://picsum.photos/seed/mildy-odm-custom/900/700'
+    image: '/images/services/odm.jpg'
   }
 ]
 
@@ -207,42 +207,42 @@ export const facilities: FacilityItem[] = [
     titleZh: 'GMP 洁净车间',
     desc: 'Class 100,000 (D-class) cleanrooms with positive-pressure HVAC, air showers and full environmental monitoring across all production zones.',
     descZh: '十万级(D 级)洁净室,配备正压 HVAC、风淋室和全线环境监测。',
-    image: 'https://picsum.photos/seed/mildy-facility-cleanroom/900/700'
+    image: '/images/manufacturing/facility/gmp-cleanroom.jpeg'
   },
   {
     title: 'Automated Production Lines',
     titleZh: '自动化产线',
     desc: '12 fully-automated lines for gummies, softgels, tablets, capsules, powders and liquids — engineered for high-volume, consistent output.',
     descZh: '12 条全自动化产线,覆盖软糖、软胶囊、片剂、胶囊、粉剂和液体制剂——为高产量、一致性输出而设计。',
-    image: 'https://picsum.photos/seed/mildy-facility-lines/900/700'
+    image: '/images/manufacturing/facility/automation-line.jpeg'
   },
   {
     title: 'R&D Laboratory',
     titleZh: '研发实验室',
     desc: 'A dedicated formulation lab developing 30+ new recipes annually, with pilot-scale equipment for fast, accurate sampling.',
     descZh: '专属配方实验室,每年开发 30+ 款新配方,配备中试设备以实现快速精准打样。',
-    image: 'https://picsum.photos/seed/mildy-facility-rnd/900/700'
+    image: '/images/manufacturing/facility/rd-laboratory.jpeg'
   },
   {
     title: 'Quality Control Lab',
     titleZh: '质检实验室',
     desc: 'Equipped with HPLC, GC, UV-Vis and microbiological testing — every batch verified for potency, purity and safety.',
     descZh: '配备 HPLC、GC、UV-Vis 和微生物检测设备——每批次验证含量、纯度和安全性。',
-    image: 'https://picsum.photos/seed/mildy-facility-qc/900/700'
+    image: '/images/manufacturing/facility/qc-laboratory.jpeg'
   },
   {
     title: 'Warehousing & Cold Storage',
     titleZh: '仓储与冷链',
     desc: 'Climate-controlled raw material and finished-goods warehouses with full FIFO traceability and quarantine zones.',
     descZh: '温控原料仓与成品仓,完整 FIFO 可追溯,设隔离区。',
-    image: 'https://picsum.photos/seed/mildy-facility-warehouse/900/700'
+    image: '/images/manufacturing/facility/warehouse-coldchain.jpeg'
   },
   {
     title: 'Packaging & Logistics',
     titleZh: '包装与物流',
     desc: 'In-house carton packing, palletizing and container loading — integrated with sea-freight export documentation.',
     descZh: '厂内装箱、码垛和装柜——与海运出口单证一体化衔接。',
-    image: 'https://picsum.photos/seed/mildy-facility-packaging/900/700'
+    image: '/images/manufacturing/facility/packaging-logistics.jpeg'
   }
 ]
 

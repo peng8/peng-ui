@@ -25,3 +25,7 @@ Thumbs.db
 
 # AI 提示词文档（内部参考,不进仓库）
 保健品*.md
+
+# local secrets
+.env
+.env.*

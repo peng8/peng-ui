@@ -36,7 +36,7 @@ const { t, isZh } = useLocale()
       :eyebrow="isZh ? '我们的服务' : 'Our Services'"
       :title="isZh ? '一站式 OEM/ODM 解决方案' : 'One-Stop OEM/ODM Solutions'"
       :subtitle="isZh ? '从最初的创意到装柜出货——在一个屋檐下,启动您的营养补充剂品牌所需的一切。' : 'From first idea to container on the water — everything you need to launch your supplement brand, under one roof.'"
-      image="https://picsum.photos/seed/mildy-services-hero/1920/700"
+      image="/images/services/hero.jpg"
       :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: '/' }, { label: isZh ? '服务' : 'Services' }]"
     />
 

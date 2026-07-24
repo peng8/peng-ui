@@ -10,6 +10,13 @@ useSeoMeta({
 
 const { t, isZh } = useLocale()
 
+// 用经纬度坐标生成 Google Maps 嵌入地址
+// q=lat,lng 格式只会落一个标记点,避免地址文本匹配出多个候选点
+const mapSrc = computed(() => {
+  const { lat, lng } = site.contact
+  return `https://maps.google.com/maps?q=${lat},${lng}&z=16&output=embed`
+})
+
 const contactMethods = [
   { icon: 'mail', label: 'Email', labelZh: '邮箱', value: site.contact.email, valueZh: site.contact.email, href: `mailto:${site.contact.email}`, desc: 'For detailed inquiries and quotations', descZh: '适用于详细询盘与报价' },
   { icon: 'whatsapp', label: 'WhatsApp', labelZh: 'WhatsApp', value: 'Chat Now', valueZh: '立即沟通', href: site.contact.whatsappHref, desc: 'Fast response — typically within minutes', descZh: '快速响应——通常几分钟内' },
@@ -24,7 +31,7 @@ const contactMethods = [
       :eyebrow="isZh ? '联系我们' : 'Contact'"
       :title="isZh ? '让我们开始对话' : `Let's Start a Conversation`"
       :subtitle="isZh ? '告诉我们您的项目,我们将在 24 小时内回复定制方案。' : `Tell us about your project and we'll get back to you within 24 hours with a tailored proposal.`"
-      image="https://picsum.photos/seed/mildy-contact-hero/1920/700"
+      image="/images/contact/hero.jpg"
       :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: '/' }, { label: isZh ? '联系我们' : 'Contact' }]"
     />
 
@@ -105,7 +112,7 @@ const contactMethods = [
         <div class="reveal mt-10 overflow-hidden rounded-2xl shadow-card">
           <iframe
             :title="isZh ? 'MILDY 健康位置' : 'MILDY Health location'"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.274!2d113.264!3d23.129!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDA3JzQ0LjQiTiAxMTPCsDE1JzUwLjQiRQ!5e0!3m2!1sen!2s!4v1700000000000"
+            :src="mapSrc"
             width="100%"
             height="400"
             style="border:0;"

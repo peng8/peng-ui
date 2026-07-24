@@ -40,7 +40,7 @@ const { t, isZh } = useLocale()
       :eyebrow="isZh ? '生产实力' : 'Manufacturing'"
       :title="isZh ? '走进世界级工厂' : 'Inside Our World-Class Facility'"
       :subtitle="isZh ? '60,000 平方米专用产业园,为规模、精度和合规而建。' : 'A 60,000 m² purpose-built industrial park engineered for volume, precision and compliance.'"
-      image="https://picsum.photos/seed/mildy-mfg-hero/1920/700"
+      image="/images/manufacturing/hero.jpg"
       :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: '/' }, { label: isZh ? '生产实力' : 'Manufacturing' }]"
     />
 
@@ -77,9 +77,9 @@ const { t, isZh } = useLocale()
             class="reveal group overflow-hidden rounded-2xl bg-mist shadow-card ring-1 ring-mist-border"
             :style="`transition-delay: ${(i % 2) * 100}ms`"
           >
-            <button class="block w-full overflow-hidden" @click="open([{ src: f.image, alt: isZh ? f.titleZh : f.title, caption: isZh ? f.titleZh : f.title }], 0)">
+            <div class="block w-full overflow-hidden">
               <UiLazyImage :src="f.image" :alt="isZh ? f.titleZh : f.title" ratio="aspect-[16/10]" class="transition-transform duration-700 group-hover:scale-105" />
-            </button>
+            </div>
             <div class="p-6">
               <h3 class="text-lg font-bold text-navy">{{ isZh ? f.titleZh : f.title }}</h3>
               <p class="mt-2 text-sm leading-relaxed text-navy/65">{{ isZh ? f.descZh : f.desc }}</p>
@@ -119,10 +119,10 @@ const { t, isZh } = useLocale()
     <section class="section bg-white">
       <div class="wrap grid items-center gap-12 lg:grid-cols-2">
         <div class="reveal grid grid-cols-2 gap-4">
-          <img src="https://picsum.photos/seed/mildy-equip-1/500/600" alt="HPLC instrument" class="rounded-xl object-cover shadow-card" loading="lazy" />
-          <img src="https://picsum.photos/seed/mildy-equip-2/500/400" alt="Encapsulation machine" class="mt-8 rounded-xl object-cover shadow-card" loading="lazy" />
-          <img src="https://picsum.photos/seed/mildy-equip-3/500/400" alt="Blending tank" class="rounded-xl object-cover shadow-card" loading="lazy" />
-          <img src="https://picsum.photos/seed/mildy-equip-4/500/600" alt="Packaging line" class="mt-8 rounded-xl object-cover shadow-card" loading="lazy" />
+          <img src="/images/manufacturing/equip-1.jpg" alt="HPLC instrument" class="rounded-xl object-cover shadow-card" loading="lazy" />
+          <img src="/images/manufacturing/equip-2.jpg" alt="Encapsulation machine" class="mt-8 rounded-xl object-cover shadow-card" loading="lazy" />
+          <img src="/images/manufacturing/equip-3.jpg" alt="Blending tank" class="rounded-xl object-cover shadow-card" loading="lazy" />
+          <img src="/images/manufacturing/equip-4.jpg" alt="Packaging line" class="mt-8 rounded-xl object-cover shadow-card" loading="lazy" />
         </div>
         <div class="reveal" :style="`transition-delay:120ms`">
           <span class="eyebrow"><span class="h-px w-6 bg-gold" />{{ isZh ? '设备与技术' : 'Equipment & Technology' }}</span>

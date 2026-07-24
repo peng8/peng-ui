@@ -79,7 +79,7 @@ watch(
       :eyebrow="t('products.eyebrow')"
       :title="t('products.title')"
       :subtitle="t('products.subtitle')"
-      image="https://picsum.photos/seed/mildy-products-hero/1920/700"
+      image="/images/products/hero.jpg"
       :breadcrumb="breadcrumb"
     />
 

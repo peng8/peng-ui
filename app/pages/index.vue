@@ -26,13 +26,7 @@ useSeoMeta({
     <!-- 6. 工厂实力展示板块 -->
     <HomeFactoryShowcase />
 
-    <!-- 7. 资质证书预览板块 -->
-    <HomeCertPreview />
-
-    <!-- 8. 合作客户/品牌案例 -->
-    <HomeClientCases />
-
-    <!-- 9. 合作流程时间线 -->
+    <!-- 8. 合作流程时间线 -->
     <HomeProcessTimeline />
 
     <!-- 10. 底部询价转化 -->

@@ -14,6 +14,8 @@ export interface SiteInfo {
     whatsappHref: string
     address: string
     addressCn: string
+    lat: number
+    lng: number
     hours: string
   }
   social: { label: string; icon: string; href: string }[]
@@ -29,13 +31,16 @@ export const site: SiteInfo = {
     'MILDY Health is a leading dietary supplement contract manufacturer in China, delivering one-stop OEM/ODM private-label solutions for global brands, cross-border sellers and distributors.',
   founded: 2004,
   contact: {
-    email: 'sales@mildy.com',
-    phone: '+86 138-0000-0000',
-    phoneHref: 'tel:+86138000000000',
-    whatsapp: '+86 138-0000-0000',
-    whatsappHref: 'https://wa.me/86138000000000',
-    address: 'No. 88 Health Industrial Park, High-Tech Zone, Guangzhou, China',
-    addressCn: '中国 广州市 高新区 大健康产业园 88 号',
+    email: 'MildyHealth@163.com',
+    phone: '+86 186-1300-0659',
+    phoneHref: 'tel:+8618613000659',
+    whatsapp: '+86 186-1300-0659',
+    whatsappHref: 'https://wa.me/8618613000659',
+    address: 'Building E, Feixingzhe Zhide Communication & Electronics Technology Park, No. 77 Yaxin South Street, Huadu District, Guangzhou, China',
+    addressCn: '广州市花都区雅新南街77号飞行者智德通信电子科技园E栋',
+    // 地图坐标(高德 GCJ-02 坐标系) —— 用于 Google Maps 嵌入定位
+    lat: 23.359527,
+    lng: 113.238178,
     hours: 'Mon – Sat, 9:00 – 18:00 (GMT+8)'
   },
   social: [
