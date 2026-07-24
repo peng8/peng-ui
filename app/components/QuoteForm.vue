@@ -1,42 +1,49 @@
 <script setup lang="ts">
-// 询价表单 —— 纯前端演示：前端校验 + 成功提示（无网络请求）
+// 询价表单 —— 通过 Web3Forms 接收并转发到邮箱
+// access_key 配置在 nuxt.config.ts 的 runtimeConfig.public.web3formsAccessKey
+// 该 key 设计为前端可见（类似 reCAPTCHA site key），可公开
 import { productCategories } from '~/data/products'
 
 withDefaults(defineProps<{ variant?: 'light' | 'dark' }>(), { variant: 'light' })
 
+const { public: { web3formsAccessKey = '' } } = useRuntimeConfig()
+
 interface FormState {
   name: string
-  company: string
   email: string
+  whatsapp: string
+  company: string
   country: string
   productType: string
-  moq: string
   message: string
 }
 
 const form = reactive<FormState>({
   name: '',
-  company: '',
   email: '',
+  whatsapp: '',
+  company: '',
   country: '',
   productType: '',
-  moq: '',
   message: ''
 })
 
 const errors = reactive<Record<keyof FormState, string>>({
   name: '',
-  company: '',
   email: '',
+  whatsapp: '',
+  company: '',
   country: '',
   productType: '',
-  moq: '',
   message: ''
 })
 
-const status = ref<'idle' | 'submitting' | 'success'>('idle')
+const status = ref<'idle' | 'submitting' | 'success' | 'error'>('idle')
+const errorMsg = ref('')
 
 const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+// WhatsApp 号码：允许 +、数字、空格、-，至少 6 位数字
+const whatsappRe = /^\+?[\d\s\-]{6,20}$/
 
 const validate = (): boolean => {
   let ok = true
@@ -44,42 +51,74 @@ const validate = (): boolean => {
     errors[k] = msg
     if (msg) ok = false
   }
+  // 仅 4 项必填：Name、Email、WhatsApp、Project Details
   set('name', form.name.trim() ? '' : 'Please enter your name')
-  set('company', form.company.trim() ? '' : 'Please enter your company name')
   set('email', !form.email.trim() ? 'Please enter your email' : !emailRe.test(form.email) ? 'Please enter a valid email' : '')
-  set('country', form.country.trim() ? '' : 'Please enter your country')
-  set('productType', form.productType ? '' : 'Please select a product type')
+  set('whatsapp', !form.whatsapp.trim() ? 'Please enter your WhatsApp number' : !whatsappRe.test(form.whatsapp.trim()) ? 'Please enter a valid WhatsApp number' : '')
   set('message', form.message.trim().length >= 10 ? '' : 'Please describe your needs (at least 10 characters)')
+  // 其余字段（company/country/productType）选填，不做校验
+  errors.company = ''
+  errors.country = ''
+  errors.productType = ''
   return ok
 }
 
 const submit = async () => {
   if (!validate()) return
   status.value = 'submitting'
-  // 模拟提交延时
-  await new Promise((r) => setTimeout(r, 900))
-  status.value = 'success'
-  // 重置表单
-  Object.assign(form, {
-    name: '',
-    company: '',
-    email: '',
-    country: '',
-    productType: '',
-    moq: '',
-    message: ''
-  })
-  // 5秒后回到可再次填写状态
-  setTimeout(() => (status.value = 'idle'), 6000)
-}
+  errorMsg.value = ''
 
-const moqOptions = [
-  'Under 30,000 units',
-  '30,000 – 100,000 units',
-  '100,000 – 300,000 units',
-  '300,000+ units',
-  'Not sure yet'
-]
+  // 未配置 access_key 时给出明确提示（开发期防呆）
+  if (!web3formsAccessKey) {
+    status.value = 'error'
+    errorMsg.value = 'Form service not configured. Please set web3formsAccessKey in nuxt.config.ts'
+    return
+  }
+
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify({
+        access_key: web3formsAccessKey,
+        subject: `New Inquiry from ${form.name}${form.company ? ` — ${form.company}` : ''}`,
+        from_name: 'MILDY Health Website',
+        name: form.name,
+        email: form.email,
+        whatsapp: form.whatsapp,
+        company: form.company || 'Not specified',
+        country: form.country || 'Not specified',
+        product_type: form.productType || 'Not specified',
+        message: form.message
+      })
+    })
+    const data = await res.json().catch(() => ({}))
+    if (res.ok && data.success) {
+      status.value = 'success'
+      // 重置表单
+      Object.assign(form, {
+        name: '',
+        email: '',
+        whatsapp: '',
+        company: '',
+        country: '',
+        productType: '',
+        message: ''
+      })
+      // 6秒后回到可再次填写状态
+      setTimeout(() => (status.value = 'idle'), 6000)
+    } else {
+      status.value = 'error'
+      errorMsg.value = data.message || 'Submission failed. Please try again or email us directly.'
+    }
+  } catch (e) {
+    status.value = 'error'
+    errorMsg.value = 'Network error. Please check your connection and try again.'
+  }
+}
 </script>
 
 <template>
@@ -99,8 +138,18 @@ const moqOptions = [
     </div>
 
     <template v-else>
+      <!-- 错误提示条：保留表单内容，让用户可修改后重试 -->
+      <div
+        v-if="status === 'error'"
+        class="mb-4 flex items-start gap-2.5 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700"
+      >
+        <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-red-500 text-white">
+          <UiAppIcon name="close" :size="12" />
+        </span>
+        <span>{{ errorMsg }}</span>
+      </div>
       <div class="grid gap-4 sm:grid-cols-2">
-        <!-- Name -->
+        <!-- Name（必填） -->
         <div>
           <label class="mb-1.5 block text-sm font-medium text-navy">Name <span class="text-gold">*</span></label>
           <input
@@ -112,19 +161,7 @@ const moqOptions = [
           />
           <p v-if="errors.name" class="mt-1 text-xs text-red-500">{{ errors.name }}</p>
         </div>
-        <!-- Company -->
-        <div>
-          <label class="mb-1.5 block text-sm font-medium text-navy">Company <span class="text-gold">*</span></label>
-          <input
-            v-model="form.company"
-            type="text"
-            placeholder="Your Company Ltd."
-            class="form-input"
-            :class="errors.company ? 'input-error' : ''"
-          />
-          <p v-if="errors.company" class="mt-1 text-xs text-red-500">{{ errors.company }}</p>
-        </div>
-        <!-- Email -->
+        <!-- Email（必填） -->
         <div>
           <label class="mb-1.5 block text-sm font-medium text-navy">Email <span class="text-gold">*</span></label>
           <input
@@ -136,38 +173,45 @@ const moqOptions = [
           />
           <p v-if="errors.email" class="mt-1 text-xs text-red-500">{{ errors.email }}</p>
         </div>
-        <!-- Country -->
+        <!-- WhatsApp（必填） -->
         <div>
-          <label class="mb-1.5 block text-sm font-medium text-navy">Country <span class="text-gold">*</span></label>
+          <label class="mb-1.5 block text-sm font-medium text-navy">WhatsApp <span class="text-gold">*</span></label>
+          <input
+            v-model="form.whatsapp"
+            type="tel"
+            placeholder="+1 555 123 4567"
+            class="form-input"
+            :class="errors.whatsapp ? 'input-error' : ''"
+          />
+          <p v-if="errors.whatsapp" class="mt-1 text-xs text-red-500">{{ errors.whatsapp }}</p>
+        </div>
+        <!-- Company（选填） -->
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-navy">Company</label>
+          <input
+            v-model="form.company"
+            type="text"
+            placeholder="Your Company Ltd."
+            class="form-input"
+          />
+        </div>
+        <!-- Country（选填） -->
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-navy">Country</label>
           <input
             v-model="form.country"
             type="text"
             placeholder="United States"
             class="form-input"
-            :class="errors.country ? 'input-error' : ''"
           />
-          <p v-if="errors.country" class="mt-1 text-xs text-red-500">{{ errors.country }}</p>
         </div>
-        <!-- Product Type -->
+        <!-- Product Type（选填） -->
         <div>
-          <label class="mb-1.5 block text-sm font-medium text-navy">Product Type <span class="text-gold">*</span></label>
-          <select
-            v-model="form.productType"
-            class="form-input"
-            :class="errors.productType ? 'input-error' : ''"
-          >
+          <label class="mb-1.5 block text-sm font-medium text-navy">Product Type</label>
+          <select v-model="form.productType" class="form-input">
             <option value="" disabled>Select dosage form</option>
             <option v-for="p in productCategories" :key="p.slug" :value="p.name">{{ p.name }}</option>
             <option value="Other">Other / Multiple</option>
-          </select>
-          <p v-if="errors.productType" class="mt-1 text-xs text-red-500">{{ errors.productType }}</p>
-        </div>
-        <!-- MOQ -->
-        <div>
-          <label class="mb-1.5 block text-sm font-medium text-navy">Estimated Quantity</label>
-          <select v-model="form.moq" class="form-input">
-            <option value="" disabled>Select quantity range</option>
-            <option v-for="m in moqOptions" :key="m" :value="m">{{ m }}</option>
           </select>
         </div>
       </div>

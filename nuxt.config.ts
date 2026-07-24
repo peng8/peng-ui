@@ -44,6 +44,15 @@ export default defineNuxtConfig({
 
   modules: ['@nuxtjs/tailwindcss', '@nuxt/image'],
 
+  // Web3Forms 询盘表单 access_key —— 去 https://web3forms.com 用邮箱注册即可获取
+  // 该 key 设计为前端可见（类似 reCAPTCHA site key），可安全公开
+  // 也可通过环境变量 NUXT_PUBLIC_WEB3FORMS_ACCESS_KEY 覆盖
+  runtimeConfig: {
+    public: {
+      web3formsAccessKey: 'b07fa823-6ec0-4508-abb1-244849ee6019' // ← 在此填入你的 access_key
+    }
+  },
+
   css: ['~/assets/css/main.css'],
 
   app: {
@@ -63,17 +72,9 @@ export default defineNuxtConfig({
         }
       ],
       link: [
-        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
-        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-        {
-          rel: 'preconnect',
-          href: 'https://fonts.gstatic.com',
-          crossorigin: ''
-        },
-        {
-          rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap'
-        }
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }
+        // Inter 字体已自托管在 public/fonts/，通过 main.css 的 @font-face 加载，
+        // 无需再引用 Google Fonts（国内访问受限），零外部依赖
       ]
     }
   },
