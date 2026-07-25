@@ -11,12 +11,12 @@ const advantages = computed(() =>
     : ['GMP & FDA Certified', 'Full Dosage Forms', 'Low MOQ White Label', 'Sea Freight Export']
 )
 
-// Hero 轮播图：4 张宣传图，每张配引导文案（i18n key） + 跳转链接
+// Hero 轮播图：4 张宣传图，每张配引导文案（i18n key）
 const slides = [
-  { image: '/images/hero/factory-strength.jpeg', eyebrowKey: 'hero.slide1' as MessageKey, link: '/manufacturing' },
-  { image: '/images/hero/one-stop-service.jpeg', eyebrowKey: 'hero.slide2' as MessageKey, link: '/products' },
-  { image: '/images/hero/quality-rd.jpeg', eyebrowKey: 'hero.slide3' as MessageKey, link: '/manufacturing' },
-  { image: '/images/hero/global-export.jpeg', eyebrowKey: 'hero.slide4' as MessageKey, link: '/about' }
+  { image: '/images/hero/factory-strength.jpeg', eyebrowKey: 'hero.slide1' as MessageKey },
+  { image: '/images/hero/one-stop-service.jpeg', eyebrowKey: 'hero.slide2' as MessageKey },
+  { image: '/images/hero/quality-rd.jpeg', eyebrowKey: 'hero.slide3' as MessageKey },
+  { image: '/images/hero/global-export.jpeg', eyebrowKey: 'hero.slide4' as MessageKey }
 ]
 
 const current = ref(0)
@@ -63,10 +63,9 @@ const statList = computed(() =>
   >
     <!-- 轮播背景 -->
     <div class="absolute inset-0">
-      <NuxtLink
+      <div
         v-for="(slide, i) in slides"
         :key="i"
-        :to="slide.link"
         class="absolute inset-0 block transition-opacity duration-1000 ease-out"
         :class="i === current ? 'opacity-100' : 'opacity-0 pointer-events-none'"
         :aria-label="t(slide.eyebrowKey)"
@@ -80,7 +79,7 @@ const statList = computed(() =>
         />
         <!-- 轮播专属轻量遮罩：左侧保证白字可读，右侧让图片清晰可见 -->
         <div class="absolute inset-0 hero-slider-overlay" />
-      </NuxtLink>
+      </div>
     </div>
 
     <!-- 左右切换箭头 -->
@@ -126,7 +125,7 @@ const statList = computed(() =>
           <UiAppButton to="/contact" variant="primary" size="lg" icon="send">
             {{ isZh ? '获取报价' : 'Get A Quote' }}
           </UiAppButton>
-          <UiAppButton to="/products" variant="outline" size="lg" icon-right="arrow-right">
+          <UiAppButton to="/products" variant="outline" size="lg" icon-right="arrow-right" class="hero-cta-outline">
             {{ isZh ? '查看产品' : 'View Our Products' }}
           </UiAppButton>
         </div>
@@ -188,14 +187,25 @@ const statList = computed(() =>
   transform: translateY(-6px);
 }
 
-/* 轮播专属轻量遮罩：左侧深保证白字可读，右侧透明让图片清晰
-   比全局 .hero-overlay（0.92→0.45）轻很多，图片整体可见 */
+/* 轮播专属轻量遮罩：左侧加深保证白字在任何背景图上都可读，右侧透明让图片清晰
+   左侧 0.82 + 过渡点右移到 50%，比原 0.72→40% 更稳，仍保留图片可见性 */
 .hero-slider-overlay {
   background: linear-gradient(
     105deg,
-    rgba(6, 23, 48, 0.72) 0%,
-    rgba(6, 23, 48, 0.40) 40%,
+    rgba(6, 23, 48, 0.82) 0%,
+    rgba(6, 23, 48, 0.50) 50%,
     rgba(6, 23, 48, 0.12) 100%
   );
+}
+
+/* outline 按钮局部强化：加实底 + 更实边框 + 轻阴影，避免白边白字在亮图上消失
+   仅作用于 Hero，不影响全局 .btn-outline */
+.hero-cta-outline {
+  background-color: rgba(6, 23, 48, 0.40);
+  border-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+.hero-cta-outline:hover {
+  background-color: rgba(6, 23, 48, 0.55);
 }
 </style>
