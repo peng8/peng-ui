@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { facilities, qcSteps } from '~/data/cases'
-import { certifications } from '~/data/certifications'
 import { site } from '~/data/site'
 
 useSeoMeta({
@@ -10,26 +9,12 @@ useSeoMeta({
   keywords: 'GMP facility, supplement cleanroom, production lines, QC laboratory, manufacturing tour, dietary supplement factory China'
 })
 
-const { open } = useLightbox()
-
 const capacityStats = [
   { value: '60,000', label: 'm² Total Area', labelZh: '平方米总面积', icon: 'box' },
   { value: '12', label: 'Production Lines', labelZh: '条产线', icon: 'gear' },
   { value: '8', label: 'GMP Workshops', labelZh: '个 GMP 车间', icon: 'shield-check' },
   { value: '30B+', label: 'Units Annual Capacity', labelZh: '年产能(件)', icon: 'layers' }
 ]
-
-// 资质认证：精选 4 张代表证书
-const featuredCerts = certifications.slice(0, 4)
-const openCert = (idx: number) =>
-  open(
-    featuredCerts.map((c) => ({
-      src: c.image,
-      alt: `${c.code} - ${isZh.value ? c.nameZh : c.name}`,
-      caption: `${isZh.value ? c.nameZh : c.name} — ${isZh.value ? c.issuerZh : c.issuer}`
-    })),
-    idx
-  )
 
 const { t, isZh } = useLocale()
 </script>
@@ -156,42 +141,6 @@ const { t, isZh } = useLocale()
             </li>
           </ul>
         </div>
-      </div>
-    </section>
-
-    <!-- 资质认证（精选 4 张） -->
-    <section class="section bg-mist">
-      <div class="wrap">
-        <UiSectionHeading
-          :eyebrow="isZh ? '资质认证' : 'Certifications'"
-          :title="isZh ? '可验证的认证品质' : 'Certified Quality You Can Verify'"
-          :subtitle="isZh ? '精选代表证书——完整证书文件可联系索取。' : 'A selection of our key certificates — full documentation available on request.'"
-        />
-        <div class="mt-12 grid grid-cols-2 gap-5 sm:grid-cols-4">
-          <button
-            v-for="(c, i) in featuredCerts"
-            :key="c.code"
-            class="reveal group overflow-hidden rounded-xl bg-white shadow-card ring-1 ring-mist-border"
-            :style="`transition-delay: ${i * 80}ms`"
-            @click="openCert(i)"
-          >
-            <div class="overflow-hidden">
-              <img
-                :src="c.image"
-                :alt="isZh ? c.nameZh : c.name"
-                class="aspect-[3/4] w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                loading="lazy"
-              >
-            </div>
-            <div class="p-3 text-center">
-              <div class="text-xs font-bold text-navy">{{ c.code }}</div>
-              <div class="mt-0.5 line-clamp-1 text-[11px] text-navy/60">{{ isZh ? c.nameZh : c.name }}</div>
-            </div>
-          </button>
-        </div>
-        <p class="mt-6 text-center text-xs text-navy/50">
-          {{ isZh ? 'GMP · FDA · NSF · BRC · HALAL · ISO 22000 · ISO 9001 · Kosher 等更多认证' : 'GMP · FDA · NSF · BRC · HALAL · ISO 22000 · ISO 9001 · Kosher and more' }}
-        </p>
       </div>
     </section>
 

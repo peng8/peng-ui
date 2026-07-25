@@ -91,18 +91,24 @@ const navList = computed(() =>
           v-for="item in navList"
           :key="item.to"
           :to="item.to"
-          class="rounded-md px-3 py-2 text-sm font-medium transition-colors"
+          class="relative rounded-md px-3 py-2 text-sm transition-colors"
           :class="
             isActive(item.to)
               ? scrolled
-                ? 'text-navy-500'
-                : 'text-gold-light'
+                ? 'font-semibold text-navy'
+                : 'font-semibold text-gold-light'
               : scrolled
-                ? 'text-navy/75 hover:text-navy'
-                : 'text-white/85 hover:text-white'
+                ? 'font-medium text-navy/70 hover:text-navy'
+                : 'font-medium text-white/85 hover:text-white'
           "
         >
           {{ item.label }}
+          <!-- 选中指示器：滚动后用金色下划线，未滚动用金色短横 -->
+          <span
+            v-if="isActive(item.to)"
+            class="absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full"
+            :class="scrolled ? 'bg-gold' : 'bg-gold-light'"
+          />
         </NuxtLink>
       </nav>
 
