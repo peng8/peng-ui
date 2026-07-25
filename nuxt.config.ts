@@ -72,7 +72,9 @@ export default defineNuxtConfig({
         }
       ],
       link: [
-        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32.png' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' }
         // Inter 字体已自托管在 public/fonts/，通过 main.css 的 @font-face 加载，
         // 无需再引用 Google Fonts（国内访问受限），零外部依赖
       ]
