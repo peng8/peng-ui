@@ -72,7 +72,7 @@ app/
 推送到 `master` 分支自动触发 GitHub Actions：
 1. `npm ci` → `npm run generate`
 2. 部署 `.output/public` 到 `gh-pages` 分支
-3. CNAME: `www.peng8.cn`
+3. CNAME: `www.mildy-heath.com`
 
 ### Linux 服务器（未来）
 ```bash

@@ -56,7 +56,7 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
 
   app: {
-    // CNAME = www.peng8.cn，使用自定义域名，部署在根路径。
+    // CNAME = www.mildy-health.com，使用自定义域名，部署在根路径。
     baseURL: '/',
     head: {
       htmlAttrs: { lang: 'en' },
