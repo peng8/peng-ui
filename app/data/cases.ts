@@ -155,7 +155,7 @@ export const cooperationModes: CooperationMode[] = [
       '定制结构性包装',
       '完整法规与备案支持'
     ],
-    image: '/images/services/odm.jpg'
+    image: '/images/banner-frames/frame-10s.jpg'
   }
 ]
 
