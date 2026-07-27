@@ -75,7 +75,7 @@ useHead({
   })
 })
 
-// 画廊：主图索引，封面图作为第 0 张，缩略图紧随其后；点击切换主图
+// 画廊：封面图为主图；若产品附带额外画廊图则追加为缩略图（目前产品仅封面一张）
 const gallery = computed(() => [product.value!.cover, ...product.value!.gallery])
 const activeImg = ref(0)
 watch(gallery, () => (activeImg.value = 0))
@@ -104,8 +104,8 @@ watch(gallery, () => (activeImg.value = 0))
           <div class="overflow-hidden rounded-2xl bg-mist-dark shadow-card">
             <UiLazyImage :src="gallery[activeImg]" :alt="product.name" ratio="aspect-square" eager />
           </div>
-          <!-- 缩略图行 -->
-          <div class="mt-4 grid grid-cols-4 gap-3">
+          <!-- 缩略图行：仅当存在多张图时显示 -->
+          <div v-if="gallery.length > 1" class="mt-4 grid grid-cols-4 gap-3">
             <button
               v-for="(img, i) in gallery"
               :key="i"
