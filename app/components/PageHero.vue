@@ -9,7 +9,7 @@ withDefaults(
     breadcrumb?: { label: string; to?: string }[]
   }>(),
   {
-    image: 'https://picsum.photos/seed/mildy-pagehero-default/1920/600',
+    image: '/images/hero/factory-strength.jpeg',
     breadcrumb: () => [{ label: 'Home', to: '/' }]
   }
 )

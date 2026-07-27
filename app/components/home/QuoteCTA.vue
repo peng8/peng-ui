@@ -24,7 +24,7 @@ const benefits = computed(() =>
   <section class="section relative overflow-hidden bg-navy-900">
     <!-- 背景装饰 -->
     <div class="absolute inset-0 opacity-30">
-      <img src="https://picsum.photos/seed/mildy-cta-bg/1920/800" alt="" class="h-full w-full object-cover" loading="lazy" />
+      <img src="/images/hero/global-export.jpeg" alt="" class="h-full w-full object-cover" loading="lazy" />
       <div class="absolute inset-0 hero-overlay" />
     </div>
 

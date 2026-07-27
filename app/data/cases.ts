@@ -1,92 +1,4 @@
 // 客户案例 / 合作模式 / 关于我们补充数据
-export interface ClientCase {
-  brand: string
-  region: string
-  regionZh: string
-  category: string
-  categoryZh: string
-  quote: string
-  quoteZh: string
-  author: string
-  authorTitle: string
-  authorTitleZh: string
-  logo: string
-}
-
-export const clientCases: ClientCase[] = [
-  {
-    brand: 'NutriVita Wellness',
-    region: 'United States',
-    regionZh: '美国',
-    category: 'Multivitamin Gummies',
-    categoryZh: '复合维生素软糖',
-    quote:
-      'MILDY handled everything from formulation to FDA-compliant packaging. Our private-label gummies launched on schedule and quality has been flawless across 4 reorders.',
-    quoteZh: 'MILDY 负责从配方到 FDA 合规包装的全部工作。我们的自有品牌软糖如期上市,四次返单质量始终如一。',
-    author: 'Sarah Mitchell',
-    authorTitle: 'Procurement Director',
-    authorTitleZh: '采购总监',
-    logo: 'https://picsum.photos/seed/mildy-logo-1/200/200'
-  },
-  {
-    brand: 'EuroPharm Naturals',
-    region: 'Germany',
-    regionZh: '德国',
-    category: 'Omega-3 Softgels',
-    categoryZh: 'Omega-3 软胶囊',
-    quote:
-      'Their BRC-certified facility and transparent QC reports gave our buyers full confidence. Truly a reliable European-ready manufacturing partner.',
-    quoteZh: '他们 BRC 认证的工厂和透明的质检报告让我们的采购方完全放心。真正可靠的欧洲市场制造合作伙伴。',
-    author: 'Lukas Becker',
-    authorTitle: 'Supply Chain Manager',
-    authorTitleZh: '供应链经理',
-    logo: 'https://picsum.photos/seed/mildy-logo-2/200/200'
-  },
-  {
-    brand: 'VitaDrop Asia',
-    region: 'Singapore',
-    regionZh: '新加坡',
-    category: 'Vitamin D3 Drops',
-    categoryZh: '维生素 D3 滴剂',
-    quote:
-      'Low MOQ white-label was exactly what our startup needed. From sample to first container in under 8 weeks — outstanding support.',
-    quoteZh: '低起订量白标方案正是我们初创公司所需的。从样品到首柜出货不到 8 周——支持出色。',
-    author: 'Wei Ling Tan',
-    authorTitle: 'Founder & CEO',
-    authorTitleZh: '创始人兼 CEO',
-    logo: 'https://picsum.photos/seed/mildy-logo-3/200/200'
-  },
-  {
-    brand: 'PureLeaf Nutrition',
-    region: 'United Kingdom',
-    regionZh: '英国',
-    category: 'Marine Collagen Sticks',
-    categoryZh: '海洋胶原蛋白粉棒',
-    quote:
-      'The ODM team developed a unique flavor system for our collagen sticks that no other factory could match. A genuine innovation partner.',
-    quoteZh: 'ODM 团队为我们的胶原蛋白粉棒开发了独特的风味体系,其他工厂无法匹敌。真正的创新合作伙伴。',
-    author: 'James Whitford',
-    authorTitle: 'Brand Owner',
-    authorTitleZh: '品牌主理人',
-    logo: 'https://picsum.photos/seed/mildy-logo-4/200/200'
-  }
-]
-
-export interface PartnerLogo {
-  name: string
-  logo: string
-}
-
-export const partnerLogos: PartnerLogo[] = [
-  { name: 'NutriVita', logo: 'https://picsum.photos/seed/mildy-pl-1/240/120' },
-  { name: 'EuroPharm', logo: 'https://picsum.photos/seed/mildy-pl-2/240/120' },
-  { name: 'VitaDrop', logo: 'https://picsum.photos/seed/mildy-pl-3/240/120' },
-  { name: 'PureLeaf', logo: 'https://picsum.photos/seed/mildy-pl-4/240/120' },
-  { name: 'HealthFirst', logo: 'https://picsum.photos/seed/mildy-pl-5/240/120' },
-  { name: 'WellCore', logo: 'https://picsum.photos/seed/mildy-pl-6/240/120' },
-  { name: 'NatureOne', logo: 'https://picsum.photos/seed/mildy-pl-7/240/120' },
-  { name: 'BioPlus', logo: 'https://picsum.photos/seed/mildy-pl-8/240/120' }
-]
 
 // 两大合作模式 —— 首页模块5 / Services 页
 export interface CooperationMode {
@@ -182,14 +94,15 @@ export interface TeamMember {
   name: string
   role: string
   roleZh: string
-  avatar: string
+  /** 头像图片 URL（可选；留空则前端用首字母缩写头像，避免使用无意义占位人像） */
+  avatar?: string
 }
 
 export const team: TeamMember[] = [
-  { name: 'Dr. Chen Ming', role: 'Chief R&D Officer', roleZh: '首席研发官', avatar: 'https://picsum.photos/seed/mildy-team-1/400/400' },
-  { name: 'Linda Wang', role: 'Head of International Sales', roleZh: '国际销售负责人', avatar: 'https://picsum.photos/seed/mildy-team-2/400/400' },
-  { name: 'Mark Liu', role: 'Quality Director', roleZh: '质量总监', avatar: 'https://picsum.photos/seed/mildy-team-3/400/400' },
-  { name: 'Sophie Zhang', role: 'Export Logistics Manager', roleZh: '出口物流经理', avatar: 'https://picsum.photos/seed/mildy-team-4/400/400' }
+  { name: 'Fina', role: 'Chief R&D Officer', roleZh: '首席研发官' },
+  { name: 'Ian', role: 'Head of International Sales', roleZh: '国际销售负责人' },
+  { name: 'Phoenix He', role: 'Quality Director', roleZh: '质量总监' },
+  { name: 'Lira', role: 'Export Logistics Manager', roleZh: '出口物流经理' }
 ]
 
 // 生产实力 —— 车间 / 产线 / 实验室图文

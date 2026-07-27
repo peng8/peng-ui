@@ -15,7 +15,7 @@ const { t, isZh } = useLocale()
       :eyebrow="isZh ? '法律' : 'Legal'"
       :title="isZh ? '隐私政策' : 'Privacy Policy'"
       :subtitle="isZh ? '我们如何收集、使用和保护您的个人信息。' : 'How we collect, use and protect your personal information.'"
-      image="https://picsum.photos/seed/mildy-legal-hero/1920/500"
+      image="/images/manufacturing/facility/automation-line.jpeg"
       :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: '/' }, { label: isZh ? '隐私政策' : 'Privacy Policy' }]"
     />
     <section class="section bg-white">
