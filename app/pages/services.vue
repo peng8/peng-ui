@@ -2,9 +2,9 @@
 import { cooperationModes } from '~/data/cases'
 
 useSeoMeta({
-  title: 'Services — OEM White Label & ODM Custom Manufacturing',
+  title: 'OEM White Label & ODM Custom Supplement Manufacturing',
   description:
-    'MILDY offers one-stop OEM/ODM services: white-label fast-launch with low MOQ, and deep-customization ODM with full R&D. Formulation, packaging, registration and export.',
+    'One-stop OEM/ODM services: white-label fast-launch from 500 bottles, and deep-customization ODM with full R&D. Formulation, packaging, registration and sea-freight export.',
 })
 
 const oneStopServices = [

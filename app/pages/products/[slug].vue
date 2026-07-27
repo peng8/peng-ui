@@ -18,9 +18,24 @@ const category = computed(() => getCategoryBySlug(product.value!.category))
 const related = computed(() => getRelatedProducts(slug.value, 3))
 
 // 动态 SEO
+// title 命中买家搜索意图(产品名 + 剂型 + OEM/Supplier)，超长时智能截断产品名保关键词
+const seoTitle = computed(() => {
+  const p = product.value!
+  const catName = category.value?.name ?? 'Supplement'
+  // 后缀固定约 18 字符，预留产品名空间；超长则按单词边界截断
+  const suffix = ` | OEM ${catName} Supplier`
+  const maxName = 60 - suffix.length
+  let name = p.name
+  if (name.length > maxName) {
+    name = name.slice(0, maxName - 1).replace(/\s+\S*$/, '') + '…'
+  }
+  return `${name}${suffix}`
+})
+
 useSeoMeta({
-  title: () => `${product.value!.name} — MILDY OEM/ODM`,
+  title: () => seoTitle.value,
   description: () => product.value!.shortDesc,
+  ogTitle: () => seoTitle.value,
   ogType: 'product',
   ogImage: () => product.value!.cover
 })
@@ -68,11 +83,47 @@ useHead({
           : [{ '@type': 'ListItem', position: 3, name: p.name, item: `${SITE_URL}/products/${p.slug}` }])
       ]
     }
+    // FAQ schema：覆盖买家最常问的询盘问题，利于 Google 富摘要
+    const faqSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: `What is the MOQ for ${p.name}?`,
+          acceptedAnswer: { '@type': 'Answer', text: `The minimum order quantity for ${p.name} is ${p.moq}. We also support trial orders for new partners — contact us to discuss your volume needs.` }
+        },
+        {
+          '@type': 'Question',
+          name: `Can I customize the formula and packaging?`,
+          acceptedAnswer: { '@type': 'Answer', text: `Yes. As an OEM/ODM manufacturer we offer full customization for ${cat?.name ?? 'supplements'} — including active ingredient dosage, flavor, shape, color, label artwork and structural packaging. Free formulation consultation is available.` }
+        },
+        {
+          '@type': 'Question',
+          name: `What is the lead time?`,
+          acceptedAnswer: { '@type': 'Answer', text: `Typical production lead time is 7–14 working days after artwork and order confirmation. Samples are usually ready within 7–15 days. Sea-freight export documentation is handled in-house.` }
+        },
+        {
+          '@type': 'Question',
+          name: `Which certifications does your facility hold?`,
+          acceptedAnswer: { '@type': 'Answer', text: `Our 20,000 m² facility is GMP-certified with FDA registration, BRCGS and NSF GMP. Every batch ships with a full COA covering active assay, heavy metals and microbiology.` }
+        }
+      ]
+    }
     return [
       { type: 'application/ld+json', innerHTML: JSON.stringify(productSchema) },
-      { type: 'application/ld+json', innerHTML: JSON.stringify(breadcrumbSchema) }
+      { type: 'application/ld+json', innerHTML: JSON.stringify(breadcrumbSchema) },
+      { type: 'application/ld+json', innerHTML: JSON.stringify(faqSchema) }
     ]
   })
+})
+
+// SEO 正文：基于产品名+剂型+MOQ+OEM 关键词生成，补充详情页文字内容（利于关键词排名）
+const seoParagraph = computed(() => {
+  const p = product.value!
+  const cat = category.value
+  const catName = cat?.name ?? 'supplement'
+  return `MILDY Health is a leading OEM/ODM manufacturer of ${catName.toLowerCase()} in China, offering private-label and custom-formulation services for ${p.name}. With a 20,000 m² GMP-certified facility, FDA registration and BRCGS accreditation, we serve supplement brands, cross-border sellers and distributors across 80+ countries. Our ${catName.toLowerCase()} capabilities cover custom active-ingredient dosage, flavors, shapes, vegan bases and branded packaging — starting from ${p.moq}. Request a free formulation consultation, samples within 7–15 days, and a no-obligation quote for your ${catName.toLowerCase()} project.`
 })
 
 // 画廊：封面图为主图；若产品附带额外画廊图则追加为缩略图（目前产品仅封面一张）
@@ -189,6 +240,42 @@ watch(gallery, () => (activeImg.value = 0))
           align="left"
         />
         <p class="reveal mt-6 text-base leading-relaxed text-navy/75">{{ product.description }}</p>
+        <!-- SEO 正文：补充关键词密度，利于产品页排名 -->
+        <p class="reveal mt-4 text-sm leading-relaxed text-navy/60">{{ seoParagraph }}</p>
+      </div>
+    </section>
+
+    <!-- FAQ（询盘常见问题，结构化数据同步输出） -->
+    <section class="section bg-white pt-0 md:pt-0">
+      <div class="wrap max-w-4xl">
+        <UiSectionHeading
+          :eyebrow="isZh ? '常见问题' : 'FAQ'"
+          :title="isZh ? '关于这款产品的常见问题' : `Frequently Asked Questions`"
+          align="left"
+        />
+        <div class="mt-8 space-y-4">
+          <details class="reveal group rounded-xl border border-mist-border bg-mist/30 p-5 [&_summary]:cursor-pointer">
+            <summary class="flex items-center justify-between font-semibold text-navy">
+              <span>{{ isZh ? `最小起订量是多少?` : `What is the MOQ?` }}</span>
+              <UiAppIcon name="chevron-down" :size="18" class="transition-transform group-open:rotate-180" />
+            </summary>
+            <p class="mt-3 text-sm leading-relaxed text-navy/70">{{ isZh ? `最小起订量 ${product.moq},我们也为新合作伙伴提供试单。` : `The MOQ is ${product.moq}. We also support trial orders for new partners.` }}</p>
+          </details>
+          <details class="reveal group rounded-xl border border-mist-border bg-mist/30 p-5 [&_summary]:cursor-pointer">
+            <summary class="flex items-center justify-between font-semibold text-navy">
+              <span>{{ isZh ? `可以定制配方和包装吗?` : `Can I customize the formula and packaging?` }}</span>
+              <UiAppIcon name="chevron-down" :size="18" class="transition-transform group-open:rotate-180" />
+            </summary>
+            <p class="mt-3 text-sm leading-relaxed text-navy/70">{{ isZh ? `可以。作为 OEM/ODM 制造商,我们提供${category?.nameZh ?? '补充剂'}的全面定制——活性成分剂量、口味、形状、标签设计和结构化包装。` : `Yes. As an OEM/ODM manufacturer we offer full customization — active dosage, flavor, shape, label artwork and structural packaging.` }}</p>
+          </details>
+          <details class="reveal group rounded-xl border border-mist-border bg-mist/30 p-5 [&_summary]:cursor-pointer">
+            <summary class="flex items-center justify-between font-semibold text-navy">
+              <span>{{ isZh ? `交期多久?` : `What is the lead time?` }}</span>
+              <UiAppIcon name="chevron-down" :size="18" class="transition-transform group-open:rotate-180" />
+            </summary>
+            <p class="mt-3 text-sm leading-relaxed text-navy/70">{{ isZh ? `确认包装设计和订单后,常规生产交期 7–14 个工作日,样品通常 7–15 天内完成。` : `Typical lead time is 7–14 working days after order confirmation; samples within 7–15 days.` }}</p>
+          </details>
+        </div>
       </div>
     </section>
 

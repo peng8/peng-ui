@@ -3,9 +3,9 @@ import { facilities, qcSteps } from '~/data/cases'
 import { site } from '~/data/site'
 
 useSeoMeta({
-  title: 'Manufacturing — 20,000 m² GMP Facility & QC Lab',
+  title: 'GMP Supplement Manufacturing Facility & QC Lab',
   description:
-    'Tour MILDY 20,000 m² GMP-certified facility: cleanrooms, 12 automated production lines, R&D lab, QC testing, warehousing and packaging. Full traceability and quality control.',
+    'Tour our 20,000 m² GMP-certified facility: cleanrooms, 8 automated lines, R&D lab, QC testing, warehousing and packaging. Full traceability and FDA/BRC compliance.',
 })
 
 const capacityStats = [

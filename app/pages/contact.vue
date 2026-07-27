@@ -2,7 +2,7 @@
 import { site } from '~/data/site'
 
 useSeoMeta({
-  title: 'Contact Us — Get Your Free Quote',
+  title: 'Contact MILDY — OEM/ODM Supplement Quote',
   description:
     'Contact MILDY Health for OEM/ODM supplement manufacturing inquiries. Email, WhatsApp, phone or submit our online form — we respond within 24 hours.',
 })
