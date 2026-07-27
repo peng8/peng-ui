@@ -3,9 +3,9 @@ import { site } from '~/data/site'
 import { milestones, team } from '~/data/cases'
 
 useSeoMeta({
-  title: 'About Us — Supplement Manufacturer Since 2004',
+  title: 'About Us — Supplement Manufacturer Since 2016',
   description:
-    'Founded in 2004, MILDY Health is a 60,000 m² nutritional supplement manufacturer serving 80+ countries. Learn about our history, team and world-class facility.',
+    'Founded in 2016, MILDY Health is a 20,000 m² nutritional supplement manufacturer serving 80+ countries. Learn about our history, team and world-class facility.',
   keywords: 'supplement manufacturer China, OEM factory history, MILDY Health, nutritional supplement company'
 })
 
@@ -31,8 +31,8 @@ const { t, isZh } = useLocale()
   <div>
     <PageHero
       :eyebrow="isZh ? '关于 MILDY' : 'About MILDY Health'"
-      :title="isZh ? '20 年营养补充剂制造卓越之路' : '20 Years of Supplement Manufacturing Excellence'"
-      :subtitle="isZh ? '从广州的车间到 60,000 平方米的全球出口工厂——80+ 国家信赖品牌背后的故事。' : 'From a Guangzhou workshop to a 60,000 m² global export powerhouse — the story behind the brand trusted by 80+ countries.'"
+      :title="isZh ? '10 年营养补充剂制造卓越之路' : '10 Years of Supplement Manufacturing Excellence'"
+      :subtitle="isZh ? '从广州的车间到 20,000 平方米的全球出口工厂——80+ 国家信赖品牌背后的故事。' : 'From a Guangzhou workshop to a 20,000 m² global export powerhouse — the story behind the brand trusted by 80+ countries.'"
       image="/images/about/hero.jpg"
       :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: '/' }, { label: isZh ? '关于我们' : 'About Us' }]"
     />
@@ -55,10 +55,10 @@ const { t, isZh } = useLocale()
           </p>
           <p class="mt-4 leading-relaxed text-navy/70">
             <template v-if="isZh">
-              今天,我们 60,000 平方米的高科技工厂在严格的 GMP 管控下运行 12 条自动化产线,服务 80+ 国家的品牌方、跨境卖家和经销商。我们持有 GMP、FDA、NSF、BRC、HALAL 和 ISO 认证——这是我们对质量不懈承诺的体现。
+              今天,我们 20,000 平方米的高科技工厂在严格的 GMP 管控下运行 8 条自动化产线,服务 80+ 国家的品牌方、跨境卖家和经销商。我们持有 GMP、FDA、NSF、BRC、HALAL 和 ISO 认证——这是我们对质量不懈承诺的体现。
             </template>
             <template v-else>
-              Today, our 60,000 m² high-tech facility operates 12 automated production lines under strict GMP controls,
+              Today, our 20,000 m² high-tech facility operates 8 automated production lines under strict GMP controls,
               serving brand owners, cross-border sellers and distributors across 80+ countries. We are proud to hold
               GMP, FDA, NSF, BRC, HALAL and ISO certifications — a reflection of our uncompromising commitment to quality.
             </template>

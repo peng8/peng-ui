@@ -169,10 +169,10 @@ export interface Milestone {
 }
 
 export const milestones: Milestone[] = [
-  { year: '2004', title: 'Founded', titleZh: '公司成立', desc: 'MILDY Health established as a nutritional supplement manufacturer in Guangzhou.', descZh: 'MILDY 健康成立,定位为广州的营养补充剂制造商。' },
+  { year: '2016', title: 'Founded', titleZh: '公司成立', desc: 'MILDY Health established as a nutritional supplement manufacturer in Guangzhou.', descZh: 'MILDY 健康成立,定位为广州的营养补充剂制造商。' },
   { year: '2010', title: 'GMP Certified', titleZh: 'GMP 认证', desc: 'Obtained national GMP certification and expanded into softgel production.', descZh: '获得国家 GMP 认证,扩展软胶囊生产。' },
   { year: '2015', title: 'Global Export', titleZh: '全球出口', desc: 'Began exporting to Europe and North America; earned FDA facility registration.', descZh: '开始出口欧洲和北美;获得 FDA 工厂注册。' },
-  { year: '2019', title: 'New Mega Facility', titleZh: '新工厂投产', desc: 'Opened the 60,000 m² high-tech industrial park with 12 automated lines.', descZh: '60,000 平方米高科技产业园落成,配备 12 条自动化产线。' },
+  { year: '2019', title: 'New Mega Facility', titleZh: '新工厂投产', desc: 'Opened the 20,000 m² high-tech industrial park with 8 automated lines.', descZh: '20,000 平方米高科技产业园落成,配备 8 条自动化产线。' },
   { year: '2022', title: 'BRC & NSF', titleZh: 'BRC 与 NSF', desc: 'Achieved BRCGS AA and NSF GMP registration, entering Tier-1 global supply.', descZh: '获得 BRCGS AA 级和 NSF GMP 注册,跻身全球一级供应商。' },
   { year: '2024', title: '80+ Countries', titleZh: '80+ 国家', desc: 'Products now serve brands across 80+ countries with full sea-freight export.', descZh: '产品已服务 80+ 国家的品牌,具备完整海运出口能力。' }
 ]
@@ -212,8 +212,8 @@ export const facilities: FacilityItem[] = [
   {
     title: 'Automated Production Lines',
     titleZh: '自动化产线',
-    desc: '12 fully-automated lines for gummies, softgels, tablets, capsules, powders and liquids — engineered for high-volume, consistent output.',
-    descZh: '12 条全自动化产线,覆盖软糖、软胶囊、片剂、胶囊、粉剂和液体制剂——为高产量、一致性输出而设计。',
+    desc: '8 fully-automated lines for gummies, softgels, tablets, capsules, powders and liquids — engineered for high-volume, consistent output.',
+    descZh: '8 条全自动化产线,覆盖软糖、软胶囊、片剂、胶囊、粉剂和液体制剂——为高产量、一致性输出而设计。',
     image: '/images/manufacturing/facility/automation-line.jpeg'
   },
   {

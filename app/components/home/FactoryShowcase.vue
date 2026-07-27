@@ -5,14 +5,14 @@ import { site } from '~/data/site'
 const { t, isZh } = useLocale()
 
 const facilityStats = computed(() => [
-  { value: '60,000', label: isZh.value ? '平方米厂区' : 'm² Facility Area', icon: 'box' },
-  { value: '12', label: isZh.value ? '条产线' : 'Production Lines', icon: 'gear' },
+  { value: '20,000', label: isZh.value ? '平方米厂区' : 'm² Facility Area', icon: 'box' },
+  { value: '8', label: isZh.value ? '条产线' : 'Production Lines', icon: 'gear' },
   { value: '30B+', label: isZh.value ? '年产能' : 'Units / Year', icon: 'layers' },
   { value: '8', label: isZh.value ? '大车间' : 'Workshops', icon: 'shield-check' }
 ])
 
 const highlights = computed(() => [
-  { icon: 'gear', title: isZh.value ? '自动化生产线' : 'Automated Production Lines', desc: isZh.value ? '12 条高速产线,软糖 / 软胶囊 / 片剂 / 粉剂全覆盖。' : '12 high-speed lines covering gummies, softgels, tablets and powders.' },
+  { icon: 'gear', title: isZh.value ? '自动化生产线' : 'Automated Production Lines', desc: isZh.value ? '8 条高速产线,软糖 / 软胶囊 / 片剂 / 粉剂全覆盖。' : '8 high-speed lines covering gummies, softgels, tablets and powders.' },
   { icon: 'shield-check', title: isZh.value ? 'GMP 洁净车间' : 'GMP Cleanrooms', desc: isZh.value ? '10 万级净化,温湿度与压差全程监控。' : 'Class 100,000 cleanrooms with full environmental monitoring.' },
   { icon: 'flask', title: isZh.value ? '自建研发实验室' : 'In-house R&D Laboratory', desc: isZh.value ? '配方开发、稳定性测试与功效验证一站完成。' : 'Formulation, stability and efficacy testing under one roof.' }
 ])
@@ -32,7 +32,7 @@ const midImages = [
       <div>
         <UiSectionHeading
           :eyebrow="t('fs.eyebrow')"
-          :title="isZh ? '60,000 平方米世界级生产基地' : '60,000 m² of World-Class Production'"
+          :title="isZh ? '20,000 平方米世界级生产基地' : '20,000 m² of World-Class Production'"
           :subtitle="isZh ? '专用的高科技产业园,配备自动化产线、洁净车间和自建实验室——为规模化、一致性和合规性而建。' : 'A purpose-built high-tech industrial park with automated lines, cleanrooms and in-house laboratories — engineered for volume, consistency and compliance.'"
           align="left"
           light

@@ -3,14 +3,14 @@ import { facilities, qcSteps } from '~/data/cases'
 import { site } from '~/data/site'
 
 useSeoMeta({
-  title: 'Manufacturing — 60,000 m² GMP Facility & QC Lab',
+  title: 'Manufacturing — 20,000 m² GMP Facility & QC Lab',
   description:
-    'Tour MILDY 60,000 m² GMP-certified facility: cleanrooms, 12 automated production lines, R&D lab, QC testing, warehousing and packaging. Full traceability and quality control.',
+    'Tour MILDY 20,000 m² GMP-certified facility: cleanrooms, 12 automated production lines, R&D lab, QC testing, warehousing and packaging. Full traceability and quality control.',
   keywords: 'GMP facility, supplement cleanroom, production lines, QC laboratory, manufacturing tour, dietary supplement factory China'
 })
 
 const capacityStats = [
-  { value: '60,000', label: 'm² Total Area', labelZh: '平方米总面积', icon: 'box' },
+  { value: '20,000', label: 'm² Total Area', labelZh: '平方米总面积', icon: 'box' },
   { value: '12', label: 'Production Lines', labelZh: '条产线', icon: 'gear' },
   { value: '8', label: 'GMP Workshops', labelZh: '个 GMP 车间', icon: 'shield-check' },
   { value: '30B+', label: 'Units Annual Capacity', labelZh: '年产能(件)', icon: 'layers' }
@@ -24,7 +24,7 @@ const { t, isZh } = useLocale()
     <PageHero
       :eyebrow="isZh ? '生产实力' : 'Manufacturing'"
       :title="isZh ? '走进世界级工厂' : 'Inside Our World-Class Facility'"
-      :subtitle="isZh ? '60,000 平方米专用产业园,为规模、精度和合规而建。' : 'A 60,000 m² purpose-built industrial park engineered for volume, precision and compliance.'"
+      :subtitle="isZh ? '20,000 平方米专用产业园,为规模、精度和合规而建。' : 'A 20,000 m² purpose-built industrial park engineered for volume, precision and compliance.'"
       image="/images/manufacturing/hero.jpg"
       :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: '/' }, { label: isZh ? '生产实力' : 'Manufacturing' }]"
     />

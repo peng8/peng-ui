@@ -38,7 +38,7 @@ export const messages = {
     // 首页 Hero
     'hero.eyebrow': 'Premium OEM/ODM Manufacturer',
     'hero.title': 'Your Trusted Partner for Nutritional Supplements',
-    'hero.subtitle': '20 years of manufacturing expertise. 6 dosage forms. 80+ countries served. From concept to container — one partner, one roof.',
+    'hero.subtitle': '10 years of manufacturing expertise. 6 dosage forms. 80+ countries served. From concept to container — one partner, one roof.',
     'hero.cta.primary': 'Start Your Project',
     'hero.cta.secondary': 'Explore Products',
     'hero.stat1': 'Years of Manufacturing',
@@ -69,7 +69,7 @@ export const messages = {
 
     // 工厂展示模块
     'fs.eyebrow': 'Manufacturing Power',
-    'fs.title': '60,000 m² of World-Class Production',
+    'fs.title': '20,000 m² of World-Class Production',
     'fs.subtitle': 'A purpose-built high-tech industrial park with automated lines, cleanrooms and in-house laboratories — engineered for volume, consistency and compliance.',
     'fs.stat1': 'm² Facility Area',
     'fs.stat2': 'Production Lines',
@@ -177,7 +177,7 @@ export const messages = {
     // 首页 Hero
     'hero.eyebrow': '高端 OEM/ODM 制造商',
     'hero.title': '您值得信赖的营养补充剂合作伙伴',
-    'hero.subtitle': '20 年制造经验 · 6 大剂型 · 服务 80+ 国家。从概念到出货——一个合作伙伴,一站搞定。',
+    'hero.subtitle': '10 年制造经验 · 6 大剂型 · 服务 80+ 国家。从概念到出货——一个合作伙伴,一站搞定。',
     'hero.cta.primary': '开始您的项目',
     'hero.cta.secondary': '浏览产品',
     'hero.stat1': '年制造经验',
@@ -208,7 +208,7 @@ export const messages = {
 
     // 工厂展示模块
     'fs.eyebrow': '制造实力',
-    'fs.title': '60,000 平方米世界级生产基地',
+    'fs.title': '20,000 平方米世界级生产基地',
     'fs.subtitle': '专用的高科技产业园,配备自动化产线、洁净车间和自建实验室——为规模化、一致性和合规性而建。',
     'fs.stat1': '平方米厂区',
     'fs.stat2': '条产线',

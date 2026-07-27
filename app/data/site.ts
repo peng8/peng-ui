@@ -29,7 +29,7 @@ export const site: SiteInfo = {
   tagline: 'Your Trusted OEM/ODM Partner for Nutritional Supplements',
   description:
     'MILDY Health is a leading dietary supplement contract manufacturer in China, delivering one-stop OEM/ODM private-label solutions for global brands, cross-border sellers and distributors.',
-  founded: 2004,
+  founded: 2016,
   contact: {
     email: 'MildyHealth@163.com',
     phone: '+86 186-1300-0659',
@@ -50,9 +50,9 @@ export const site: SiteInfo = {
     { label: 'Instagram', icon: 'instagram', href: 'https://instagram.com' }
   ],
   stats: [
-    { value: '20', label: 'Years of Manufacturing' },
-    { value: '60,000', label: 'm² Production Facility' },
-    { value: '12', label: 'Automated Production Lines' },
+    { value: '10', label: 'Years of Manufacturing' },
+    { value: '20,000', label: 'm² Production Facility' },
+    { value: '8', label: 'Automated Production Lines' },
     { value: '80+', label: 'Countries Served' }
   ]
 }

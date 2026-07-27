@@ -2,7 +2,7 @@
 // 数字滚动动画：元素进入视口时从 0 滚到目标值
 const props = withDefaults(
   defineProps<{
-    value: string // 例如 "60,000" / "80+" / "20"
+    value: string // 例如 "20,000" / "80+" / "20"
     duration?: number
     light?: boolean
     suffix?: string
