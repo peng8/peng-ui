@@ -161,7 +161,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle / Custom' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'boosts-muscle-strength-high-potency-creatine-monohydrate-gummies',
@@ -179,7 +179,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle / Custom' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'cortisol-health-gummies',
@@ -197,7 +197,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle / Custom' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'cutting-and-fat-burn-gummies',
@@ -215,7 +215,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle / Custom' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'daily-tanning-gummies',
@@ -233,7 +233,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle / Custom' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'hair-growth-accelerator-gummies',
@@ -251,7 +251,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle / Custom' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'kids-super-vitamin-gummies',
@@ -269,7 +269,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle / Custom' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'organic-beetroot-gummies',
@@ -287,7 +287,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle / Custom' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'shilajit-gummies',
@@ -305,7 +305,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle / Custom' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'skin-whitening-gummies',
@@ -323,7 +323,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle / Custom' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'slippery-elm-bark-gummies',
@@ -341,7 +341,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle / Custom' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'supports-muscle-recovery-blueberry-creatine-monohydrate-gummies',
@@ -359,7 +359,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle / Custom' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'women-s-feminine-balance-gummies',
@@ -377,7 +377,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle / Custom' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'women-s-probiotic-gummies',
@@ -395,7 +395,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle / Custom' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 bottles'
+    moq: '500 bottles'
   },
 
   // ===== Softgels =====
@@ -415,7 +415,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + tamper seal' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'dha-fish-oil-vegetarian-capsules-200ct-3x-enteric-coated',
@@ -433,7 +433,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + tamper seal' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'herbal-softgels-gaba-l-theanine-vit-sleep-immune-280pc',
@@ -451,7 +451,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + tamper seal' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'omega-3-fish-oil-vegan-60ct-700-500mg-epa-dha',
@@ -469,7 +469,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + tamper seal' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'oregano-and-black-seed-oil-softgels-300-dietary-supplement',
@@ -487,7 +487,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + tamper seal' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'oregano-and-black-seed-oil-softgels-300ct',
@@ -505,7 +505,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + tamper seal' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'oregano-and-black-seed-oil-softgels-300ct-2-serving-softgel',
@@ -523,7 +523,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + tamper seal' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'oregano-black-seed-oil-softgels-300ct-immune-support',
@@ -541,7 +541,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + tamper seal' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'oregano-oil-capsules',
@@ -559,7 +559,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + tamper seal' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'pumpkin-seed-oil-softgels-300ct-china-immune-support',
@@ -577,7 +577,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + tamper seal' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'saw-palmetto-herbal-capsules-for-men-60-softgels-dose-2',
@@ -595,7 +595,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + tamper seal' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'vitamin-d3-10000-iu-k2-mk-7-200mcg-120-softgels-vco',
@@ -613,7 +613,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + tamper seal' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
 
   // ===== Tablets =====
@@ -633,7 +633,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle or tube' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'pl-boneandmuscle-mg-citrate-500mg-tablets-kidsandadults',
@@ -651,7 +651,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle or tube' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'pure-himalayan-shilajit-resin-fulvic-50',
@@ -669,7 +669,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle or tube' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
 
   // ===== Hard Capsules =====
@@ -689,7 +689,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + desiccant' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'd3-k2-capsules-60-for-adults-immune-and-bone-support',
@@ -707,7 +707,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + desiccant' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'hair-growth-accelerator-3wk-mixed-berry-chews-and-clin-caps',
@@ -725,7 +725,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + desiccant' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'jbhk-nad-vegan-caps-for-men-energy-and-longevity',
@@ -743,7 +743,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + desiccant' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'led-oem-odm-kingmaker-120ct-13-in-1-men-muscle-black-maca-energy',
@@ -761,7 +761,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + desiccant' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'led-oem-odm-moringa-extract-softgels-for-adult-energy-and-immune',
@@ -779,7 +779,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + desiccant' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'maca-capsule-for-men-energy-60ct-custom-color-shape-taste',
@@ -797,7 +797,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + desiccant' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'magnesium-glycinate-500mg-120-vegan-caps-hi-absorb-nongmo-gf',
@@ -815,7 +815,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + desiccant' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'magnesium-glycinate-capsules',
@@ -833,7 +833,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + desiccant' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'men-s-daily-multi-caps-22-minerals-energy-immunity-and-memory',
@@ -851,7 +851,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + desiccant' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'private-label-sea-moss-capsules-60ct-custom-moq3',
@@ -869,7 +869,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + desiccant' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'women-s-all-in-one-multivitamin-and-minerals-hard-gelatin',
@@ -887,7 +887,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + desiccant' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'zinc-liver-protect-and-detox-dietary-caps-pregnant-and-adult',
@@ -905,7 +905,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'PET bottle + desiccant' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '100,000 bottles'
+    moq: '500 bottles'
   },
 
   // ===== Powders =====
@@ -925,7 +925,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Sachet / Tub / Stick pack' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 units'
+    moq: '500 bottles'
   },
   {
     slug: 'cotton-candy-electrolyte-powder-8-vitamins-sachets',
@@ -943,7 +943,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Sachet / Tub / Stick pack' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 units'
+    moq: '500 bottles'
   },
   {
     slug: 'creatine-gummies-adult-supplement-energy-management',
@@ -961,7 +961,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Sachet / Tub / Stick pack' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 units'
+    moq: '500 bottles'
   },
   {
     slug: 'creatine-monohydrate-gummies-adult-energy-supp-0g-protein',
@@ -979,7 +979,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Sachet / Tub / Stick pack' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 units'
+    moq: '500 bottles'
   },
   {
     slug: 'electrolyte-energy-powder-2g-zero-sugar-muscle-support',
@@ -997,7 +997,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Sachet / Tub / Stick pack' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 units'
+    moq: '500 bottles'
   },
   {
     slug: 'nootropic-l-tyrosine-energy-pouches-15g-wintergreen-focus',
@@ -1015,7 +1015,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Sachet / Tub / Stick pack' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 units'
+    moq: '500 bottles'
   },
   {
     slug: 'pre-workout-300g-whey-gainer-w-creatine-mono-and-b-vitamins',
@@ -1033,7 +1033,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Sachet / Tub / Stick pack' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 units'
+    moq: '500 bottles'
   },
   {
     slug: 'private-label-himalayan-shilajit-honey-sticks-sleep-aid',
@@ -1051,7 +1051,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Sachet / Tub / Stick pack' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 units'
+    moq: '500 bottles'
   },
   {
     slug: 'probiotic-chicory-fiber-powder-for-adult-digestion-and-weight',
@@ -1069,7 +1069,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Sachet / Tub / Stick pack' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 units'
+    moq: '500 bottles'
   },
   {
     slug: 'whey-protein-creatine-4-8lb-muscle-gainer-pre-workout',
@@ -1087,7 +1087,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Sachet / Tub / Stick pack' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 units'
+    moq: '500 bottles'
   },
   {
     slug: 'whey-protein-isolate-mass-gainer-bulk',
@@ -1105,7 +1105,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Sachet / Tub / Stick pack' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 units'
+    moq: '500 bottles'
   },
   {
     slug: 'whey-protein-vanilla-strawberry-plastic-shaker',
@@ -1123,7 +1123,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Sachet / Tub / Stick pack' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '50,000 units'
+    moq: '500 bottles'
   },
 
   // ===== Liquid Drops =====
@@ -1143,7 +1143,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Glass/PET bottle + dropper' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '30,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'active-whale-nad-60ml-drops-resveratrol-taurine-immune-gmp',
@@ -1161,7 +1161,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Glass/PET bottle + dropper' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '30,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'ark-drops-shilajit-booster-30-60ml-moq500-custom-sample',
@@ -1179,7 +1179,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Glass/PET bottle + dropper' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '30,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'cayenne-liquid-60ml-hawthorn-d3-k2-beet-and-turmeric',
@@ -1197,7 +1197,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Glass/PET bottle + dropper' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '30,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'children-s-liquid-multivitamin-1-fl-oz-30-immune-and-bone',
@@ -1215,7 +1215,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Glass/PET bottle + dropper' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '30,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'kids-liquid-immune-w-zeolite-me-b12-and-d3-30ml',
@@ -1233,7 +1233,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Glass/PET bottle + dropper' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '30,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'kids-rhodiola-drops-attention-and-energy-gmp',
@@ -1251,7 +1251,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Glass/PET bottle + dropper' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '30,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'lion-s-mane-drops-100-natural-cognitive-and-immune',
@@ -1269,7 +1269,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Glass/PET bottle + dropper' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '30,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'moringa-ashwagandha-ginger-oral-drops',
@@ -1287,7 +1287,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Glass/PET bottle + dropper' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '30,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'shilajit-drops-oral-liquid-tonify-qi-and-immunity-moq-500',
@@ -1305,7 +1305,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Glass/PET bottle + dropper' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '30,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'vitamin-d3-k2-mct-oil-eggplant-60ml-gmp-bone-support',
@@ -1323,7 +1323,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Glass/PET bottle + dropper' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '30,000 bottles'
+    moq: '500 bottles'
   },
   {
     slug: 'vitamin-d3-liquid-immune-support-for-women-prickly-and-lychee',
@@ -1341,7 +1341,7 @@ export const products: Product[] = [
       { label: 'Packaging', value: 'Glass/PET bottle + dropper' },
       { label: 'Shelf Life', value: '24 months' },
     ],
-    moq: '30,000 bottles'
+    moq: '500 bottles'
   },
 ]
 
