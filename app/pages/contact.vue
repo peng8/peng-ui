@@ -5,7 +5,6 @@ useSeoMeta({
   title: 'Contact Us — Get Your Free Quote',
   description:
     'Contact MILDY Health for OEM/ODM supplement manufacturing inquiries. Email, WhatsApp, phone or submit our online form — we respond within 24 hours.',
-  keywords: 'contact supplement manufacturer, OEM quote request, WhatsApp supplement factory, MILDY contact, supplement manufacturing inquiry'
 })
 
 const { t, isZh } = useLocale()

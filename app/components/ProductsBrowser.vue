@@ -59,9 +59,7 @@ useSeoMeta({
   description: () =>
     `Explore MILDY ${catName.value ? catName.value.toLowerCase() : 'full range of'} supplement products${
       totalPages.value > 1 ? ` — page ${safePage.value} of ${totalPages.value}` : ''
-    }. Private label and custom formulation available.`,
-  keywords:
-    'supplement dosage forms, gummies manufacturer, softgel OEM, tablet contract manufacturing, capsule private label, powder stick packs'
+    }. Private label and custom formulation available.`
 })
 
 // 切换筛选 / 翻页后回到列表顶部

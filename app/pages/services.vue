@@ -5,7 +5,6 @@ useSeoMeta({
   title: 'Services — OEM White Label & ODM Custom Manufacturing',
   description:
     'MILDY offers one-stop OEM/ODM services: white-label fast-launch with low MOQ, and deep-customization ODM with full R&D. Formulation, packaging, registration and export.',
-  keywords: 'OEM white label supplement, ODM custom manufacturing, private label service, supplement contract manufacturing, turnkey supplement production'
 })
 
 const oneStopServices = [

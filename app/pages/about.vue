@@ -5,8 +5,7 @@ import { milestones, team } from '~/data/cases'
 useSeoMeta({
   title: 'About Us — Supplement Manufacturer Since 2016',
   description:
-    'Founded in 2016, MILDY Health is a 20,000 m² nutritional supplement manufacturer serving 80+ countries. Learn about our history, team and world-class facility.',
-  keywords: 'supplement manufacturer China, OEM factory history, MILDY Health, nutritional supplement company'
+    'Founded in 2016, MILDY Health is a 20,000 m² nutritional supplement manufacturer serving 80+ countries. Learn about our history, team and world-class facility.'
 })
 
 const values = [
@@ -18,10 +17,10 @@ const values = [
 
 const { openOne } = useLightbox()
 const campusGallery = [
-  { src: 'https://picsum.photos/seed/mildy-campus-1/800/600', caption: 'Main production building', captionZh: '主生产车间' },
-  { src: 'https://picsum.photos/seed/mildy-campus-2/800/600', caption: 'R&D center', captionZh: '研发中心' },
-  { src: 'https://picsum.photos/seed/mildy-campus-3/800/600', caption: 'Employee recreation area', captionZh: '员工休闲区' },
-  { src: 'https://picsum.photos/seed/mildy-campus-4/800/600', caption: 'Logistics & warehouse', captionZh: '物流仓储' }
+  { src: '/images/manufacturing/facility/gmp-cleanroom.jpeg', caption: 'GMP cleanroom workshop', captionZh: 'GMP 洁净车间' },
+  { src: '/images/manufacturing/facility/rd-laboratory.jpeg', caption: 'R&D center', captionZh: '研发中心' },
+  { src: '/images/manufacturing/facility/automation-line.jpeg', caption: 'Automated production line', captionZh: '自动化产线' },
+  { src: '/images/manufacturing/facility/warehouse-coldchain.jpeg', caption: 'Logistics & warehouse', captionZh: '物流仓储' }
 ]
 
 const { t, isZh } = useLocale()
@@ -141,7 +140,13 @@ const { t, isZh } = useLocale()
             class="reveal card overflow-hidden"
             :style="`transition-delay: ${i * 80}ms`"
           >
-            <UiLazyImage :src="member.avatar" :alt="member.name" ratio="aspect-square" />
+            <!-- 有真实头像则显示图片，否则用首字母缩写头像（避免无意义占位人像） -->
+            <UiLazyImage v-if="member.avatar" :src="member.avatar" :alt="member.name" ratio="aspect-square" />
+            <div v-else class="flex aspect-square items-center justify-center bg-gradient-to-br from-navy to-navy-700">
+              <span class="text-4xl font-bold tracking-wide text-gold-light">
+                {{ member.name.replace(/^Dr\.\s*/, '').split(' ').map(w => w[0]).join('').toUpperCase() }}
+              </span>
+            </div>
             <div class="p-5 text-center">
               <h3 class="text-base font-bold text-navy">{{ member.name }}</h3>
               <p class="mt-1 text-xs text-navy/55">{{ isZh ? member.roleZh : member.role }}</p>

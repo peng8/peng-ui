@@ -21,7 +21,58 @@ const related = computed(() => getRelatedProducts(slug.value, 3))
 useSeoMeta({
   title: () => `${product.value!.name} — MILDY OEM/ODM`,
   description: () => product.value!.shortDesc,
-  keywords: () => `${product.value!.name}, ${category.value?.name ?? ''}, supplement manufacturer, private label`
+  ogType: 'product',
+  ogImage: () => product.value!.cover
+})
+
+// 结构化数据：Product + BreadcrumbList（Google 富摘要：产品信息 + 面包屑路径）
+const SITE_URL = 'https://www.mildy-health.com'
+useHead({
+  script: computed(() => {
+    const p = product.value!
+    const cat = category.value
+    const productSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: p.name,
+      description: p.shortDesc,
+      image: p.cover,
+      category: cat?.name,
+      brand: { '@type': 'Brand', name: 'MILDY Health' },
+      manufacturer: {
+        '@type': 'Organization',
+        name: 'MILDY Health',
+        url: SITE_URL
+      },
+      // OEM/ODM 无公开标价，用 Offer 表达可询盘 + 起订量，避免价格误导
+      offers: {
+        '@type': 'Offer',
+        url: `${SITE_URL}/products/${p.slug}`,
+        availability: 'https://schema.org/InStock',
+        priceCurrency: 'USD',
+        // 询盘类产品不标具体价，提供 businessFunction 表示可定制/询盘
+        businessFunction: 'https://schema.org/Sell',
+        itemCondition: 'https://schema.org/NewCondition',
+        inventoryLevel: { '@type': 'QuantitativeValue', value: p.moq, unitText: 'MOQ' }
+      }
+    }
+    const breadcrumbSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+        { '@type': 'ListItem', position: 2, name: 'Products', item: `${SITE_URL}/products` },
+        ...(cat
+          ? [{ '@type': 'ListItem', position: 3, name: cat.name, item: `${SITE_URL}/products/categories/${cat.slug}` },
+             { '@type': 'ListItem', position: 4, name: p.name, item: `${SITE_URL}/products/${p.slug}` }]
+          : [{ '@type': 'ListItem', position: 3, name: p.name, item: `${SITE_URL}/products/${p.slug}` }])
+      ]
+    }
+    return [
+      { type: 'application/ld+json', innerHTML: JSON.stringify(productSchema) },
+      { type: 'application/ld+json', innerHTML: JSON.stringify(breadcrumbSchema) }
+    ]
+  })
 })
 
 // 画廊：主图索引，封面图作为第 0 张，缩略图紧随其后；点击切换主图

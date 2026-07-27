@@ -42,7 +42,20 @@ export default defineNuxtConfig({
   // 默认开启 SSR，既能 `npm run dev` 跑动态，也能 `npm run generate` 生成全静态站点。
   ssr: true,
 
-  modules: ['@nuxtjs/tailwindcss', '@nuxt/image'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxt/image', '@nuxtjs/sitemap'],
+
+  // 站点绝对地址 —— sitemap / canonical / og:url 的统一基准（SEO 必需）
+  site: {
+    url: 'https://www.mildy-health.com',
+    name: 'MILDY Health'
+  },
+
+  // 自动生成 sitemap.xml + robots.txt（GitHub Pages 静态托管同样生效）
+  sitemap: {
+    // 动态路由（产品详情/分页/分类）由上面 nitro.prerender 显式列出，
+    // sitemap 默认会抓取已预渲染的链接，无需额外 sources
+    autoLastmod: true
+  },
 
   // Web3Forms 询盘表单 access_key —— 去 https://web3forms.com 用邮箱注册即可获取
   // 该 key 设计为前端可见（类似 reCAPTCHA site key），可安全公开
@@ -63,13 +76,8 @@ export default defineNuxtConfig({
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'format-detection', content: 'telephone=no' },
-        // 全局默认 SEO，各页面可通过 useSeoMeta 覆盖
-        {
-          name: 'keywords',
-          content:
-            'nutritional supplement manufacturer, OEM ODM, private label, gummies, softgels, tablets, dietary supplement factory, contract manufacturing, MILDY'
-        }
+        { name: 'format-detection', content: 'telephone=no' }
+        // 注：不再输出 name="keywords"（Google 自 2009 起已完全忽略该标签）
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -81,10 +89,9 @@ export default defineNuxtConfig({
     }
   },
 
-  // 让 @nuxt/image 对外站图片直接透传，避免在 SSG 下生成额外 provider 配置。
-  // img.yfisher.com 为产品实拍图 CDN（抓取自 honglanhealth.com）。
+  // 所有图片已本地化为站内相对路径（含产品图，见 scripts/localize-product-images.mjs），
+  // IPX 在 SSG 时统一预渲染为 WebP + 响应式多尺寸，无需外部域名白名单。
   image: {
-    domains: ['picsum.photos', 'fastly.picsum.photos', 'img.yfisher.com'],
     format: ['webp']
   },
 

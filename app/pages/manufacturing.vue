@@ -6,7 +6,6 @@ useSeoMeta({
   title: 'Manufacturing — 20,000 m² GMP Facility & QC Lab',
   description:
     'Tour MILDY 20,000 m² GMP-certified facility: cleanrooms, 12 automated production lines, R&D lab, QC testing, warehousing and packaging. Full traceability and quality control.',
-  keywords: 'GMP facility, supplement cleanroom, production lines, QC laboratory, manufacturing tour, dietary supplement factory China'
 })
 
 const capacityStats = [

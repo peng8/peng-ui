@@ -4,8 +4,7 @@ import { processSteps } from '~/data/process'
 useSeoMeta({
   title: 'How It Works — 6 Steps from Inquiry to Shipment',
   description:
-    'A clear, transparent 6-step process: Inquiry → Formulation & Sampling → Artwork & Packaging → Order Confirmation → Production & QC → Shipping & Export. Typical 8–12 weeks.',
-  keywords: 'how OEM works, supplement manufacturing process, OEM workflow, order to shipment timeline, supplement production steps'
+    'A clear, transparent 6-step process: Inquiry → Formulation & Sampling → Artwork & Packaging → Order Confirmation → Production & QC → Shipping & Export. Typical 8–12 weeks.'
 })
 
 const { t, isZh } = useLocale()

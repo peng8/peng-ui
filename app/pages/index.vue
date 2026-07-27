@@ -3,9 +3,7 @@
 useSeoMeta({
   title: 'OEM/ODM Nutritional Supplement Manufacturer | MILDY Health',
   description:
-    'MILDY Health is a leading Chinese dietary supplement contract manufacturer. One-stop OEM/ODM private-label solutions for gummies, softgels, tablets, capsules, powders and drops. GMP, FDA, BRC, HALAL certified. Serving 80+ countries.',
-  keywords:
-    'supplement manufacturer, OEM ODM, private label gummies, softgel manufacturer, contract manufacturing, dietary supplement factory, white label nutrition'
+    'MILDY Health is a leading Chinese dietary supplement contract manufacturer. One-stop OEM/ODM private-label solutions for gummies, softgels, tablets, capsules, powders and drops. GMP, FDA, BRC, HALAL certified. Serving 80+ countries.'
 })
 </script>
 
