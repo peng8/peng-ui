@@ -52,7 +52,7 @@ export const productCategories: ProductCategory[] = [
     descZh: '果胶与明胶基功能软糖,可定制形状、口味与活性成分。现代健康品牌最受欢迎的剂型。',
     image: '/images/products/m43182_1782872439842-42.jpg',
     features: ['Pectin / Gelatin / Vegan', 'Sugar-free options', 'Custom shapes & colors', 'Multivitamin, Omega-3, Biotin'],
-    moq: '50,000 bottles',
+    moq: '500 bottles',
     examples: [
       { name: 'Apple Cider Vinegar Gummies', image: '/images/products/m43182_1782872439842-42.jpg' },
       { name: 'Boosts muscle strength High-Potency Creatine Monohydrate Gummies', image: '/images/products/m43182_1781746241583-15.jpg' },
@@ -68,7 +68,7 @@ export const productCategories: ProductCategory[] = [
     descZh: '先进的软胶囊包埋工艺,适用于鱼油、辅酶 Q10、维生素 E 及定制脂质配方,生物利用度出色。',
     image: '/images/products/m0_mr_x3mrofkgwbc3a6fxekyni95g.jpg',
     features: ['Fish oil / Plant oil', 'Enteric coating', 'Sustained release', 'High bioavailability'],
-    moq: '100,000 bottles',
+    moq: '500 bottles',
     examples: [
       { name: 'Adult Vegan D3+K2 Coconut Softgels - Bone & Immune', image: '/images/products/m0_mr_x3mrofkgwbc3a6fxekyni95g.jpg' },
       { name: 'DHA Fish Oil Vegetarian Capsules 200ct 3x Enteric-Coated', image: '/images/products/m0_o9_wuo9887ajnqmfi4aa9ai0ro5.jpg' },
@@ -84,7 +84,7 @@ export const productCategories: ProductCategory[] = [
     descZh: '高速压片工艺,适用于复合维生素、矿物质及草本复方——含包衣片、咀嚼片与泡腾片。',
     image: '/images/products/m0_fc_3ofc52fdgwjb63qbe6hejlys.png',
     features: ['Film / Sugar coating', 'Chewable & effervescent', 'High-precision dosing', '24-station rotary press'],
-    moq: '100,000 bottles',
+    moq: '500 bottles',
     examples: [
       { name: 'China OEM Vitamin D3 K2 Tablets 365ct - Adults Immunity 24M', image: '/images/products/m0_fc_3ofc52fdgwjb63qbe6hejlys.png' },
       { name: 'PL Bone&Muscle Mg Citrate 500mg Tablets Kids&Adults', image: '/images/products/m0_sn_dksni502k50mxg3489rckzjn.jpg' },
@@ -100,7 +100,7 @@ export const productCategories: ProductCategory[] = [
     descZh: '全自动硬胶囊灌装,适用于粉剂、颗粒与微丸。可选植物(HPMC)与明胶胶囊壳。',
     image: '/images/products/m0_wj_r0wj4jw9yjqexhj9acgq2g62.png',
     features: ['Gelatin / HPMC vegan', 'Probiotics & enzymes', 'Delayed release', 'Plant extract blends'],
-    moq: '100,000 bottles',
+    moq: '500 bottles',
     examples: [
       { name: 'Cinnamon Capsules - Dietary Supp: Energy & Immune', image: '/images/products/m0_wj_r0wj4jw9yjqexhj9acgq2g62.png' },
       { name: 'D3 K2 Capsules 60 for Adults - Immune & Bone Support', image: '/images/products/m0_4c_tg4ck84dkcflw8lka541ay4z.png' },
@@ -116,7 +116,7 @@ export const productCategories: ProductCategory[] = [
     descZh: '粉剂混合、制粒与条包灌装——蛋白、胶原蛋白、绿粉及电解质冲剂的理想之选。',
     image: '/images/products/m0_ht_a7htd0actxoxfxttxb4wwedz.jpg',
     features: ['Stick packs & tubs', 'Instant dissolution', 'Collagen & protein', 'Custom flavor systems'],
-    moq: '50,000 units',
+    moq: '500 bottles',
     examples: [
       { name: 'All-Natural Probiotic Prebiotic Ice Lemonade Powder 20B CFU', image: '/images/products/m0_ht_a7htd0actxoxfxttxb4wwedz.jpg' },
       { name: 'Cotton Candy Electrolyte Powder - 8 Vitamins Sachets', image: '/images/products/m0_1f_w61fzrlt3bkh49b6roj7tevu.jpg' },
@@ -132,7 +132,7 @@ export const productCategories: ProductCategory[] = [
     descZh: '口服液、酊剂与喷雾的液体灌装——包括维生素 D3 滴剂、褪黑素及草本提取液。',
     image: '/images/products/m0_xo_wuxou4yvvflxv6xw7c0jcbjh.jpg',
     features: ['Glass / PET bottles', 'Dropper & spray', 'Oil & water base', 'Kids & infant formats'],
-    moq: '30,000 bottles',
+    moq: '500 bottles',
     examples: [
       { name: '1000mg NAD+ Liquid Supplement with PQQ - Cellular Energy', image: '/images/products/m0_xo_wuxou4yvvflxv6xw7c0jcbjh.jpg' },
       { name: 'Active Whale NAD+ 60ml Drops Resveratrol Taurine Immune GMP', image: '/images/products/m0_0x_q40xqnjvcveim3mlite11b7q.png' },

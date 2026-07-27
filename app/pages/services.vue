@@ -19,7 +19,7 @@ const oneStopServices = [
 const compareRows = [
   { label: 'Best For', labelZh: '最适合', wl: 'New brands, fast launches', wlZh: '新品牌、快速上市', odm: 'Established brands, unique IP', odmZh: '成熟品牌、独特 IP' },
   { label: 'Formulation', labelZh: '配方', wl: 'Choose from mature formulas', wlZh: '从成熟配方中选择', odm: 'Bespoke R&D development', odmZh: '定制研发' },
-  { label: 'MOQ', labelZh: '起订量', wl: 'From 30,000 units', wlZh: '3 万件起', odm: 'From 100,000 units', odmZh: '10 万件起' },
+  { label: 'MOQ', labelZh: '起订量', wl: 'From 500 bottles', wlZh: '500 瓶起', odm: 'From 500 bottles', odmZh: '500 瓶起' },
   { label: 'Lead Time', labelZh: '交期', wl: '25–35 days', wlZh: '25–35 天', odm: '45–75 days', odmZh: '45–75 天' },
   { label: 'Customization', labelZh: '定制程度', wl: 'Brand & label only', wlZh: '仅品牌与标签', odm: 'Full custom (shape, flavor, formula)', odmZh: '全面定制(形状、口味、配方)' },
   { label: 'Upfront Cost', labelZh: '前期投入', wl: 'Low', wlZh: '低', odm: 'Higher (R&D investment)', odmZh: '较高(含研发投入)' },

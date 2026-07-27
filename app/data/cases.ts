@@ -29,14 +29,14 @@ export const cooperationModes: CooperationMode[] = [
     bestZh: '适用:新品牌、快速上市、成熟配方',
     features: [
       '100+ ready mature formulas',
-      'Low MOQ from 30k units',
+      'Low MOQ from 500 bottles',
       'Lead time 25–35 days',
       'Your brand, your artwork',
       'Minimal upfront investment'
     ],
     featuresZh: [
       '100+ 款成熟配方',
-      '最低起订 3 万件',
+      '最低起订 500 瓶',
       '交期 25–35 天',
       '您的品牌、您的包装设计',
       '前期投入少'

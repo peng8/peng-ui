@@ -28,8 +28,8 @@ const faqs = [
   {
     q: 'What is the minimum order quantity (MOQ)?',
     qZh: '最小起订量(MOQ)是多少?',
-    a: 'MOQ varies by dosage form: liquid drops from 30,000 units, gummies and powders from 50,000, softgels/tablets/capsules from 100,000. We also offer trial orders for new partners.',
-    aZh: 'MOQ 因剂型而异:口服液 3 万件起,软糖和粉剂 5 万件起,软胶囊/片剂/胶囊 10 万件起。我们也为新合作伙伴提供试单。'
+    a: 'Our minimum order quantity (MOQ) is 500 bottles across all dosage forms — gummies, softgels, tablets, capsules, powders and liquid drops. We also offer trial orders for new partners.',
+    aZh: '我们的最小起订量(MOQ)为 500 瓶,适用于软糖、软胶囊、片剂、胶囊、粉剂和口服液等全部剂型。我们也为新合作伙伴提供试单。'
   },
   {
     q: 'Can I use my own formula?',
