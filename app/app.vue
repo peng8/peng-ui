@@ -4,6 +4,23 @@ import { site } from '~/data/site'
 // 站点绝对地址（与 nuxt.config 的 site.url 保持一致）
 const SITE_URL = 'https://www.mildy-health.com'
 
+// Google Analytics 4（gtag.js）—— 来自 runtimeConfig.public.gaId
+// 仅在配置了 GA ID 时加载；可用环境变量 NUXT_PUBLIC_GA_ID 覆盖或置空禁用
+const gaId = useRuntimeConfig().public.gaId
+if (gaId) {
+  useHead({
+    script: [
+      { src: `https://www.googletagmanager.com/gtag/js?id=${gaId}`, async: true },
+      {
+        innerHTML: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${gaId}');`
+      }
+    ]
+  })
+}
+
 // 全局 SEO 默认值（各页面用 useSeoMeta 覆盖）
 useHead({
   titleTemplate: (t) => (t ? `${t} | ${site.brand}` : `${site.name} — ${site.tagline}`)

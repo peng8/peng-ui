@@ -62,7 +62,9 @@ export default defineNuxtConfig({
   // 也可通过环境变量 NUXT_PUBLIC_WEB3FORMS_ACCESS_KEY 覆盖
   runtimeConfig: {
     public: {
-      web3formsAccessKey: 'b07fa823-6ec0-4508-abb1-244849ee6019' // ← 在此填入你的 access_key
+      web3formsAccessKey: 'b07fa823-6ec0-4508-abb1-244849ee6019', // ← 在此填入你的 access_key
+      // Google Analytics 4 衡量 ID（gtag.js）；可通过环境变量 NUXT_PUBLIC_GA_ID 覆盖
+      gaId: 'G-16K2YJ87K0'
     }
   },
 
