@@ -7,7 +7,6 @@ const { t, isZh } = useLocale()
 const facilityStats = computed(() => [
   { value: '20,000', label: isZh.value ? '平方米厂区' : 'm² Facility Area', icon: 'box' },
   { value: '8', label: isZh.value ? '条产线' : 'Production Lines', icon: 'gear' },
-  { value: '30B+', label: isZh.value ? '年产能' : 'Units / Year', icon: 'layers' },
   { value: '8', label: isZh.value ? '大车间' : 'Workshops', icon: 'shield-check' }
 ])
 
@@ -40,7 +39,7 @@ const midImages = [
         />
 
         <!-- 数据 -->
-        <div class="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-4">
+        <div class="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-3">
           <div v-for="(s, i) in facilityStats" :key="s.label" class="reveal" :style="`transition-delay: ${i * 80}ms`">
             <UiAppIcon :name="s.icon" :size="22" class="text-gold" />
             <UiStatCounter :value="s.value" light class="mt-2 !text-3xl" />
