@@ -19,15 +19,15 @@ withDefaults(
   <section class="relative overflow-hidden pt-16 md:pt-20">
     <!-- 背景 -->
     <div class="absolute inset-0">
-      <NuxtImg
+      <img
         :src="image"
         alt=""
         class="h-full w-full object-cover"
+        width="1920"
+        height="700"
         loading="eager"
         fetchpriority="high"
-        format="webp"
-        quality="82"
-        sizes="100vw"
+        decoding="async"
       />
       <div class="absolute inset-0 hero-overlay" />
     </div>
