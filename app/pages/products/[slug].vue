@@ -32,16 +32,18 @@ const seoTitle = computed(() => {
   return `${name}${suffix}`
 })
 
+// 站点绝对地址（与 app.vue / nuxt.config 的 site.url 一致）
+const SITE_URL = 'https://www.mildy-health.com'
+
 useSeoMeta({
   title: () => seoTitle.value,
   description: () => product.value!.shortDesc,
   ogTitle: () => seoTitle.value,
   ogType: 'product',
-  ogImage: () => product.value!.cover
+  ogImage: () => (product.value!.cover.startsWith('http') ? product.value!.cover : `${SITE_URL}${product.value!.cover}`)
 })
 
 // 结构化数据：Product + BreadcrumbList（Google 富摘要：产品信息 + 面包屑路径）
-const SITE_URL = 'https://www.mildy-health.com'
 useHead({
   script: computed(() => {
     const p = product.value!

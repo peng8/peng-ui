@@ -406,7 +406,7 @@ export const products: Product[] = [
     cover: '/images/products/m0_mr_x3mrofkgwbc3a6fxekyni95g.jpg',
     gallery: [],
     shortDesc: 'Picture a sunlit morning: palm shadows on the counter and golden softgels catching the light like little suns—each one a plant-powered promi...',
-    description: 'Picture a sunlit morning: palm shadows on the counter and golden softgels catching the light like little suns—each one a plant-powered promi...',
+    description: 'Adult Vegan D3+K2 Coconut Softgels delivering vitamin D3 and K2 MK-7 in an MCT coconut-oil base for superior absorption — supporting bone density, immune defense and cardiovascular health. A vegan-friendly format ideal for wellness brands. OEM/private-label options cover dosage (1000–5000 IU D3), K2 ratio, organic certification and custom packaging. GMP-certified manufacturing with full COA and export documentation.',
     features: ['Custom OEM/ODM formulation', 'GMP-certified manufacturing', 'Flexible packaging options'],
     specs: [
       { label: 'Dosage Form', value: 'Softgel Capsule' },
@@ -442,7 +442,7 @@ export const products: Product[] = [
     cover: '/images/products/m0_jg_xgjgpustxj7ccyap6ypsb46j.jpg',
     gallery: [],
     shortDesc: 'As dusk drapes the room in warm light, a smooth softgel rests in your hand -- a tiny blend of GABA, L‑theanine and gentle vitamins. Tuc...',
-    description: 'As dusk drapes the room in warm light, a smooth softgel rests in your hand -- a tiny blend of GABA, L‑theanine and gentle vitamins. Tuc...',
+    description: 'Herbal sleep & immune softgels combining GABA, L-theanine and B-vitamins to promote restful sleep, calm and nighttime immune support. A high-volume 280-count SKU for daily-use supplement brands. OEM/private-label formulation allows active-ingredient ratios, botanical blends (valerian, passionflower), enteric coating and branded packaging. GMP-certified production with stability testing and complete documentation.',
     features: ['Custom OEM/ODM formulation', 'GMP-certified manufacturing', 'Flexible packaging options'],
     specs: [
       { label: 'Dosage Form', value: 'Softgel Capsule' },
@@ -698,7 +698,7 @@ export const products: Product[] = [
     cover: '/images/products/m0_4c_tg4ck84dkcflw8lka541ay4z.png',
     gallery: [],
     shortDesc: 'Sunlight spills across the table as you take a slow breath and feel ready for the day ahead. These D3 + K2 capsules (60 easy-to-swallow pill...',
-    description: 'Sunlight spills across the table as you take a slow breath and feel ready for the day ahead. These D3 + K2 capsules (60 easy-to-swallow pill...',
+    description: 'D3+K2 capsules for adults delivering vitamin D3 and K2 MK-7 in a convenient daily capsule — supporting bone strength, calcium metabolism and immune function. A core multivitamin-range SKU for daily-health brands. OEM/private-label services cover dosage strength, vegan HPMC capsules, label artwork and custom count (60/90/120ct). GMP-certified facility with full COA and regulatory support.',
     features: ['Custom OEM/ODM formulation', 'GMP-certified manufacturing', 'Flexible packaging options'],
     specs: [
       { label: 'Dosage Form', value: 'Hard Capsule' },
@@ -716,7 +716,7 @@ export const products: Product[] = [
     cover: '/images/products/m0_8c_818ci45y2f07992v1xa2u61l.jpg',
     gallery: [],
     shortDesc: 'Picture the sun at your sink: mixed-berry chews and a bottle of Clin Caps, a small, bright start to your day.',
-    description: 'Picture the sun at your sink: mixed-berry chews and a bottle of Clin Caps, a small, bright start to your day.',
+    description: 'Hair Growth Accelerator program combining mixed-berry chewable gummies and clinical-strength capsules — a 3-week system targeting follicle nutrition with biotin, saw palmetto and amino acids for stronger, thicker hair. Ideal for beauty supplement brands seeking a differentiated regimen. OEM/private-label customization covers active ratios, flavor, vegan base and packaging design. GMP-certified manufacturing with full COA.',
     features: ['Custom OEM/ODM formulation', 'GMP-certified manufacturing', 'Flexible packaging options'],
     specs: [
       { label: 'Dosage Form', value: 'Hard Capsule' },
@@ -734,7 +734,7 @@ export const products: Product[] = [
     cover: '/images/products/m0_4k_nj4kwinrecv8ehkqf6rinsl1.jpg',
     gallery: [],
     shortDesc: 'Sunlight hits the gym bag as he slips a sleek bottle of OEM/ODM JBHK NAD+ Vegan Caps into the side pocket—small, plant-based, ready for the...',
-    description: 'Sunlight hits the gym bag as he slips a sleek bottle of OEM/ODM JBHK NAD+ Vegan Caps into the side pocket—small, plant-based, ready for the...',
+    description: 'JBHK NAD+ Vegan Capsules for men delivering NAD+ precursors (NMN/NR) and co-factors to support cellular energy, healthy aging and longevity. A premium anti-aging SKU for men\'s health and longevity brands. OEM/private-label formulation includes precursor choice, dosage, vegan HPMC capsules and branded packaging. GMP-certified production with full COA, potency assay and export documentation.',
     features: ['Custom OEM/ODM formulation', 'GMP-certified manufacturing', 'Flexible packaging options'],
     specs: [
       { label: 'Dosage Form', value: 'Hard Capsule' },
@@ -752,7 +752,7 @@ export const products: Product[] = [
     cover: '/images/products/m0_zk_mbzkycpduhfea6dbrpv5qn49.png',
     gallery: [],
     shortDesc: 'Meet LED. OEM/ODM KingMaker 120ct 13-in-1 Men Muscle Black Maca Energy — a sleek, powerhouse supplement crafted with Black Maca and a refine...',
-    description: 'Meet LED. OEM/ODM KingMaker 120ct 13-in-1 Men Muscle Black Maca Energy — a sleek, powerhouse supplement crafted with Black Maca and a refine...',
+    description: 'KingMaker 13-in-1 men\'s muscle & energy capsules — a comprehensive formula blending black maca, tongkat ali, zinc and B-complex to support testosterone balance, lean muscle and daily vitality. 120-count premium SKU for men\'s performance brands. OEM/ODM services cover the full 13-ingredient matrix, dosage, vegan capsules and structural packaging. GMP-certified manufacturing with complete COA.',
     features: ['Custom OEM/ODM formulation', 'GMP-certified manufacturing', 'Flexible packaging options'],
     specs: [
       { label: 'Dosage Form', value: 'Hard Capsule' },
@@ -770,7 +770,7 @@ export const products: Product[] = [
     cover: '/images/products/m0_nz_tznz72x4b063namnysu229d9.jpg',
     gallery: [],
     shortDesc: 'As the morning sun pours through your window, a single golden LED. OEM/ODM Moringa Extract Softgel feels like a pocket of fresh green sunlig...',
-    description: 'As the morning sun pours through your window, a single golden LED. OEM/ODM Moringa Extract Softgel feels like a pocket of fresh green sunlig...',
+    description: 'Moringa Extract Softgels delivering concentrated moringa oleifera leaf extract for natural energy, immune support and antioxidant protection. A plant-based whole-food format favored by natural-health brands. OEM/ODM services cover extract concentration (10:1, 20:1), blend with complementary botanicals, dosage and packaging. GMP-certified manufacturing with heavy-metal testing and complete documentation.',
     features: ['Custom OEM/ODM formulation', 'GMP-certified manufacturing', 'Flexible packaging options'],
     specs: [
       { label: 'Dosage Form', value: 'Hard Capsule' },
@@ -806,7 +806,7 @@ export const products: Product[] = [
     cover: '/images/products/m0_qo_h9qo1u6kyg4c0stm8e91lbt3.jpg',
     gallery: [],
     shortDesc: 'Picture a quiet evening--soft light, a slow breath--and one vegan capsule of Magnesium Glycinate 500 mg helps you unwind with gent...',
-    description: 'Picture a quiet evening--soft light, a slow breath--and one vegan capsule of Magnesium Glycinate 500 mg helps you unwind with gent...',
+    description: 'Magnesium Glycinate 500mg high-absorption vegan capsules — a gentle, highly bioavailable form supporting muscle relaxation, sleep quality, stress response and nerve health. Non-GMO, gluten-free. A top-selling mineral SKU for sleep and wellness brands. OEM/private-label options cover elemental magnesium dosage, vegan HPMC capsules, count and branded packaging. GMP-certified with full COA.',
     features: ['Custom OEM/ODM formulation', 'GMP-certified manufacturing', 'Flexible packaging options'],
     specs: [
       { label: 'Dosage Form', value: 'Hard Capsule' },
@@ -842,7 +842,7 @@ export const products: Product[] = [
     cover: '/images/products/m0_zt_goztte3hxzktfbyflf50awna.png',
     gallery: [],
     shortDesc: 'As dawn paints the city, make Men\'s Daily Multi Caps your quick morning ritual to kickstart the day. Packed with 22 essential minerals and b...',
-    description: 'As dawn paints the city, make Men\'s Daily Multi Caps your quick morning ritual to kickstart the day. Packed with 22 essential minerals and b...',
+    description: 'Men\'s Daily Multi capsules — a comprehensive multivitamin & mineral formula (22+ nutrients) supporting energy, immunity, memory and overall men\'s health. A core daily-essential SKU for supplement brands. OEM/private-label formulation covers nutrient matrix, dosage, vegan capsules, count (60/90ct) and packaging design. GMP-certified manufacturing with full COA and stability data.',
     features: ['Custom OEM/ODM formulation', 'GMP-certified manufacturing', 'Flexible packaging options'],
     specs: [
       { label: 'Dosage Form', value: 'Hard Capsule' },
@@ -896,7 +896,7 @@ export const products: Product[] = [
     cover: '/images/products/m0_s1_gls1sp50mchgae4sm8qolqlt.jpg',
     gallery: [],
     shortDesc: 'Picture soft morning light as you reach for a single, sleek capsule—tiny armor that quietly cares for your liver as you move through the day...',
-    description: 'Picture soft morning light as you reach for a single, sleek capsule—tiny armor that quietly cares for your liver as you move through the day...',
+    description: 'Zinc Liver Protect & Detox capsules combining zinc with milk thistle and herbal extracts to support liver function, detox pathways and cellular protection. Suitable for adults including pregnant users (zinc folate support). OEM/private-label formulation covers ingredient ratios, dosage, vegan capsules and packaging. GMP-certified manufacturing with heavy-metal testing and complete documentation.',
     features: ['Custom OEM/ODM formulation', 'GMP-certified manufacturing', 'Flexible packaging options'],
     specs: [
       { label: 'Dosage Form', value: 'Hard Capsule' },
@@ -916,7 +916,7 @@ export const products: Product[] = [
     cover: '/images/products/m0_ht_a7htd0actxoxfxttxb4wwedz.jpg',
     gallery: [],
     shortDesc: 'Short product description:',
-    description: 'Short product description:',
+    description: 'All-natural probiotic + prebiotic ice-lemonade powder delivering 20 billion CFU of stable probiotic strains with prebiotic fiber for gut balance, digestion and immune support. A refreshing drink-format SKU for gut-health brands. OEM/private-label formulation covers CFU count, strain selection, flavor systems, stick-pack vs tub and sugar-free options. GMP-certified with live-culture stability testing.',
     features: ['Custom OEM/ODM formulation', 'GMP-certified manufacturing', 'Flexible packaging options'],
     specs: [
       { label: 'Dosage Form', value: 'Powder' },
@@ -934,7 +934,7 @@ export const products: Product[] = [
     cover: '/images/products/m0_1f_w61fzrlt3bkh49b6roj7tevu.jpg',
     gallery: [],
     shortDesc: 'Imagine a sunlit fair, sticky fingers and laughter — now bottle that first bite of cotton candy. One tiny sachet turns plain water into a pi...',
-    description: 'Imagine a sunlit fair, sticky fingers and laughter — now bottle that first bite of cotton candy. One tiny sachet turns plain water into a pi...',
+    description: 'Cotton Candy Electrolyte Powder sachets — a fun-flavored hydration mix with 8 essential vitamins and key electrolytes for post-workout recovery, energy and daily hydration. A standout SKU for sports-nutrition and kids\' wellness brands. OEM/private-label options cover electrolyte ratios, vitamin blend, flavor (cotton candy and more), sachet size and packaging. GMP-certified manufacturing with full COA.',
     features: ['Custom OEM/ODM formulation', 'GMP-certified manufacturing', 'Flexible packaging options'],
     specs: [
       { label: 'Dosage Form', value: 'Powder' },
@@ -1006,7 +1006,7 @@ export const products: Product[] = [
     cover: '/images/products/m0_3o_po3ollshpeou9fxviswpfvod.jpg',
     gallery: [],
     shortDesc: 'Picture a crisp morning commute—pop a Nootropic L‑Tyrosine Energy Pouch 15g Wintergreen Focus and let cool wintergreen spark your senses. Li...',
-    description: 'Picture a crisp morning commute—pop a Nootropic L‑Tyrosine Energy Pouch 15g Wintergreen Focus and let cool wintergreen spark your senses. Li...',
+    description: 'Nootropic L-Tyrosine Energy Pouches (15g, wintergreen) — a tobacco- and caffeine-free focus pouch delivering L-tyrosine and nootropic cofactors for clean mental clarity and alertness. A modern alternative-energy SKU for performance brands. OEM/private-label formulation covers active blend, flavor, nicotine-free positioning and pouch count. GMP-certified production with full documentation.',
     features: ['Custom OEM/ODM formulation', 'GMP-certified manufacturing', 'Flexible packaging options'],
     specs: [
       { label: 'Dosage Form', value: 'Powder' },
@@ -1024,7 +1024,7 @@ export const products: Product[] = [
     cover: '/images/products/m0_xk_43xkwhw2ops7dekuev97s8e5.jpg',
     gallery: [],
     shortDesc: 'At sunrise you scoop a creamy measure of Pre-Workout 300g Whey Gainer w/ Creatine Mono & B‑Vitamins into your shaker — the rich, velvety ble...',
-    description: 'At sunrise you scoop a creamy measure of Pre-Workout 300g Whey Gainer w/ Creatine Mono & B‑Vitamins into your shaker — the rich, velvety ble...',
+    description: 'Pre-Workout 300g mass-gainer powder blending whey protein, creatine monohydrate and B-vitamins to fuel high-intensity training, muscle growth and recovery. A premium all-in-one SKU for sports-nutrition brands. OEM/private-label services cover protein/creatine ratios, flavor systems, tub vs stick-pack and branded design. GMP-certified manufacturing with protein-content assay and full COA.',
     features: ['Custom OEM/ODM formulation', 'GMP-certified manufacturing', 'Flexible packaging options'],
     specs: [
       { label: 'Dosage Form', value: 'Powder' },
@@ -1134,7 +1134,7 @@ export const products: Product[] = [
     cover: '/images/products/m0_xo_wuxou4yvvflxv6xw7c0jcbjh.jpg',
     gallery: [],
     shortDesc: 'This is a 1000 mg NAD+ liquid with PQQ made to boost cellular energy. The liquid form is easy to take and absorbs fast, while PQQ supports m...',
-    description: 'This is a 1000 mg NAD+ liquid with PQQ made to boost cellular energy. The liquid form is easy to take and absorbs fast, while PQQ supports m...',
+    description: '1000mg NAD+ Liquid Supplement with PQQ — a high-potency sublingual formula supporting cellular energy production, mitochondrial health and cognitive function. Fast-absorbing liquid format for premium anti-aging and longevity brands. OEM/private-label options cover NAD+ and PQQ dosage, delivery base, flavor and bottle size (30/60ml). GMP-certified manufacturing with potency assay and stability data.',
     features: ['Custom OEM/ODM formulation', 'GMP-certified manufacturing', 'Flexible packaging options'],
     specs: [
       { label: 'Dosage Form', value: 'Oral Liquid/Drops' },
@@ -1278,7 +1278,7 @@ export const products: Product[] = [
     cover: '/images/products/m0_xa_p1xa9602dbal5wzq3jlck4mr.jpg',
     gallery: [],
     shortDesc: 'Short product description:',
-    description: 'Short product description:',
+    description: 'Moringa, Ashwagandha & Ginger Oral Drops — an adaptogenic herbal blend supporting stress resilience, natural energy, digestion and immune balance. A convenient liquid format for natural-health and Ayurvedic-inspired brands. OEM/private-label formulation covers herb extract ratios, dosage, flavor and bottle format. GMP-certified manufacturing with botanical identity testing and full COA.',
     features: ['Custom OEM/ODM formulation', 'GMP-certified manufacturing', 'Flexible packaging options'],
     specs: [
       { label: 'Dosage Form', value: 'Oral Liquid/Drops' },
@@ -1296,7 +1296,7 @@ export const products: Product[] = [
     cover: '/images/products/m0_jj_wkjjchl7r1f68fl32lu3rtk4.jpg',
     gallery: [],
     shortDesc: 'Short product description (3 sentences):',
-    description: 'Short product description (3 sentences):',
+    description: 'Shilajit Drops oral liquid — purified Himalayan shilajit extract standardized to 50%+ fulvic acid, supporting natural energy, stamina, immunity and vitality. A premium mineral-rich SKU for men\'s health and adaptogen brands. OEM/private-label options cover fulvic-acid standardization, dosage, flavor and bottle size. GMP-certified with heavy-metal control and complete documentation.',
     features: ['Custom OEM/ODM formulation', 'GMP-certified manufacturing', 'Flexible packaging options'],
     specs: [
       { label: 'Dosage Form', value: 'Oral Liquid/Drops' },
@@ -1314,7 +1314,7 @@ export const products: Product[] = [
     cover: '/images/products/m0_w8_9kw842qckxvf9z0t7qr42o5v.jpg',
     gallery: [],
     shortDesc: 'Short article (simple words):',
-    description: 'Short article (simple words):',
+    description: 'Vitamin D3+K2 MCT Oil Drops (60ml) — a fat-soluble bone-support formula carried in MCT oil for enhanced absorption, supporting bone density, immune health and calcium balance. A versatile liquid SKU for family-wellness brands. OEM/private-label options cover D3/K2 dosage, MCT base, flavor and bottle/dropper design. GMP-certified manufacturing with full COA and potency testing.',
     features: ['Custom OEM/ODM formulation', 'GMP-certified manufacturing', 'Flexible packaging options'],
     specs: [
       { label: 'Dosage Form', value: 'Oral Liquid/Drops' },
