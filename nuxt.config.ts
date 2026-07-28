@@ -179,7 +179,7 @@ export default defineNuxtConfig({
     }
   },
 
-  // 所有图片已本地化为站内相对路径（含产品图，见 scripts/localize-product-images.mjs），
+  // 所有图片已本地化为站内相对路径，
   // IPX 在 SSG 时统一预渲染为 WebP + 响应式多尺寸，无需外部域名白名单。
   image: {
     format: ['webp']
