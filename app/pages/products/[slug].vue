@@ -69,7 +69,7 @@ useHead({
       // OEM/ODM 无公开标价，用 Offer 表达可询盘 + 起订量，避免价格误导
       offers: {
         '@type': 'Offer',
-        url: `${SITE_URL}${zh ? '/zh' : '/en'}/products/${p.slug}`,
+        url: `${SITE_URL}${zh ? '/zh' : ''}/products/${p.slug}`,
         availability: 'https://schema.org/InStock',
         priceCurrency: 'USD',
         // 询盘类产品不标具体价，提供 businessFunction 表示可定制/询盘
@@ -78,7 +78,7 @@ useHead({
         inventoryLevel: { '@type': 'QuantitativeValue', value: p.moq, unitText: 'MOQ' }
       }
     }
-    const localePrefix = zh ? '/zh' : '/en'
+    const localePrefix = zh ? '/zh' : ''
     const breadcrumbSchema = {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',

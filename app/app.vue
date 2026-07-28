@@ -32,18 +32,19 @@ useHead({
 })
 
 const route = useRoute()
-// 去掉路径里的 /en 或 /zh 前缀，得到「裸路径」用于 hreflang 拼接
+// 去掉路径里的 /zh 前缀，得到「裸路径」用于 hreflang 拼接；兼容旧 /en 链接。
 const stripLocalePrefix = (p: string) => p.replace(/^\/(en|zh)(?=\/|$)/, '') || '/'
 const canonicalUrl = computed(() => `${SITE_URL}${route.path}`)
 const basePath = computed(() => stripLocalePrefix(route.path))
+const englishPath = computed(() => basePath.value === '/' ? '' : basePath.value)
 
 // canonical + hreflang alternates（每个页面 x-default 指向英文）
 useHead({
   link: computed(() => [
     { rel: 'canonical', href: canonicalUrl.value },
-    { rel: 'alternate', hreflang: 'en-US', href: `${SITE_URL}/en${basePath.value === '/' ? '' : basePath.value}` },
+    { rel: 'alternate', hreflang: 'en-US', href: `${SITE_URL}${englishPath.value}` },
     { rel: 'alternate', hreflang: 'zh-CN', href: `${SITE_URL}/zh${basePath.value === '/' ? '' : basePath.value}` },
-    { rel: 'alternate', hreflang: 'x-default', href: `${SITE_URL}/en${basePath.value === '/' ? '' : basePath.value}` },
+    { rel: 'alternate', hreflang: 'x-default', href: `${SITE_URL}${englishPath.value}` },
     ...localeHead.value.link
   ])
 })

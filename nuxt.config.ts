@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { products, productCategories } from './app/data/products'
 
-// 两个语言（URL 分路径 /en /zh）
+// 两个语言：英文为默认裸路径，中文使用 /zh 前缀
 const LOCALES = ['en', 'zh'] as const
 
 // 产品列表分页：每页 9 个
@@ -25,9 +25,9 @@ const getAllListRoutes = () => {
   return routes
 }
 
-// 给一组裸路径乘以所有 locale，生成 /en/xxx、/zh/xxx
+// 给一组裸路径乘以所有 locale：英文保留裸路径，中文生成 /zh/xxx
 const withLocales = (bareRoutes: string[]) =>
-  LOCALES.flatMap((l) => bareRoutes.map((r) => `/${l}${r === '/' ? '' : r}`))
+  LOCALES.flatMap((l) => bareRoutes.map((r) => l === 'en' ? r : `/${l}${r === '/' ? '' : r}`))
 
 const staticPageRoutes = [
   '/',
@@ -41,18 +41,19 @@ const staticPageRoutes = [
   '/terms'
 ]
 
-const defaultEnglishRedirectRoutes = Array.from(new Set([
+const canonicalBareRoutes = Array.from(new Set([
   ...staticPageRoutes,
   ...getAllListRoutes(),
   ...products.map((p) => `/products/${p.slug}`)
 ]))
 
-const toEnglishRoute = (route: string) => route === '/' ? '/en/' : `/en${route}`
+const legacyEnRoute = (route: string) => route === '/' ? '/en' : `/en${route}`
+const toBareRoute = (route: string) => route
 
 const sitemapEntries = (locale: typeof LOCALES[number]) =>
-  defaultEnglishRedirectRoutes.map((route) => {
-    const loc = route === '/' ? `/${locale}` : `/${locale}${route}`
-    const enHref = route === '/' ? '/en' : `/en${route}`
+  canonicalBareRoutes.map((route) => {
+    const loc = locale === 'en' ? route : route === '/' ? '/zh' : `/zh${route}`
+    const enHref = route
     const zhHref = route === '/' ? '/zh' : `/zh${route}`
 
     return {
@@ -65,13 +66,12 @@ const sitemapEntries = (locale: typeof LOCALES[number]) =>
     }
   })
 
-const defaultEnglishRouteRules = Object.fromEntries([
-  ...defaultEnglishRedirectRoutes.map((route) => [
-    route,
-    { redirect: { to: toEnglishRoute(route), statusCode: 301 } }
+const legacyEnRouteRules = Object.fromEntries([
+  ...canonicalBareRoutes.map((route) => [
+    legacyEnRoute(route),
+    { redirect: { to: toBareRoute(route), statusCode: 301 } }
   ]),
-  ['/index', { redirect: { to: '/en/', statusCode: 301 } }],
-  ['/index.html', { redirect: { to: '/en/', statusCode: 301 } }]
+  ['/index', { redirect: { to: '/', statusCode: 301 } }]
 ])
 
 export default defineNuxtConfig({
@@ -82,7 +82,7 @@ export default defineNuxtConfig({
   // 1. 详情页 /products/[slug]：列表有分页，crawlLinks 无法稳定发现第 2 页之后的产品链接
   // 2. 列表分页/分类页 /products/page/N、/products/[cat]、/products/[cat]/page/N：
   //    虽用 <NuxtLink> 可被 crawlLinks 发现，但显式注入确保全量生成独立 HTML
-  // 双语改造：每个路由乘 /en、/zh 两个前缀
+  // 双语改造：英文裸路径，中文 /zh 前缀；旧 /en 路径生成 301 静态兼容页。
   hooks: {
     'nitro:config': (nitroConfig) => {
       nitroConfig.prerender ||= {}
@@ -92,9 +92,8 @@ export default defineNuxtConfig({
       nitroConfig.prerender.routes.push(
         ...productDetailRoutes,
         ...listRoutes,
-        ...defaultEnglishRedirectRoutes,
-        '/index',
-        '/index.html'
+        ...canonicalBareRoutes.map(legacyEnRoute),
+        '/index'
       )
     }
   },
@@ -102,18 +101,18 @@ export default defineNuxtConfig({
   // 默认开启 SSR，既能 `npm run dev` 跑动态，也能 `npm run generate` 生成全静态站点。
   ssr: true,
 
-  routeRules: defaultEnglishRouteRules,
+  routeRules: legacyEnRouteRules,
 
   modules: ['@nuxtjs/tailwindcss', '@nuxt/image', '@nuxtjs/sitemap', '@nuxtjs/i18n'],
 
-  // 中英文分路径 SEO：/en/... 和 /zh/... 各自独立 URL，利于 Google 分别收录 + hreflang
+  // 中英文分路径 SEO：英文使用裸路径，中文使用 /zh/...，利于 Google 分别收录 + hreflang
   i18n: {
     locales: [
       { code: 'en', language: 'en-US', name: 'English' },
       { code: 'zh', language: 'zh-CN', name: '中文' }
     ],
     defaultLocale: 'en',
-    strategy: 'prefix', // 两种语言都带 URL 前缀（/en、/zh）
+    strategy: 'prefix_except_default', // 英文默认不带前缀，中文使用 /zh
     // 翻译文案统一来自 i18n/i18n.config.ts（复用原 messages.ts，保持 MessageKey 类型）
     vueI18n: '~/i18n/i18n.config.ts',
     // 默认入口固定到英文，中文页面仅通过 /zh/... 访问，避免浏览器语言把 / 自动导向中文。
@@ -181,7 +180,7 @@ export default defineNuxtConfig({
     prerender: {
       // 抓取页面内所有 <NuxtLink>，自动预渲染整站为静态 HTML。
       crawlLinks: true,
-      routes: ['/en', '/zh', '/404.html'],
+      routes: ['/', '/zh', '/404.html'],
       failOnError: true
     }
   }
