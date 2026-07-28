@@ -2,7 +2,7 @@
 import { site } from '~/data/site'
 import type { MessageKey } from '~/i18n/messages'
 
-const { t, isZh } = useLocale()
+const {  t, isZh , localePath } = useLocale()
 
 // 小亮点：英文硬编码 + 中文走字典
 const advantages = computed(() =>
@@ -122,10 +122,10 @@ const statList = computed(() =>
 
         <!-- 双 CTA -->
         <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-          <UiAppButton to="/contact" variant="primary" size="lg" icon="send">
+          <UiAppButton :to="localePath('/contact')" variant="primary" size="lg" icon="send">
             {{ isZh ? '获取报价' : 'Get A Quote' }}
           </UiAppButton>
-          <UiAppButton to="/products" variant="outline" size="lg" icon-right="arrow-right" class="hero-cta-outline">
+          <UiAppButton :to="localePath('/products')" variant="outline" size="lg" icon-right="arrow-right" class="hero-cta-outline">
             {{ isZh ? '查看产品' : 'View Our Products' }}
           </UiAppButton>
         </div>

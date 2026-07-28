@@ -1,15 +1,18 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { products, productCategories } from './app/data/products'
 
+// 两个语言（URL 分路径 /en /zh）
+const LOCALES = ['en', 'zh'] as const
+
 // 产品列表分页：每页 9 个
 const PAGE_SIZE = 9
-// 生成某剂型某页的 URL（路径参数式，便于 SSG 预渲染独立 HTML）
+// 生成某剂型某页的「裸路径」（不含 locale 前缀）
 // 分类路由放在 /products/categories/ 前缀下，避免与详情页 /products/[slug] 冲突
 const listUrl = (cat: string, page: number) =>
   cat === 'all'
     ? page <= 1 ? '/products' : `/products/page/${page}`
     : page <= 1 ? `/products/categories/${cat}` : `/products/categories/${cat}/page/${page}`
-// 取所有需要预渲染的列表路由（全部 + 各分类的所有页码）
+// 取所有需要预渲染的「裸列表路径」（全部 + 各分类的所有页码）
 const getAllListRoutes = () => {
   const routes: string[] = ['/products']
   const cats = ['all', ...productCategories.map((c) => c.slug)]
@@ -22,6 +25,59 @@ const getAllListRoutes = () => {
   return routes
 }
 
+// 给一组裸路径乘以所有 locale，生成 /en/xxx、/zh/xxx
+const withLocales = (bareRoutes: string[]) =>
+  LOCALES.flatMap((l) => bareRoutes.map((r) => `/${l}${r === '/' ? '' : r}`))
+
+const staticPageRoutes = [
+  '/',
+  '/about',
+  '/products',
+  '/services',
+  '/manufacturing',
+  '/how-it-works',
+  '/contact',
+  '/privacy',
+  '/terms'
+]
+
+const defaultEnglishRedirectRoutes = Array.from(new Set([
+  ...staticPageRoutes,
+  ...getAllListRoutes(),
+  ...products.map((p) => `/products/${p.slug}`)
+]))
+
+const toEnglishRoute = (route: string) => route === '/' ? '/en/' : `/en${route}`
+
+const sitemapEntries = (locale: typeof LOCALES[number]) =>
+  defaultEnglishRedirectRoutes.map((route) => {
+    const loc = route === '/' ? `/${locale}` : `/${locale}${route}`
+    const enHref = route === '/' ? '/en' : `/en${route}`
+    const zhHref = route === '/' ? '/zh' : `/zh${route}`
+
+    return {
+      loc,
+      alternatives: [
+        { hreflang: 'en-US', href: enHref },
+        { hreflang: 'zh-CN', href: zhHref },
+        { hreflang: 'x-default', href: enHref }
+      ]
+    }
+  })
+
+const defaultEnglishRouteRules = Object.fromEntries([
+  ...defaultEnglishRedirectRoutes.map((route) => [
+    route,
+    { redirect: { to: toEnglishRoute(route), statusCode: 301 } }
+  ]),
+  ['/index', { redirect: { to: '/en/', statusCode: 301 } }],
+  ['/index.html', { redirect: { to: '/en/', statusCode: 301 } }],
+  ['/en/index', { redirect: { to: '/en/', statusCode: 301 } }],
+  ['/en/index.html', { redirect: { to: '/en/', statusCode: 301 } }],
+  ['/zh/index', { redirect: { to: '/zh/', statusCode: 301 } }],
+  ['/zh/index.html', { redirect: { to: '/zh/', statusCode: 301 } }]
+])
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',
   devtools: { enabled: false },
@@ -30,19 +86,48 @@ export default defineNuxtConfig({
   // 1. 详情页 /products/[slug]：列表有分页，crawlLinks 无法稳定发现第 2 页之后的产品链接
   // 2. 列表分页/分类页 /products/page/N、/products/[cat]、/products/[cat]/page/N：
   //    虽用 <NuxtLink> 可被 crawlLinks 发现，但显式注入确保全量生成独立 HTML
+  // 双语改造：每个路由乘 /en、/zh 两个前缀
   hooks: {
     'nitro:config': (nitroConfig) => {
       nitroConfig.prerender ||= {}
       nitroConfig.prerender.routes ||= []
-      nitroConfig.prerender.routes.push(...products.map((p) => `/products/${p.slug}`))
-      nitroConfig.prerender.routes.push(...getAllListRoutes())
+      const productDetailRoutes = withLocales(products.map((p) => `/products/${p.slug}`))
+      const listRoutes = withLocales(getAllListRoutes())
+      nitroConfig.prerender.routes.push(
+        ...productDetailRoutes,
+        ...listRoutes,
+        ...defaultEnglishRedirectRoutes,
+        '/index',
+        '/index.html',
+        '/en/index',
+        '/en/index.html',
+        '/zh/index',
+        '/zh/index.html'
+      )
     }
   },
 
   // 默认开启 SSR，既能 `npm run dev` 跑动态，也能 `npm run generate` 生成全静态站点。
   ssr: true,
 
-  modules: ['@nuxtjs/tailwindcss', '@nuxt/image', '@nuxtjs/sitemap'],
+  routeRules: defaultEnglishRouteRules,
+
+  modules: ['@nuxtjs/tailwindcss', '@nuxt/image', '@nuxtjs/sitemap', '@nuxtjs/i18n'],
+
+  // 中英文分路径 SEO：/en/... 和 /zh/... 各自独立 URL，利于 Google 分别收录 + hreflang
+  i18n: {
+    locales: [
+      { code: 'en', language: 'en-US', name: 'English' },
+      { code: 'zh', language: 'zh-CN', name: '中文' }
+    ],
+    defaultLocale: 'en',
+    strategy: 'prefix', // 两种语言都带 URL 前缀（/en、/zh）
+    // 翻译文案统一来自 i18n/i18n.config.ts（复用原 messages.ts，保持 MessageKey 类型）
+    vueI18n: '~/i18n/i18n.config.ts',
+    // 默认入口固定到英文，中文页面仅通过 /zh/... 访问，避免浏览器语言把 / 自动导向中文。
+    detectBrowserLanguage: false,
+    baseUrl: 'https://www.mildy-health.com'
+  },
 
   // 站点绝对地址 —— sitemap / canonical / og:url 的统一基准（SEO 必需）
   site: {
@@ -50,11 +135,14 @@ export default defineNuxtConfig({
     name: 'MILDY Health'
   },
 
-  // 自动生成 sitemap.xml + robots.txt（GitHub Pages 静态托管同样生效）
+  // 自动生成 sitemap.xml + robots.txt（@nuxtjs/i18n 与 @nuxtjs/sitemap 原生集成，自动输出 hreflang）
   sitemap: {
-    // 动态路由（产品详情/分页/分类）由上面 nitro.prerender 显式列出，
-    // sitemap 默认会抓取已预渲染的链接，无需额外 sources
-    autoLastmod: true
+    autoLastmod: true,
+    autoI18n: false,
+    sitemaps: {
+      'en-US': { urls: sitemapEntries('en') },
+      'zh-CN': { urls: sitemapEntries('zh') }
+    }
   },
 
   // Web3Forms 询盘表单 access_key —— 去 https://web3forms.com 用邮箱注册即可获取
@@ -74,7 +162,7 @@ export default defineNuxtConfig({
     // CNAME = www.mildy-health.com，使用自定义域名，部署在根路径。
     baseURL: '/',
     head: {
-      htmlAttrs: { lang: 'en' },
+      // <html lang> 由 @nuxtjs/i18n 按当前 locale 自动设置（en-US / zh-CN），不再硬编码
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -101,8 +189,8 @@ export default defineNuxtConfig({
     prerender: {
       // 抓取页面内所有 <NuxtLink>，自动预渲染整站为静态 HTML。
       crawlLinks: true,
-      routes: ['/', '/404.html'],
-      failOnError: false
+      routes: ['/en', '/zh', '/404.html'],
+      failOnError: true
     }
   }
 })

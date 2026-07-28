@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { processSteps } from '~/data/process'
 
-useSeoMeta({
-  title: 'How It Works — 6 Steps from Inquiry to Shipment',
-  description:
-    'A clear, transparent 6-step process: Inquiry → Formulation & Sampling → Artwork & Packaging → Order Confirmation → Production & QC → Shipping & Export. Typical 8–12 weeks.'
-})
+const { t, isZh, localePath } = useLocale()
 
-const { t, isZh } = useLocale()
+useSeoMeta({
+  title: () => isZh.value ? '合作流程 — 6 步从询盘到出货' : 'How It Works — 6 Steps from Inquiry to Shipment',
+  description: () => isZh.value
+    ? '清晰透明的 6 步流程:询盘 → 配方打样 → 包装设计 → 订单确认 → 生产质检 → 出口装柜。典型周期 8–12 周。'
+    : 'A clear, transparent 6-step process: Inquiry → Formulation & Sampling → Artwork & Packaging → Order Confirmation → Production & QC → Shipping & Export. Typical 8–12 weeks.'
+})
 
 const timeline = computed(() =>
   processSteps.map((s) => ({
@@ -65,7 +66,7 @@ const faqs = [
       :title="isZh ? '从询盘到出货,6 步完成' : 'From Inquiry to Shipment in 6 Steps'"
       :subtitle="isZh ? '清晰透明的流程,从首次接触到出货通常只需 8–12 周。' : 'A clear, transparent process that takes you from first contact to a container on the water — typically 8 to 12 weeks.'"
       image="/images/how-it-works/hero.jpg"
-      :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: '/' }, { label: isZh ? '合作流程' : 'How It Works' }]"
+      :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: localePath('/') }, { label: isZh ? '合作流程' : 'How It Works' }]"
     />
 
     <!-- 时间线 -->
@@ -141,7 +142,7 @@ const faqs = [
         <h2 class="text-3xl font-bold text-white md:text-4xl">{{ isZh ? '准备好开始了吗?' : 'Ready to Get Started?' }}</h2>
         <p class="mx-auto mt-4 max-w-xl text-white/75">{{ isZh ? '提交您的询盘,我们的团队将在 24 小时内回复定制方案。' : 'Submit your inquiry and our team will respond within 24 hours with a tailored proposal.' }}</p>
         <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <UiAppButton to="/contact" variant="primary" size="lg" icon="send">{{ isZh ? '提交询盘' : 'Submit Inquiry' }}</UiAppButton>
+          <UiAppButton :to="localePath('/contact')" variant="primary" size="lg" icon="send">{{ isZh ? '提交询盘' : 'Submit Inquiry' }}</UiAppButton>
           <a
             href="https://wa.me/8618613000659"
             target="_blank"

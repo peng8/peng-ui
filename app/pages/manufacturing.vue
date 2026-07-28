@@ -2,10 +2,13 @@
 import { facilities, qcSteps } from '~/data/cases'
 import { site } from '~/data/site'
 
+const { t, isZh, localePath } = useLocale()
+
 useSeoMeta({
-  title: 'GMP Supplement Manufacturing Facility & QC Lab',
-  description:
-    'Tour our 20,000 m² GMP-certified facility: cleanrooms, 8 automated lines, R&D lab, QC testing, warehousing and packaging. Full traceability and FDA/BRC compliance.',
+  title: () => isZh.value ? 'GMP 补充剂制造工厂与品控实验室' : 'GMP Supplement Manufacturing Facility & QC Lab',
+  description: () => isZh.value
+    ? '参观我们 20,000 平方米的 GMP 认证工厂:洁净车间、8 条自动化产线、研发实验室、品控检测、仓储与包装。完整可追溯,符合 FDA/BRC 标准。'
+    : 'Tour our 20,000 m² GMP-certified facility: cleanrooms, 8 automated lines, R&D lab, QC testing, warehousing and packaging. Full traceability and FDA/BRC compliance.'
 })
 
 const capacityStats = [
@@ -15,7 +18,13 @@ const capacityStats = [
   { value: '30B+', label: 'Units Annual Capacity', labelZh: '年产能(件)', icon: 'layers' }
 ]
 
-const { t, isZh } = useLocale()
+const equipmentImages = [
+  { src: '/images/manufacturing/equip-1.jpg', alt: 'HPLC instrument', altZh: 'HPLC 检测仪器', class: '' },
+  { src: '/images/manufacturing/equip-2.jpg', alt: 'Encapsulation machine', altZh: '胶囊填充设备', class: 'mt-8' },
+  { src: '/images/manufacturing/equip-3.jpg', alt: 'Blending tank', altZh: '混合罐设备', class: '' },
+  { src: '/images/manufacturing/equip-4.jpg', alt: 'Packaging line', altZh: '包装生产线', class: 'mt-8' }
+]
+
 </script>
 
 <template>
@@ -25,7 +34,7 @@ const { t, isZh } = useLocale()
       :title="isZh ? '走进世界级工厂' : 'Inside Our World-Class Facility'"
       :subtitle="isZh ? '20,000 平方米专用产业园,为规模、精度和合规而建。' : 'A 20,000 m² purpose-built industrial park engineered for volume, precision and compliance.'"
       image="/images/manufacturing/hero.jpg"
-      :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: '/' }, { label: isZh ? '生产实力' : 'Manufacturing' }]"
+      :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: localePath('/') }, { label: isZh ? '生产实力' : 'Manufacturing' }]"
     />
 
     <!-- 数据概览 -->
@@ -103,10 +112,15 @@ const { t, isZh } = useLocale()
     <section class="section bg-white">
       <div class="wrap grid items-center gap-12 lg:grid-cols-2">
         <div class="reveal grid grid-cols-2 gap-4">
-          <img src="/images/manufacturing/equip-1.jpg" alt="HPLC instrument" class="rounded-xl object-cover shadow-card" loading="lazy" />
-          <img src="/images/manufacturing/equip-2.jpg" alt="Encapsulation machine" class="mt-8 rounded-xl object-cover shadow-card" loading="lazy" />
-          <img src="/images/manufacturing/equip-3.jpg" alt="Blending tank" class="rounded-xl object-cover shadow-card" loading="lazy" />
-          <img src="/images/manufacturing/equip-4.jpg" alt="Packaging line" class="mt-8 rounded-xl object-cover shadow-card" loading="lazy" />
+          <img
+            v-for="img in equipmentImages"
+            :key="img.src"
+            :src="img.src"
+            :alt="isZh ? img.altZh : img.alt"
+            class="rounded-xl object-cover shadow-card"
+            :class="img.class"
+            loading="lazy"
+          />
         </div>
         <div class="reveal" :style="`transition-delay:120ms`">
           <span class="eyebrow"><span class="h-px w-6 bg-gold" />{{ isZh ? '设备与技术' : 'Equipment & Technology' }}</span>
@@ -148,7 +162,7 @@ const { t, isZh } = useLocale()
       <div class="wrap reveal text-center">
         <h2 class="text-3xl font-bold text-white md:text-4xl">{{ isZh ? '想参观我们的工厂?' : 'Want to Visit Our Factory?' }}</h2>
         <p class="mx-auto mt-4 max-w-xl text-white/75">{{ isZh ? '提供现场及线上工厂参观,立即预约。' : 'On-site and virtual factory tours available. Schedule your visit today.' }}</p>
-        <UiAppButton to="/contact" variant="primary" size="lg" icon="send" class="mt-8">{{ isZh ? '预约参观' : 'Book a Tour' }}</UiAppButton>
+        <UiAppButton :to="localePath('/contact')" variant="primary" size="lg" icon="send" class="mt-8">{{ isZh ? '预约参观' : 'Book a Tour' }}</UiAppButton>
       </div>
     </section>
   </div>

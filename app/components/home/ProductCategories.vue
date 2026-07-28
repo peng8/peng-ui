@@ -2,7 +2,7 @@
 import type { MessageKey } from '~/i18n/messages'
 import { productCategories } from '~/data/products'
 
-const { t, isZh } = useLocale()
+const {  t, isZh , localePath } = useLocale()
 </script>
 
 <template>
@@ -16,7 +16,7 @@ const { t, isZh } = useLocale()
           align="left"
           class="md:max-w-xl"
         />
-        <UiAppButton to="/products" variant="ghost" icon-right="arrow-right" class="shrink-0">
+        <UiAppButton :to="localePath('/products')" variant="ghost" icon-right="arrow-right" class="shrink-0">
           {{ isZh ? '全部产品' : 'All Products' }}
         </UiAppButton>
       </div>

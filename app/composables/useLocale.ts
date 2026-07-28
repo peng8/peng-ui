@@ -1,45 +1,36 @@
-// 中英文双语切换 —— 全局响应式 locale + t() 翻译函数
-// - locale 在 SSR/CSR 间共享（模块级 ref）
-// - 客户端从 localStorage 读取上次选择，默认英文
-// - t(key, params) 查字典；支持 {name} 占位符替换
-import { messages, type Locale, type MessageKey } from '~/i18n/messages'
-
-// 模块级单例：所有组件共享同一个 locale 状态
-const locale = ref<Locale>('en')
-
-// 是否已初始化（避免 SSR 与 CSR 重复初始化）
-let initialized = false
+// 中英文双语切换 —— 基于 @nuxtjs/i18n 的兼容包装
+// - 保持原 useLocale() 接口：{ locale, setLocale, toggle, t, isZh }
+// - 内部使用 useI18n() / useSwitchLocalePath() / useLocalePath()
+// - 切换语言跳转到对应 locale 的同一路径（URL 前缀策略）
+// - 保留 t() 函数保持原签名(MessageKey 类型校验 + 占位符替换)
+import type { Locale, MessageKey } from '~/i18n/messages'
 
 export function useLocale() {
-  // 客户端首次调用时从 localStorage 读取
-  if (import.meta.client && !initialized) {
-    initialized = true
-    const saved = localStorage.getItem('locale') as Locale | null
-    if (saved === 'en' || saved === 'zh') {
-      locale.value = saved
-    }
-    // 同步 <html lang> 属性
-    document.documentElement.lang = locale.value
-  }
+  const { locale, t: i18nT } = useI18n()
+  const switchLocalePath = useSwitchLocalePath()
+  const localePath = useLocalePath()
 
-  /** 设置语言并持久化 */
+  /** 当前是否中文 */
+  const isZh = computed(() => locale.value === 'zh')
+
+  /** 切换中英文：导航到对应 locale 的同路径 */
   const setLocale = (l: Locale) => {
-    locale.value = l
-    if (import.meta.client) {
-      localStorage.setItem('locale', l)
-      document.documentElement.lang = l
-    }
+    if (l === locale.value) return
+    return navigateTo(switchLocalePath(l))
   }
 
   /** 切换中英文 */
   const toggle = () => {
-    setLocale(locale.value === 'en' ? 'zh' : 'en')
+    return setLocale(locale.value === 'en' ? 'zh' : 'en')
   }
 
-  /** 翻译函数：t('nav.home') 或 t('pc.explore', { name: 'Gummies' }) */
+  /**
+   * 翻译函数 —— 保持原签名 t(key, params?)
+   * 占位符 {name} / {shown} 等替换
+   */
   const t = (key: MessageKey, params?: Record<string, string | number>): string => {
-    const dict = messages[locale.value] as Record<string, string>
-    let s = dict[key] ?? key
+    let s: string = (i18nT(key as string, params ?? {}) as string) || key
+    // 兜底占位符替换（@nuxtjs/i18n 默认已支持，但作为防御）
     if (params) {
       for (const [k, v] of Object.entries(params)) {
         s = s.replace(new RegExp(`\\{${k}\\}`, 'g'), String(v))
@@ -48,8 +39,24 @@ export function useLocale() {
     return s
   }
 
-  /** 当前是否中文 */
-  const isZh = computed(() => locale.value === 'zh')
+  /**
+   * 起订量(MOQ)本地化：中文显示「N 瓶」，英文回退原文。
+   * 统一 MOQ 口径为 "500 bottles"，按需提取数字 + 单位。
+   */
+  const formatMoq = (moq: string): string => {
+    if (!isZh.value) return moq
+    const num = (moq.match(/\d[\d,]*/) || [])[0]
+    return num ? `${num} 瓶` : moq
+  }
 
-  return { locale, setLocale, toggle, t, isZh }
+  return {
+    locale: locale as Ref<Locale>,
+    setLocale,
+    toggle,
+    t,
+    isZh,
+    formatMoq,
+    // 暴露 useLocalePath() 供模板直接 localePath('/path')
+    localePath
+  }
 }

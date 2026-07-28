@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { site, navItems } from '~/data/site'
 
-const { t, isZh } = useLocale()
+const { t, isZh, localePath } = useLocale()
 
 const year = new Date().getFullYear()
 
 const productLinks = computed(() => [
-  { label: isZh.value ? '软糖' : 'Gummies', to: '/products/categories/gummies' },
-  { label: isZh.value ? '软胶囊' : 'Softgels', to: '/products/categories/softgels' },
-  { label: isZh.value ? '片剂' : 'Tablets', to: '/products/categories/tablets' },
-  { label: isZh.value ? '硬胶囊' : 'Hard Capsules', to: '/products/categories/hard-capsules' },
-  { label: isZh.value ? '粉剂' : 'Powders', to: '/products/categories/powders' },
-  { label: isZh.value ? '口服液' : 'Liquid Drops', to: '/products/categories/liquid-drops' }
+  { label: isZh.value ? '软糖' : 'Gummies', to: localePath('/products/categories/gummies') },
+  { label: isZh.value ? '软胶囊' : 'Softgels', to: localePath('/products/categories/softgels') },
+  { label: isZh.value ? '片剂' : 'Tablets', to: localePath('/products/categories/tablets') },
+  { label: isZh.value ? '硬胶囊' : 'Hard Capsules', to: localePath('/products/categories/hard-capsules') },
+  { label: isZh.value ? '粉剂' : 'Powders', to: localePath('/products/categories/powders') },
+  { label: isZh.value ? '口服液' : 'Liquid Drops', to: localePath('/products/categories/liquid-drops') }
 ])
 
 const navKeyMap: Record<string, string> = {
@@ -23,6 +23,10 @@ const navKeyMap: Record<string, string> = {
   '/how-it-works': 'howItWorks',
   '/contact': 'contact'
 }
+const localizedNav = computed(() => navItems.map((n) => ({
+  to: localePath(n.to),
+  label: isZh.value ? t(('nav.' + navKeyMap[n.to]) as any) : n.label
+})))
 </script>
 
 <template>
@@ -31,7 +35,7 @@ const navKeyMap: Record<string, string> = {
     <div class="wrap grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
       <!-- 品牌介绍 -->
       <div>
-        <NuxtLink to="/" class="flex items-center gap-2.5">
+        <NuxtLink :to="localePath('/')" class="flex items-center gap-2.5">
           <img
             src="/logo/logo.png"
             :alt="site.brand"
@@ -64,9 +68,9 @@ const navKeyMap: Record<string, string> = {
       <div>
         <h4 class="text-sm font-semibold uppercase tracking-wider text-white">{{ t('footer.company') }}</h4>
         <ul class="mt-5 space-y-3 text-sm">
-          <li v-for="item in navItems" :key="item.to">
+          <li v-for="item in localizedNav" :key="item.to">
             <NuxtLink :to="item.to" class="transition-colors hover:text-gold-light">
-              {{ isZh ? t(('nav.' + navKeyMap[item.to]) as any) : item.label }}
+              {{ item.label }}
             </NuxtLink>
           </li>
         </ul>
@@ -119,8 +123,8 @@ const navKeyMap: Record<string, string> = {
       <div class="wrap flex flex-col items-center justify-between gap-3 py-6 text-xs text-white/50 md:flex-row">
         <p>© {{ year }} {{ site.name }} ({{ site.nameCn }}). {{ t('common.allRightsReserved') }}</p>
         <div class="flex items-center gap-5">
-          <NuxtLink to="/privacy" class="transition-colors hover:text-gold-light">{{ t('footer.privacy') }}</NuxtLink>
-          <NuxtLink to="/terms" class="transition-colors hover:text-gold-light">{{ t('footer.terms') }}</NuxtLink>
+          <NuxtLink :to="localePath('/privacy')" class="transition-colors hover:text-gold-light">{{ t('footer.privacy') }}</NuxtLink>
+          <NuxtLink :to="localePath('/terms')" class="transition-colors hover:text-gold-light">{{ t('footer.terms') }}</NuxtLink>
         </div>
       </div>
     </div>

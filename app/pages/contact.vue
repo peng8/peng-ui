@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { site } from '~/data/site'
 
-useSeoMeta({
-  title: 'Contact MILDY — OEM/ODM Supplement Quote',
-  description:
-    'Contact MILDY Health for OEM/ODM supplement manufacturing inquiries. Email, WhatsApp, phone or submit our online form — we respond within 24 hours.',
-})
+const { t, isZh, localePath } = useLocale()
 
-const { t, isZh } = useLocale()
+useSeoMeta({
+  title: () => isZh.value ? '联系 MILDY — OEM/ODM 补充剂报价' : 'Contact MILDY — OEM/ODM Supplement Quote',
+  description: () => isZh.value
+    ? '联系 MILDY Health 咨询 OEM/ODM 营养补充剂代工。邮件、WhatsApp、电话或在线表单——我们 24 小时内回复。'
+    : 'Contact MILDY Health for OEM/ODM supplement manufacturing inquiries. Email, WhatsApp, phone or submit our online form — we respond within 24 hours.'
+})
 
 // 用经纬度坐标生成 Google Maps 嵌入地址
 // q=lat,lng 格式只会落一个标记点,避免地址文本匹配出多个候选点
@@ -31,7 +32,7 @@ const contactMethods = [
       :title="isZh ? '让我们开始对话' : `Let's Start a Conversation`"
       :subtitle="isZh ? '告诉我们您的项目,我们将在 24 小时内回复定制方案。' : `Tell us about your project and we'll get back to you within 24 hours with a tailored proposal.`"
       image="/images/contact/hero.jpg"
-      :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: '/' }, { label: isZh ? '联系我们' : 'Contact' }]"
+      :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: localePath('/') }, { label: isZh ? '联系我们' : 'Contact' }]"
     />
 
     <section class="section bg-white">

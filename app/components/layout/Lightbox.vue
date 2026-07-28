@@ -1,6 +1,7 @@
 <script setup lang="ts">
 // 全局图片弹窗预览：配合 useLightbox 单例
 const { isOpen, current, close, next, prev, images } = useLightbox()
+const { isZh } = useLocale()
 
 const onKey = (e: KeyboardEvent) => {
   if (!isOpen.value) return
@@ -24,7 +25,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
         <!-- 关闭 -->
         <button
           class="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/25"
-          aria-label="Close"
+          :aria-label="isZh ? '关闭' : 'Close'"
           @click="close"
         >
           <UiAppIcon name="close" :size="22" />
@@ -34,7 +35,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
         <button
           v-if="images.length > 1"
           class="absolute left-3 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/25 md:left-6"
-          aria-label="Previous"
+          :aria-label="isZh ? '上一张' : 'Previous'"
           @click="prev"
         >
           <UiAppIcon name="chevron-right" :size="24" class="rotate-180" />
@@ -60,7 +61,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
         <button
           v-if="images.length > 1"
           class="absolute right-3 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/25 md:right-6"
-          aria-label="Next"
+          :aria-label="isZh ? '下一张' : 'Next'"
           @click="next"
         >
           <UiAppIcon name="chevron-right" :size="24" />

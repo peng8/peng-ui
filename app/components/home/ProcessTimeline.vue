@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { processSteps } from '~/data/process'
 
-const { t, isZh } = useLocale()
+const {  t, isZh , localePath } = useLocale()
 </script>
 
 <template>
@@ -49,7 +49,7 @@ const { t, isZh } = useLocale()
       </div>
 
       <div class="reveal mt-12 text-center">
-        <UiAppButton to="/how-it-works" variant="navy" icon-right="arrow-right">
+        <UiAppButton :to="localePath('/how-it-works')" variant="navy" icon-right="arrow-right">
           {{ t('proc.seeFull') }}
         </UiAppButton>
       </div>

@@ -16,7 +16,10 @@ useSeoMeta({
 
 const handleError = () => clearError({ redirect: '/' })
 
-const { isZh } = useLocale()
+const { isZh, localePath } = useLocale()
+// error.vue 是独立渲染（不在主 app.vue 上下文），手动补 i18n head（locale/direction + hreflang）
+const localeHead = useLocaleHead({ addSeoAttributes: true })
+useHead({ htmlAttrs: localeHead.value.htmlAttrs, link: localeHead.value.link })
 </script>
 
 <template>
@@ -52,7 +55,7 @@ const { isZh } = useLocale()
             {{ isZh ? '返回首页' : 'Back to Home' }}
           </button>
           <NuxtLink
-            to="/products"
+            :to="localePath('/products')"
             class="rounded-full border border-white/30 px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
           >
             {{ isZh ? '浏览全部产品' : 'Browse All Products' }}
@@ -66,7 +69,7 @@ const { isZh } = useLocale()
             <NuxtLink
               v-for="cat in productCategories"
               :key="cat.slug"
-              :to="`/products/categories/${cat.slug}`"
+              :to="localePath(`/products/categories/${cat.slug}`)"
               class="rounded-full bg-white/10 px-4 py-2 text-xs font-medium text-white/80 transition-colors hover:bg-gold hover:text-white"
             >
               {{ isZh ? cat.nameZh : cat.name }}

@@ -6,7 +6,7 @@ useSeoMeta({
   description: `${site.name} privacy policy — how we collect, use and protect your personal information.`
 })
 
-const { t, isZh } = useLocale()
+const {  t, isZh , localePath } = useLocale()
 </script>
 
 <template>
@@ -16,7 +16,7 @@ const { t, isZh } = useLocale()
       :title="isZh ? '隐私政策' : 'Privacy Policy'"
       :subtitle="isZh ? '我们如何收集、使用和保护您的个人信息。' : 'How we collect, use and protect your personal information.'"
       image="/images/manufacturing/facility/automation-line.jpeg"
-      :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: '/' }, { label: isZh ? '隐私政策' : 'Privacy Policy' }]"
+      :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: localePath('/') }, { label: isZh ? '隐私政策' : 'Privacy Policy' }]"
     />
     <section class="section bg-white">
       <div class="wrap mx-auto max-w-3xl prose prose-navy">

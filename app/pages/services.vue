@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { cooperationModes } from '~/data/cases'
 
+const { t, isZh, localePath } = useLocale()
+
 useSeoMeta({
-  title: 'OEM White Label & ODM Custom Supplement Manufacturing',
-  description:
-    'One-stop OEM/ODM services: white-label fast-launch from 500 bottles, and deep-customization ODM with full R&D. Formulation, packaging, registration and sea-freight export.',
+  title: () => isZh.value ? 'OEM 白标 & ODM 定制补充剂制造' : 'OEM White Label & ODM Custom Supplement Manufacturing',
+  description: () => isZh.value
+    ? '一站式 OEM/ODM 服务:500 瓶起快速上市的白标方案,以及含完整研发的深度定制 ODM。配方、包装、备案与海运出口。'
+    : 'One-stop OEM/ODM services: white-label fast-launch from 500 bottles, and deep-customization ODM with full R&D. Formulation, packaging, registration and sea-freight export.'
 })
 
 const oneStopServices = [
@@ -25,8 +28,6 @@ const compareRows = [
   { label: 'Upfront Cost', labelZh: '前期投入', wl: 'Low', wlZh: '低', odm: 'Higher (R&D investment)', odmZh: '较高(含研发投入)' },
   { label: 'IP Ownership', labelZh: '知识产权', wl: 'Shared formula', wlZh: '共享配方', odm: 'You own the formula', odmZh: '配方归您所有' }
 ]
-
-const { t, isZh } = useLocale()
 </script>
 
 <template>
@@ -36,7 +37,7 @@ const { t, isZh } = useLocale()
       :title="isZh ? '一站式 OEM/ODM 解决方案' : 'One-Stop OEM/ODM Solutions'"
       :subtitle="isZh ? '从最初的创意到装柜出货——在一个屋檐下,启动您的营养补充剂品牌所需的一切。' : 'From first idea to container on the water — everything you need to launch your supplement brand, under one roof.'"
       image="/images/services/hero.jpg"
-      :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: '/' }, { label: isZh ? '服务' : 'Services' }]"
+      :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: localePath('/') }, { label: isZh ? '服务' : 'Services' }]"
     />
 
     <!-- 两大模式 -->
@@ -144,7 +145,7 @@ const { t, isZh } = useLocale()
       <div class="wrap reveal text-center">
         <h2 class="text-3xl font-bold text-white md:text-4xl">{{ isZh ? '不确定哪种模式更适合?' : 'Not Sure Which Model Fits?' }}</h2>
         <p class="mx-auto mt-4 max-w-xl text-white/75">{{ isZh ? '告诉我们您的目标,我们的团队会为您的品牌推荐最佳方案。' : 'Tell us your goals and our team will recommend the best approach for your brand.' }}</p>
-        <UiAppButton to="/contact" variant="primary" size="lg" icon="send" class="mt-8">{{ isZh ? '免费咨询' : 'Get Free Consultation' }}</UiAppButton>
+        <UiAppButton :to="localePath('/contact')" variant="primary" size="lg" icon="send" class="mt-8">{{ isZh ? '免费咨询' : 'Get Free Consultation' }}</UiAppButton>
       </div>
     </section>
   </div>

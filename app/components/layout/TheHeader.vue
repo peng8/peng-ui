@@ -29,12 +29,18 @@ onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
 // 路由变化时关闭移动菜单
 watch(() => route.fullPath, () => (mobileOpen.value = false))
 
-const isActive = (to: string) =>
-  to === '/' ? route.path === '/' : route.path.startsWith(to)
+const { locale, toggle, t, isZh, localePath } = useLocale()
 
-const { locale, toggle, t, isZh } = useLocale()
+// 去掉路径里的 /en 或 /zh 前缀，用于 isActive 比较
+const stripLocale = (p: string) => p.replace(/^\/(en|zh)(?=\/|$)/, '') || '/'
 
-// 导航项 + 本地化标签（英文用 navItems.label，中文走 i18n 字典 t('nav.xxx')）
+const isActive = (to: string) => {
+  const stripped = stripLocale(route.path)
+  if (to === '/') return stripped === '/'
+  return stripped.startsWith(to)
+}
+
+// 导航项：裸路径 → localePath 包装后的路由；标签按 locale 选择
 const navKeyMap: Record<string, string> = {
   '/': 'home',
   '/about': 'about',
@@ -46,7 +52,7 @@ const navKeyMap: Record<string, string> = {
 }
 const navList = computed(() =>
   navItems.map((n) => ({
-    to: n.to,
+    to: localePath(n.to),
     label: isZh.value ? t(`nav.${navKeyMap[n.to]}` as any) : n.label
   }))
 )
@@ -63,7 +69,7 @@ const navList = computed(() =>
   >
     <div class="wrap flex h-16 items-center justify-between md:h-20">
       <!-- Logo -->
-      <NuxtLink to="/" class="flex items-center gap-2.5" aria-label="MILDY Home">
+      <NuxtLink :to="localePath('/')" class="flex items-center gap-2.5" :aria-label="isZh ? 'MILDY 首页' : 'MILDY Home'">
         <img
           src="/logo/logo.png"
           :alt="site.brand"
@@ -159,7 +165,7 @@ const navList = computed(() =>
         </button>
 
         <UiAppButton
-          to="/contact"
+          :to="localePath('/contact')"
           variant="primary"
           size="sm"
           icon="send"
@@ -172,7 +178,7 @@ const navList = computed(() =>
         <button
           class="flex h-10 w-10 items-center justify-center rounded-md lg:hidden"
           :class="scrolled || mobileOpen ? 'text-navy' : 'text-white'"
-          aria-label="Menu"
+          :aria-label="isZh ? '菜单' : 'Menu'"
           @click="mobileOpen = !mobileOpen"
         >
           <UiAppIcon :name="mobileOpen ? 'close' : 'menu'" :size="24" />
@@ -202,7 +208,7 @@ const navList = computed(() =>
               <span class="opacity-30">/</span>
               <span :class="locale === 'zh' ? '' : 'opacity-50'">中</span>
             </button>
-            <UiAppButton to="/contact" variant="primary" size="sm" icon="send" class="flex-1">
+            <UiAppButton :to="localePath('/contact')" variant="primary" size="sm" icon="send" class="flex-1">
               {{ isZh ? '获取报价' : 'Get A Quote' }}
             </UiAppButton>
           </div>

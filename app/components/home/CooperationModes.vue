@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { cooperationModes } from '~/data/cases'
 
-const { t, isZh } = useLocale()
+const {  t, isZh , localePath } = useLocale()
 </script>
 
 <template>
@@ -42,7 +42,7 @@ const { t, isZh } = useLocale()
                 {{ isZh ? mode.featuresZh[fi] : f }}
               </li>
             </ul>
-            <UiAppButton to="/services" variant="navy" icon-right="arrow-right" class="mt-7">
+            <UiAppButton :to="localePath('/services')" variant="navy" icon-right="arrow-right" class="mt-7">
               {{ isZh ? '了解更多' : 'Learn More' }}
             </UiAppButton>
           </div>

@@ -2,7 +2,7 @@
 import type { MessageKey } from '~/i18n/messages'
 import { site } from '~/data/site'
 
-const { t, isZh } = useLocale()
+const {  t, isZh , localePath } = useLocale()
 
 const facilityStats = computed(() => [
   { value: '20,000', label: isZh.value ? '平方米厂区' : 'm² Facility Area', icon: 'box' },
@@ -63,7 +63,7 @@ const midImages = [
           </li>
         </ul>
 
-        <UiAppButton to="/manufacturing" variant="primary" icon-right="arrow-right" class="mt-9">
+        <UiAppButton :to="localePath('/manufacturing')" variant="primary" icon-right="arrow-right" class="mt-9">
           {{ t('fs.tour') }}
         </UiAppButton>
       </div>

@@ -15,7 +15,7 @@ const props = withDefaults(
   { category: 'all', page: 1 }
 )
 
-const { t, isZh } = useLocale()
+const {  t, isZh , localePath } = useLocale()
 
 const activeCat = computed(() => props.category || 'all')
 const currentPage = computed(() => Math.max(1, props.page || 1))
@@ -34,11 +34,11 @@ const filters = computed(() => [
   }))
 ])
 
-// 面包屑：分类页多一级
+// 面包屑：分类页多一级（路径用 localePath 包装带 locale 前缀）
 const breadcrumb = computed(() => {
   const base = [
-    { label: 'Home', to: '/' },
-    { label: isZh.value ? '产品中心' : 'Products', to: '/products' }
+    { label: isZh.value ? '首页' : 'Home', to: localePath('/') },
+    { label: isZh.value ? '产品中心' : 'Products', to: localePath('/products') }
   ]
   if (activeCat.value !== 'all') {
     const cat = productCategories.find((c) => c.slug === activeCat.value)
@@ -47,19 +47,24 @@ const breadcrumb = computed(() => {
   return base
 })
 
-// 动态 SEO
-const catName = computed(() => productCategories.find((c) => c.slug === activeCat.value)?.name)
+// 动态 SEO（按 locale 切换）
+const catName = computed(() => productCategories.find((c) => c.slug === activeCat.value))
 useSeoMeta({
   title: () => {
-    const base = catName.value
-      ? `${catName.value} — Supplement OEM/ODM`
-      : 'Products — Supplement Dosage Forms OEM/ODM'
-    return totalPages.value > 1 ? `${base} | Page ${safePage.value}` : base
+    const n = catName.value ? (isZh.value ? catName.value.nameZh : catName.value.name) : null
+    const base = n
+      ? (isZh.value ? `${n} — OEM/ODM 营养补充剂制造商` : `${n} — Supplement OEM/ODM`)
+      : (isZh.value ? '全剂型营养补充剂 OEM/ODM' : 'Products — Supplement Dosage Forms OEM/ODM')
+    return totalPages.value > 1 ? `${base} | ${isZh.value ? '第' : 'Page'} ${safePage.value}` : base
   },
   description: () =>
-    `Explore MILDY ${catName.value ? catName.value.toLowerCase() : 'full range of'} supplement products${
-      totalPages.value > 1 ? ` — page ${safePage.value} of ${totalPages.value}` : ''
-    }. Private label and custom formulation available.`
+    isZh.value
+      ? `探索 MILDY ${catName.value ? catName.value.nameZh : '全剂型'}营养补充剂产品${
+          totalPages.value > 1 ? ` — 第 ${safePage.value} / ${totalPages.value} 页` : ''
+        }。支持白标定制与配方开发。`
+      : `Explore MILDY ${catName.value ? catName.value.name.toLowerCase() : 'full range of'} supplement products${
+          totalPages.value > 1 ? ` — page ${safePage.value} of ${totalPages.value}` : ''
+        }. Private label and custom formulation available.`
 })
 
 // 切换筛选 / 翻页后回到列表顶部
@@ -87,7 +92,7 @@ watch(
         <NuxtLink
           v-for="f in filters"
           :key="f.slug"
-          :to="productPageUrl(f.slug, 1)"
+          :to="localePath(productPageUrl(f.slug, 1))"
           class="shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors"
           :class="activeCat === f.slug ? 'bg-navy text-white' : 'text-navy/60 hover:bg-navy hover:text-white'"
         >
@@ -124,7 +129,7 @@ watch(
           <!-- Prev -->
           <NuxtLink
             v-if="safePage > 1"
-            :to="productPageUrl(activeCat, safePage - 1)"
+            :to="localePath(productPageUrl(activeCat, safePage - 1))"
             class="btn-navy px-4 py-2 text-xs"
           >
             <UiAppIcon name="chevron-right" :size="14" class="rotate-180" />
@@ -139,7 +144,7 @@ watch(
           <NuxtLink
             v-for="p in totalPages"
             :key="p"
-            :to="productPageUrl(activeCat, p)"
+            :to="localePath(productPageUrl(activeCat, p))"
             class="inline-flex h-9 w-9 items-center justify-center rounded-md text-sm font-semibold leading-none transition-colors"
             :class="p === safePage ? 'bg-navy text-white' : 'bg-white text-navy/70 ring-1 ring-mist-border hover:bg-mist'"
           >
@@ -149,7 +154,7 @@ watch(
           <!-- Next -->
           <NuxtLink
             v-if="safePage < totalPages"
-            :to="productPageUrl(activeCat, safePage + 1)"
+            :to="localePath(productPageUrl(activeCat, safePage + 1))"
             class="btn-navy px-4 py-2 text-xs"
           >
             {{ t('products.next') }}

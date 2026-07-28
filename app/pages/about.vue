@@ -2,10 +2,13 @@
 import { site } from '~/data/site'
 import { milestones, team } from '~/data/cases'
 
+const { t, isZh, localePath } = useLocale()
+
 useSeoMeta({
-  title: 'About Us — Supplement Manufacturer Since 2016',
-  description:
-    'Founded in 2016, MILDY Health is a 20,000 m² nutritional supplement manufacturer serving 80+ countries. Learn about our history, team and world-class facility.'
+  title: () => isZh.value ? '关于我们 — 自 2016 年的补充剂制造商' : 'About Us — Supplement Manufacturer Since 2016',
+  description: () => isZh.value
+    ? 'MILDY Health 成立于 2016 年,是占地 20,000 平方米的营养补充剂制造商,服务 80+ 国家。了解我们的历史、团队与世界级工厂。'
+    : 'Founded in 2016, MILDY Health is a 20,000 m² nutritional supplement manufacturer serving 80+ countries. Learn about our history, team and world-class facility.'
 })
 
 const values = [
@@ -22,8 +25,6 @@ const campusGallery = [
   { src: '/images/manufacturing/facility/automation-line.jpeg', caption: 'Automated production line', captionZh: '自动化产线' },
   { src: '/images/manufacturing/facility/warehouse-coldchain.jpeg', caption: 'Logistics & warehouse', captionZh: '物流仓储' }
 ]
-
-const { t, isZh } = useLocale()
 </script>
 
 <template>
@@ -33,7 +34,7 @@ const { t, isZh } = useLocale()
       :title="isZh ? '10 年营养补充剂制造卓越之路' : '10 Years of Supplement Manufacturing Excellence'"
       :subtitle="isZh ? '从广州的车间到 20,000 平方米的全球出口工厂——80+ 国家信赖品牌背后的故事。' : 'From a Guangzhou workshop to a 20,000 m² global export powerhouse — the story behind the brand trusted by 80+ countries.'"
       image="/images/about/hero.jpg"
-      :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: '/' }, { label: isZh ? '关于我们' : 'About Us' }]"
+      :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: localePath('/') }, { label: isZh ? '关于我们' : 'About Us' }]"
     />
 
     <!-- 公司简介 -->
@@ -65,7 +66,7 @@ const { t, isZh } = useLocale()
           <div class="mt-7 grid grid-cols-2 gap-5">
             <div v-for="s in site.stats.slice(0,4)" :key="s.label">
               <UiStatCounter :value="s.value" />
-              <p class="mt-1 text-xs text-navy/55">{{ s.label }}</p>
+              <p class="mt-1 text-xs text-navy/55">{{ isZh ? s.labelZh : s.label }}</p>
             </div>
           </div>
         </div>
@@ -162,8 +163,8 @@ const { t, isZh } = useLocale()
         <h2 class="text-3xl font-bold text-white md:text-4xl">{{ isZh ? '携手共建卓越' : "Let's Build Something Great Together" }}</h2>
         <p class="mx-auto mt-4 max-w-xl text-white/75">{{ isZh ? '加入 80+ 信赖 MILDY 产品的全球品牌。' : 'Join 80+ global brands who trust MILDY with their products.' }}</p>
         <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <UiAppButton to="/contact" variant="primary" size="lg" icon="send">{{ isZh ? '联系我们' : 'Get In Touch' }}</UiAppButton>
-          <UiAppButton to="/manufacturing" variant="outline" size="lg" icon-right="arrow-right">{{ isZh ? '参观工厂' : 'Tour Our Factory' }}</UiAppButton>
+          <UiAppButton :to="localePath('/contact')" variant="primary" size="lg" icon="send">{{ isZh ? '联系我们' : 'Get In Touch' }}</UiAppButton>
+          <UiAppButton :to="localePath('/manufacturing')" variant="outline" size="lg" icon-right="arrow-right">{{ isZh ? '参观工厂' : 'Tour Our Factory' }}</UiAppButton>
         </div>
       </div>
     </section>

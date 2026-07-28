@@ -6,7 +6,7 @@ useSeoMeta({
   description: `${site.name} terms of service — terms and conditions governing the use of this website.`
 })
 
-const { t, isZh } = useLocale()
+const {  t, isZh , localePath } = useLocale()
 </script>
 
 <template>
@@ -16,7 +16,7 @@ const { t, isZh } = useLocale()
       :title="isZh ? '服务条款' : 'Terms of Service'"
       :subtitle="isZh ? '规范本网站使用的条款与条件。' : 'Terms and conditions governing the use of this website.'"
       image="/images/manufacturing/facility/gmp-cleanroom.jpeg"
-      :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: '/' }, { label: isZh ? '服务条款' : 'Terms of Service' }]"
+      :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: localePath('/') }, { label: isZh ? '服务条款' : 'Terms of Service' }]"
     />
     <section class="section bg-white">
       <div class="wrap mx-auto max-w-3xl prose prose-navy">

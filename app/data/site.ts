@@ -4,7 +4,9 @@ export interface SiteInfo {
   nameCn: string
   brand: string
   tagline: string
+  taglineZh: string
   description: string
+  descriptionZh: string
   founded: number
   contact: {
     email: string
@@ -19,7 +21,7 @@ export interface SiteInfo {
     hours: string
   }
   social: { label: string; icon: string; href: string }[]
-  stats: { value: string; label: string }[]
+  stats: { value: string; label: string; labelZh: string }[]
 }
 
 export const site: SiteInfo = {
@@ -27,8 +29,11 @@ export const site: SiteInfo = {
   nameCn: '迈德健康',
   brand: 'MILDY',
   tagline: 'Your Trusted OEM/ODM Partner for Nutritional Supplements',
+  taglineZh: '您值得信赖的营养补充剂 OEM/ODM 合作伙伴',
   description:
     'MILDY Health is a leading dietary supplement contract manufacturer in China, delivering one-stop OEM/ODM private-label solutions for global brands, cross-border sellers and distributors.',
+  descriptionZh:
+    'MILDY Health 是中国领先的营养补充剂合同制造商,为全球品牌、跨境卖家和分销商提供一站式 OEM/ODM 白标解决方案。',
   founded: 2016,
   contact: {
     email: 'MildyHealth@163.com',
@@ -50,10 +55,10 @@ export const site: SiteInfo = {
     { label: 'Instagram', icon: 'instagram', href: 'https://instagram.com' }
   ],
   stats: [
-    { value: '10', label: 'Years of Manufacturing' },
-    { value: '20,000', label: 'm² Production Facility' },
-    { value: '8', label: 'Automated Production Lines' },
-    { value: '80+', label: 'Countries Served' }
+    { value: '10', label: 'Years of Manufacturing', labelZh: '年制造经验' },
+    { value: '20,000', label: 'm² Production Facility', labelZh: '平方米生产基地' },
+    { value: '8', label: 'Automated Production Lines', labelZh: '条自动化产线' },
+    { value: '80+', label: 'Countries Served', labelZh: '服务国家和地区' }
   ]
 }
 

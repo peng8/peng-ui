@@ -10,7 +10,7 @@ const props = withDefaults(
     to?: string
     href?: string
     icon?: string
-    iconRight?: boolean
+    iconRight?: boolean | string
     block?: boolean
   }>(),
   { variant: 'primary', size: 'md', iconRight: false, block: false }
@@ -40,6 +40,12 @@ const is = computed(() => {
   if (props.href) return 'a'
   return 'button'
 })
+
+const leftIcon = computed(() => (props.iconRight ? '' : props.icon))
+const rightIcon = computed(() => {
+  if (typeof props.iconRight === 'string') return props.iconRight
+  return props.iconRight ? props.icon : ''
+})
 </script>
 
 <template>
@@ -50,8 +56,8 @@ const is = computed(() => {
     class="transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
     :class="classes"
   >
-    <UiAppIcon v-if="icon && !iconRight" :name="icon" :size="size === 'lg' ? 18 : 16" />
+    <UiAppIcon v-if="leftIcon" :name="leftIcon" :size="size === 'lg' ? 18 : 16" />
     <span><slot /></span>
-    <UiAppIcon v-if="icon && iconRight" :name="icon" :size="size === 'lg' ? 18 : 16" />
+    <UiAppIcon v-if="rightIcon" :name="rightIcon" :size="size === 'lg' ? 18 : 16" />
   </component>
 </template>
