@@ -71,11 +71,7 @@ const defaultEnglishRouteRules = Object.fromEntries([
     { redirect: { to: toEnglishRoute(route), statusCode: 301 } }
   ]),
   ['/index', { redirect: { to: '/en/', statusCode: 301 } }],
-  ['/index.html', { redirect: { to: '/en/', statusCode: 301 } }],
-  ['/en/index', { redirect: { to: '/en/', statusCode: 301 } }],
-  ['/en/index.html', { redirect: { to: '/en/', statusCode: 301 } }],
-  ['/zh/index', { redirect: { to: '/zh/', statusCode: 301 } }],
-  ['/zh/index.html', { redirect: { to: '/zh/', statusCode: 301 } }]
+  ['/index.html', { redirect: { to: '/en/', statusCode: 301 } }]
 ])
 
 export default defineNuxtConfig({
@@ -98,11 +94,7 @@ export default defineNuxtConfig({
         ...listRoutes,
         ...defaultEnglishRedirectRoutes,
         '/index',
-        '/index.html',
-        '/en/index',
-        '/en/index.html',
-        '/zh/index',
-        '/zh/index.html'
+        '/index.html'
       )
     }
   },
