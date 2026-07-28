@@ -1688,6 +1688,22 @@ export const products: Product[] = [
   },
 ]
 
+const clippedCopyPattern = /\s*(?:\.{3}|…)\s*$/
+const categoryNameMap = Object.fromEntries(productCategories.map((c) => [c.slug, c.name]))
+
+const buildShortDesc = (p: Product) =>
+  `${p.name} for private-label supplement brands, with custom formulation, dosage and packaging options.`
+
+const buildDescription = (p: Product) => {
+  const categoryName = categoryNameMap[p.category]?.toLowerCase() ?? 'supplement'
+  return `${p.name} is available as an OEM/ODM ${categoryName} solution for private-label supplement brands. MILDY supports formula adjustment, dosage planning, flavor or shell options, label-ready packaging and export documentation through a GMP-certified manufacturing workflow.`
+}
+
+for (const product of products) {
+  if (clippedCopyPattern.test(product.shortDesc)) product.shortDesc = buildShortDesc(product)
+  if (clippedCopyPattern.test(product.description)) product.description = buildDescription(product)
+}
+
 // ---------- 查询辅助函数 ----------
 /** 取所有产品（按数据顺序） */
 export function getAllProducts(): Product[] {

@@ -55,15 +55,15 @@ useSeoMeta({
     const base = n
       ? (isZh.value ? `${n} — OEM/ODM 营养补充剂制造商` : `${n} — Supplement OEM/ODM`)
       : (isZh.value ? '全剂型营养补充剂 OEM/ODM' : 'Products — Supplement Dosage Forms OEM/ODM')
-    return totalPages.value > 1 ? `${base} | ${isZh.value ? '第' : 'Page'} ${safePage.value}` : base
+    return safePage.value > 1 ? `${base} | ${isZh.value ? '第' : 'Page'} ${safePage.value}` : base
   },
   description: () =>
     isZh.value
       ? `探索 MILDY ${catName.value ? catName.value.nameZh : '全剂型'}营养补充剂产品${
-          totalPages.value > 1 ? ` — 第 ${safePage.value} / ${totalPages.value} 页` : ''
+          safePage.value > 1 ? ` — 第 ${safePage.value} / ${totalPages.value} 页` : ''
         }。支持白标定制与配方开发。`
       : `Explore MILDY ${catName.value ? catName.value.name.toLowerCase() : 'full range of'} supplement products${
-          totalPages.value > 1 ? ` — page ${safePage.value} of ${totalPages.value}` : ''
+          safePage.value > 1 ? ` — page ${safePage.value} of ${totalPages.value}` : ''
         }. Private label and custom formulation available.`
 })
 

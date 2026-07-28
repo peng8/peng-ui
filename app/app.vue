@@ -10,17 +10,34 @@ const { isZh, localePath } = useLocale()
 const gaId = useRuntimeConfig().public.gaId
 if (gaId) {
   useHead({
-    script: [
-      { src: `https://www.googletagmanager.com/gtag/js?id=${gaId}`, async: true },
-      {
-        innerHTML: `window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '${gaId}');`
-      }
+    link: [
+      { rel: 'preconnect', href: 'https://www.googletagmanager.com' },
+      { rel: 'dns-prefetch', href: 'https://www.googletagmanager.com' }
     ]
   })
 }
+
+onMounted(() => {
+  if (!gaId) return
+  const w = window as typeof window & {
+    dataLayer?: unknown[]
+    gtag?: (...args: unknown[]) => void
+    requestIdleCallback?: (cb: () => void) => number
+  }
+  const loadAnalytics = () => {
+    if (document.querySelector(`script[src*="googletagmanager.com/gtag/js?id=${gaId}"]`)) return
+    w.dataLayer = w.dataLayer || []
+    w.gtag = (...args: unknown[]) => w.dataLayer?.push(args)
+    w.gtag('js', new Date())
+    w.gtag('config', gaId)
+    const script = document.createElement('script')
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`
+    script.async = true
+    document.head.appendChild(script)
+  }
+  if (w.requestIdleCallback) w.requestIdleCallback(loadAnalytics)
+  else window.setTimeout(loadAnalytics, 2000)
+})
 
 // 注入 <html lang> 与 hreflang 交替链接 —— 由 @nuxtjs/i18n 提供，自动按当前 locale 生成
 const localeHead = useLocaleHead({ addSeoAttributes: true })
@@ -44,8 +61,7 @@ useHead({
     { rel: 'canonical', href: canonicalUrl.value },
     { rel: 'alternate', hreflang: 'en-US', href: `${SITE_URL}${englishPath.value}` },
     { rel: 'alternate', hreflang: 'zh-CN', href: `${SITE_URL}/zh${basePath.value === '/' ? '' : basePath.value}` },
-    { rel: 'alternate', hreflang: 'x-default', href: `${SITE_URL}${englishPath.value}` },
-    ...localeHead.value.link
+    { rel: 'alternate', hreflang: 'x-default', href: `${SITE_URL}${englishPath.value}` }
   ])
 })
 
@@ -86,7 +102,18 @@ useHead({
           streetAddress: site.contact.address,
           addressCountry: 'CN'
         },
-        sameAs: site.social.map((s) => s.href)
+        ...(site.social.length ? { sameAs: site.social.map((s) => s.href) } : {})
+      })
+    },
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: site.name,
+        alternateName: site.nameCn,
+        url: SITE_URL,
+        inLanguage: ['en-US', 'zh-CN']
       })
     }
   ]

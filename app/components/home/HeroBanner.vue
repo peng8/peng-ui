@@ -70,12 +70,15 @@ const statList = computed(() =>
         :class="i === current ? 'opacity-100' : 'opacity-0 pointer-events-none'"
         :aria-label="t(slide.eyebrowKey)"
       >
-        <img
+        <NuxtImg
           :src="slide.image"
           :alt="t(slide.eyebrowKey)"
           class="h-full w-full object-cover"
-          loading="eager"
-          fetchpriority="high"
+          :loading="i === 0 ? 'eager' : 'lazy'"
+          :fetchpriority="i === 0 ? 'high' : 'auto'"
+          format="webp"
+          quality="82"
+          sizes="100vw"
         />
         <!-- 轮播专属轻量遮罩：左侧保证白字可读，右侧让图片清晰可见 -->
         <div class="absolute inset-0 hero-slider-overlay" />

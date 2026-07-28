@@ -1,4 +1,4 @@
-// 企业基础信息、联系方式、社媒 —— 占位数据，后续替换为真实内容
+// 企业基础信息、联系方式、社媒
 export interface SiteInfo {
   name: string
   nameCn: string
@@ -48,12 +48,7 @@ export const site: SiteInfo = {
     lng: 113.238178,
     hours: 'Mon – Sat, 9:00 – 18:00 (GMT+8)'
   },
-  social: [
-    { label: 'LinkedIn', icon: 'linkedin', href: 'https://linkedin.com' },
-    { label: 'Facebook', icon: 'facebook', href: 'https://facebook.com' },
-    { label: 'YouTube', icon: 'youtube', href: 'https://youtube.com' },
-    { label: 'Instagram', icon: 'instagram', href: 'https://instagram.com' }
-  ],
+  social: [],
   stats: [
     { value: '10', label: 'Years of Manufacturing', labelZh: '年制造经验' },
     { value: '20,000', label: 'm² Production Facility', labelZh: '平方米生产基地' },
