@@ -1,7 +1,9 @@
-// 产品数据 —— 抓取自 honglanhealth.com（真实产品图片 + 描述）
-// 6 大剂型分类 + 66 个具体产品（含真实图片、描述、特性）
+// Product catalog data.
+// 6 dosage-form categories with curated and imported product entries.
 
 // ---------- 类型定义 ----------
+import { importedProducts } from './importedProducts'
+
 export interface ProductSpec {
   label: string
   value: string
@@ -154,7 +156,7 @@ export const productCategories: ProductCategory[] = [
   },
 ]
 
-// ---------- 66 个具体产品（抓取自 honglanhealth.com） ----------
+// ---------- Curated product entries ----------
 export const products: Product[] = [
 
   // ===== Gummies =====
@@ -1687,6 +1689,8 @@ export const products: Product[] = [
     specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'Vitamin D3 Immune Support for Women, Prickly & Lychee' }, { label: '规格', value: 'Custom' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
   },
 ]
+
+products.push(...importedProducts)
 
 const clippedCopyPattern = /\s*(?:\.{3}|…)\s*$/
 const categoryNameMap = Object.fromEntries(productCategories.map((c) => [c.slug, c.name]))
