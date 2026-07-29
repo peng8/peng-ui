@@ -196,8 +196,8 @@ watch(searchQuery, () => {
       </div>
     </section>
 
-    <!-- 产品卡片网格 -->
-    <section class="section bg-mist">
+    <!-- 产品卡片网格（顶部内边距收紧，缩小与筛选 Tabs 的空隙） -->
+    <section class="section bg-mist pt-6 md:pt-8">
       <div class="wrap">
         <!-- 搜索 -->
         <div class="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
