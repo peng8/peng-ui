@@ -32,7 +32,8 @@ const normalizeSearchText = (value: string) =>
     .replace(/[^a-z0-9\u4e00-\u9fa5]+/g, ' ')
     .trim()
 
-const baseFiltered = computed(() => getFilteredProducts(activeCat.value))
+// 搜索时无视剂型 Tab，直接搜全部产品；未搜索时按当前分类展示
+const baseFiltered = computed(() => (isSearching.value ? getFilteredProducts('all') : getFilteredProducts(activeCat.value)))
 const filtered = computed(() => {
   const query = normalizeSearchText(searchQuery.value)
   if (!query) return baseFiltered.value
@@ -168,6 +169,13 @@ watch(
 
 watch(searchQuery, () => {
   searchPage.value = 1
+})
+
+// 搜索/翻页是客户端原地更新（路由不变），布局里的 reveal 观察不会重跑，
+// 导致新插入的卡片停在 opacity:0（透明但可点）。列表变化后重新观察 .reveal。
+const { observeAll } = useReveal()
+watch(pageItems, () => {
+  if (import.meta.client) observeAll()
 })
 </script>
 
