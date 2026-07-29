@@ -29,20 +29,24 @@ const pDesc = computed(() => (isZh.value ? props.product.shortDescZh ?? props.pr
       <!-- 剂型角标 -->
       <span
         v-if="category"
-        class="absolute left-4 top-4 rounded-full bg-gold px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-white"
+        class="absolute left-3 top-3 rounded-full bg-gold px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white"
       >
         {{ isZh ? category.shortZh : category.short }}
       </span>
       <!-- 悬浮「查看详情」 -->
-      <span class="absolute bottom-4 left-4 flex items-center gap-1.5 text-sm font-semibold text-white opacity-0 transition-opacity group-hover:opacity-100">
+      <span class="absolute bottom-3 left-3 flex items-center gap-1.5 text-sm font-semibold text-white opacity-0 transition-opacity group-hover:opacity-100">
         {{ isZh ? '查看详情' : 'View details' }} <UiAppIcon name="arrow-right" :size="16" />
       </span>
     </div>
 
     <!-- 内容 -->
-    <div class="flex flex-1 flex-col p-6">
-      <h3 class="text-lg font-bold text-navy">{{ pName }}</h3>
-      <p class="mt-2 flex-1 text-sm leading-relaxed text-navy/60">{{ pDesc }}</p>
+    <div class="flex flex-1 flex-col p-5">
+      <h3 class="line-clamp-2 text-base font-bold leading-snug text-navy" :title="pName">
+        {{ pName }}
+      </h3>
+      <p class="mt-2 flex-1 line-clamp-4 text-sm leading-relaxed text-navy/60" :title="pDesc">
+        {{ pDesc }}
+      </p>
       <div class="mt-4 flex items-center justify-between border-t border-mist pt-4">
         <span class="text-xs text-navy/50">{{ isZh ? '起订量' : 'MOQ from' }}</span>
         <span class="text-sm font-semibold text-navy-500">{{ formatMoq(product.moq) }}</span>

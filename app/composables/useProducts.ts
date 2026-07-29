@@ -1,7 +1,7 @@
 import { products, productCategories, type Product } from '~/data/products'
 
 // 产品列表分页：每页 9 个
-export const PRODUCT_PAGE_SIZE = 9
+export const PRODUCT_PAGE_SIZE = 16
 
 /** 按剂型筛选后的产品列表（'all' 表示全部） */
 export function getFilteredProducts(category: string): Product[] {

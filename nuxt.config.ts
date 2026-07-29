@@ -1,11 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { products, productCategories } from './app/data/products'
+import { DEFAULT_PRODUCT_IMAGE_BASE_URL } from './app/data/productImageUrl'
 
 // 两个语言：英文为默认裸路径，中文使用 /zh 前缀
 const LOCALES = ['en', 'zh'] as const
 
 // 产品列表分页：每页 9 个
-const PAGE_SIZE = 9
+const PAGE_SIZE = 16
 // 生成某剂型某页的「裸路径」（不含 locale 前缀）
 // 分类路由放在 /products/categories/ 前缀下，避免与详情页 /products/[slug] 冲突
 const listUrl = (cat: string, page: number) =>
@@ -47,9 +48,6 @@ const canonicalBareRoutes = Array.from(new Set([
   ...products.map((p) => `/products/${p.slug}`)
 ]))
 
-const legacyEnRoute = (route: string) => route === '/' ? '/en' : `/en${route}`
-const toBareRoute = (route: string) => route
-
 const sitemapEntries = (locale: typeof LOCALES[number]) =>
   canonicalBareRoutes.map((route) => {
     const loc = locale === 'en' ? route : route === '/' ? '/zh' : `/zh${route}`
@@ -66,14 +64,6 @@ const sitemapEntries = (locale: typeof LOCALES[number]) =>
     }
   })
 
-const legacyEnRouteRules = Object.fromEntries([
-  ...canonicalBareRoutes.map((route) => [
-    legacyEnRoute(route),
-    { redirect: { to: toBareRoute(route), statusCode: 301 } }
-  ]),
-  ['/index', { redirect: { to: '/', statusCode: 301 } }]
-])
-
 export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',
   devtools: { enabled: false },
@@ -89,19 +79,18 @@ export default defineNuxtConfig({
       nitroConfig.prerender.routes ||= []
       const productDetailRoutes = withLocales(products.map((p) => `/products/${p.slug}`))
       const listRoutes = withLocales(getAllListRoutes())
+      const pageRoutes = withLocales(staticPageRoutes)
       nitroConfig.prerender.routes.push(
+        ...pageRoutes,
         ...productDetailRoutes,
         ...listRoutes,
-        ...canonicalBareRoutes.map(legacyEnRoute),
-        '/index'
+        '/404.html'
       )
     }
   },
 
   // 默认开启 SSR，既能 `npm run dev` 跑动态，也能 `npm run generate` 生成全静态站点。
   ssr: true,
-
-  routeRules: legacyEnRouteRules,
 
   modules: ['@nuxtjs/tailwindcss', '@nuxt/image', '@nuxtjs/sitemap', '@nuxtjs/i18n'],
 
@@ -142,6 +131,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       web3formsAccessKey: 'b07fa823-6ec0-4508-abb1-244849ee6019', // ← 在此填入你的 access_key
+      productImageBaseUrl: process.env.NUXT_PUBLIC_PRODUCT_IMAGE_BASE_URL || DEFAULT_PRODUCT_IMAGE_BASE_URL,
       // Google Analytics 4 衡量 ID（gtag.js）；可通过环境变量 NUXT_PUBLIC_GA_ID 覆盖
       gaId: 'G-16K2YJ87K0'
     }
@@ -179,8 +169,8 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       // 抓取页面内所有 <NuxtLink>，自动预渲染整站为静态 HTML。
-      crawlLinks: true,
-      routes: ['/', '/zh', '/404.html'],
+      crawlLinks: false,
+      routes: [],
       failOnError: true
     }
   }
