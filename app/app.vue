@@ -4,7 +4,7 @@ import { site } from '~/data/site'
 // 站点绝对地址（与 nuxt.config 的 site.url 保持一致）
 const SITE_URL = 'https://www.mildy-health.com'
 
-const { isZh, localePath } = useLocale()
+const { isZh } = useLocale()
 
 // Google Analytics 4（gtag.js）—— 来自 runtimeConfig.public.gaId
 const gaId = useRuntimeConfig().public.gaId
@@ -118,10 +118,6 @@ useHead({
     }
   ]
 })
-
-// 暴露 localePath 给模板（防止未使用警告）
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-localePath
 </script>
 
 <template>

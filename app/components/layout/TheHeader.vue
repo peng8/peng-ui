@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { site, navItems } from '~/data/site'
+import type { MessageKey } from '~/i18n/messages'
 
 const route = useRoute()
 const mobileOpen = ref(false)
@@ -40,20 +41,20 @@ const isActive = (to: string) => {
   return stripped.startsWith(to)
 }
 
-// 导航项：裸路径 → localePath 包装后的路由；标签按 locale 选择
-const navKeyMap: Record<string, string> = {
-  '/': 'home',
-  '/about': 'about',
-  '/products': 'products',
-  '/services': 'services',
-  '/manufacturing': 'manufacturing',
-  '/how-it-works': 'howItWorks',
-  '/contact': 'contact'
-}
+// 导航项：裸路径 → localePath 包装后的路由；标签统一走 i18n 字典（中英双语言都用 t()）
+const navKeyMap = {
+  '/': 'nav.home',
+  '/about': 'nav.about',
+  '/products': 'nav.products',
+  '/services': 'nav.services',
+  '/manufacturing': 'nav.manufacturing',
+  '/how-it-works': 'nav.howItWorks',
+  '/contact': 'nav.contact'
+} satisfies Record<string, MessageKey>
 const navList = computed(() =>
   navItems.map((n) => ({
     to: localePath(n.to),
-    label: isZh.value ? t(`nav.${navKeyMap[n.to]}` as any) : n.label
+    label: t(navKeyMap[n.to])
   }))
 )
 </script>

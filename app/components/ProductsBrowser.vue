@@ -118,7 +118,7 @@ const clearSearch = () => {
 
 // 筛选项：「全部」+ 6 大剂型（按当前语言切换显示名）
 const filters = computed(() => [
-  { slug: 'all', name: isZh.value ? '全部产品' : 'All Products' },
+  { slug: 'all', name: t('nav.allProducts') },
   ...productCategories.map((c) => ({
     slug: c.slug,
     name: isZh.value ? c.nameZh : c.name

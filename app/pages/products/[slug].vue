@@ -52,7 +52,6 @@ useHead({
     const pn = zh ? p.nameZh ?? p.name : p.name
     const pd = zh ? p.shortDescZh ?? p.shortDesc : p.shortDesc
     const cn = cat ? (zh ? cat.nameZh : cat.name) : null
-    const pm = formatMoq(p.moq)
     const productSchema = {
       '@context': 'https://schema.org',
       '@type': 'Product',
@@ -91,28 +90,16 @@ useHead({
           : [{ '@type': 'ListItem', position: 3, name: pn, item: `${SITE_URL}${localePrefix}/products/${p.slug}` }])
       ]
     }
-    // FAQ schema：覆盖买家最常问的询盘问题，利于 Google 富摘要
-    const faqSchema = zh
-      ? {
-          '@context': 'https://schema.org',
-          '@type': 'FAQPage',
-          mainEntity: [
-            { '@type': 'Question', name: `${pn} 的最小起订量是多少?`, acceptedAnswer: { '@type': 'Answer', text: `${pn} 的最小起订量为 ${pm},我们也为新合作伙伴提供试单。` } },
-            { '@type': 'Question', name: '可以定制配方和包装吗?', acceptedAnswer: { '@type': 'Answer', text: `可以。作为 OEM/ODM 制造商,我们提供${cn ?? '补充剂'}的全面定制——活性成分剂量、口味、形状、标签设计和结构化包装。` } },
-            { '@type': 'Question', name: '交期多久?', acceptedAnswer: { '@type': 'Answer', text: '确认包装设计和订单后,常规生产交期 7–14 个工作日,样品通常 7–15 天内完成。' } },
-            { '@type': 'Question', name: '工厂持有哪些认证?', acceptedAnswer: { '@type': 'Answer', text: '我们 20,000 平方米工厂持有 GMP 认证、FDA 注册、BRCGS 和 NSF GMP。每批次出具完整 COA,涵盖有效成分、重金属和微生物检测。' } }
-          ]
-        }
-      : {
-          '@context': 'https://schema.org',
-          '@type': 'FAQPage',
-          mainEntity: [
-            { '@type': 'Question', name: `What is the MOQ for ${pn}?`, acceptedAnswer: { '@type': 'Answer', text: `The minimum order quantity for ${pn} is ${p.moq}. We also support trial orders for new partners — contact us to discuss your volume needs.` } },
-            { '@type': 'Question', name: 'Can I customize the formula and packaging?', acceptedAnswer: { '@type': 'Answer', text: `Yes. As an OEM/ODM manufacturer we offer full customization for ${cat?.name ?? 'supplements'} — including active ingredient dosage, flavor, shape, color, label artwork and structural packaging. Free formulation consultation is available.` } },
-            { '@type': 'Question', name: 'What is the lead time?', acceptedAnswer: { '@type': 'Answer', text: 'Typical production lead time is 7–14 working days after artwork and order confirmation. Samples are usually ready within 7–15 days. Sea-freight export documentation is handled in-house.' } },
-            { '@type': 'Question', name: 'Which certifications does your facility hold?', acceptedAnswer: { '@type': 'Answer', text: 'Our 20,000 m² facility is GMP-certified with FDA registration, BRCGS and NSF GMP. Every batch ships with a full COA covering active assay, heavy metals and microbiology.' } }
-          ]
-        }
+    // FAQ schema：覆盖买家最常问的询盘问题，利于 Google 富摘要（与页面可见 FAQ 共用 faqs 数据源）
+    const faqSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.value.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a }
+      }))
+    }
     return [
       { type: 'application/ld+json', innerHTML: JSON.stringify(productSchema) },
       { type: 'application/ld+json', innerHTML: JSON.stringify(breadcrumbSchema) },
@@ -134,6 +121,30 @@ const seoParagraph = computed(() => {
   return `MILDY Health is a leading OEM/ODM manufacturer of ${catName.toLowerCase()} in China, offering private-label and custom-formulation services for ${p.name}. With a 20,000 m² GMP-certified facility, FDA registration and BRCGS accreditation, we serve supplement brands, cross-border sellers and distributors across 80+ countries. Our ${catName.toLowerCase()} capabilities cover custom active-ingredient dosage, flavors, shapes, vegan bases and branded packaging — starting from ${p.moq}. Request a free formulation consultation, samples within 7–15 days, and a no-obligation quote for your ${catName.toLowerCase()} project.`
 })
 
+// FAQ 单一数据源：页面可见 <details> 与 JSON-LD FAQPage schema 共用，避免两份文案漂移
+const faqs = computed(() => {
+  const p = product.value!
+  const cat = category.value
+  if (isZh.value) {
+    const pn = p.nameZh ?? p.name
+    const cn = cat?.nameZh ?? '补充剂'
+    const pm = formatMoq(p.moq)
+    return [
+      { q: `${pn} 的最小起订量是多少?`, a: `${pn} 的最小起订量为 ${pm},我们也为新合作伙伴提供试单。` },
+      { q: '可以定制配方和包装吗?', a: `可以。作为 OEM/ODM 制造商,我们提供${cn}的全面定制——活性成分剂量、口味、形状、标签设计和结构化包装。` },
+      { q: '交期多久?', a: '确认包装设计和订单后,常规生产交期 7–14 个工作日,样品通常 7–15 天内完成。' },
+      { q: '工厂持有哪些认证?', a: '我们 20,000 平方米工厂持有 GMP 认证、FDA 注册、BRCGS 和 NSF GMP。每批次出具完整 COA,涵盖有效成分、重金属和微生物检测。' }
+    ]
+  }
+  const cn = cat?.name ?? 'supplements'
+  return [
+    { q: `What is the MOQ for ${p.name}?`, a: `The minimum order quantity for ${p.name} is ${p.moq}. We also support trial orders for new partners — contact us to discuss your volume needs.` },
+    { q: 'Can I customize the formula and packaging?', a: `Yes. As an OEM/ODM manufacturer we offer full customization for ${cn} — including active ingredient dosage, flavor, shape, color, label artwork and structural packaging. Free formulation consultation is available.` },
+    { q: 'What is the lead time?', a: 'Typical production lead time is 7–14 working days after artwork and order confirmation. Samples are usually ready within 7–15 days. Sea-freight export documentation is handled in-house.' },
+    { q: 'Which certifications does your facility hold?', a: 'Our 20,000 m² facility is GMP-certified with FDA registration, BRCGS and NSF GMP. Every batch ships with a full COA covering active assay, heavy metals and microbiology.' }
+  ]
+})
+
 // 画廊：封面图为主图；若产品附带额外画廊图则追加为缩略图（目前产品仅封面一张）
 const gallery = computed(() => [product.value!.cover, ...product.value!.gallery])
 const activeImg = ref(0)
@@ -141,7 +152,10 @@ watch(gallery, () => (activeImg.value = 0))
 
 const formatSpecValue = (value: string) => {
   if (!isZh.value) return value
+  // 剂型 + 包装 + 保质期等通用规格值的中文翻译。
+  // 产品名/成分名等专有名词不在此列，保持原文（数据里 specsZh 已存中文的则直接用）。
   const replacements: Record<string, string> = {
+    // 剂型
     Gummy: '软糖',
     Gummies: '软糖',
     Softgel: '软胶囊',
@@ -153,12 +167,36 @@ const formatSpecValue = (value: string) => {
     Powder: '粉剂',
     Powders: '粉剂',
     'Oral Liquid/Drops': '口服液/滴剂',
+    // 包装
     'PET bottle / Custom': 'PET 瓶 / 定制包装',
+    'PET bottle + desiccant': 'PET 瓶 + 干燥剂',
+    'PET bottle + tamper seal': 'PET 瓶 + 防伪封口',
+    'PET bottle or tube': 'PET 瓶或软管',
     'Glass/PET bottle + dropper': '玻璃/PET 瓶 + 滴管',
+    'Glass jar / Custom': '玻璃罐 / 定制包装',
+    'Sachet / Tub / Stick pack': '条包 / 罐装 / 棒状包装',
+    // 通用
     Custom: '可定制',
     '24 months': '24 个月'
   }
   return replacements[value] ?? value
+}
+
+// 规格表 label 中文翻译：imported 产品无 specsZh，中文版回退到英文 specs，
+// 其 label（Dosage Form 等）需在此翻译；手工产品有 specsZh 则直接用其中文 label。
+const formatSpecLabel = (label: string) => {
+  if (!isZh.value) return label
+  const replacements: Record<string, string> = {
+    'Dosage Form': '剂型',
+    'Active Ingredients': '有效成分',
+    'Net Count': '净含量',
+    'Net g': '净重',
+    'Net ml': '容量',
+    'Net lb': '净重',
+    Packaging: '包装',
+    'Shelf Life': '保质期'
+  }
+  return replacements[label] ?? label
 }
 </script>
 
@@ -241,7 +279,7 @@ const formatSpecValue = (value: string) => {
                     :class="i % 2 === 0 ? 'bg-white' : 'bg-mist'"
                   >
                     <th scope="row" class="w-2/5 px-4 py-3 text-left font-medium text-navy/60">
-                      {{ spec.label }}
+                      {{ formatSpecLabel(spec.label) }}
                     </th>
                     <td class="px-4 py-3 font-semibold text-navy">{{ formatSpecValue(spec.value) }}</td>
                   </tr>
@@ -284,26 +322,16 @@ const formatSpecValue = (value: string) => {
           align="left"
         />
         <div class="mt-8 space-y-4">
-          <details class="reveal group rounded-xl border border-mist-border bg-mist/30 p-5 [&_summary]:cursor-pointer">
+          <details
+            v-for="(faq, i) in faqs"
+            :key="i"
+            class="reveal group rounded-xl border border-mist-border bg-mist/30 p-5 [&_summary]:cursor-pointer"
+          >
             <summary class="flex items-center justify-between font-semibold text-navy">
-              <span>{{ isZh ? `最小起订量是多少?` : `What is the MOQ?` }}</span>
+              <span>{{ faq.q }}</span>
               <UiAppIcon name="chevron-down" :size="18" class="transition-transform group-open:rotate-180" />
             </summary>
-            <p class="mt-3 text-sm leading-relaxed text-navy/70">{{ isZh ? `最小起订量 ${formatMoq(product.moq)},我们也为新合作伙伴提供试单。` : `The MOQ is ${product.moq}. We also support trial orders for new partners.` }}</p>
-          </details>
-          <details class="reveal group rounded-xl border border-mist-border bg-mist/30 p-5 [&_summary]:cursor-pointer">
-            <summary class="flex items-center justify-between font-semibold text-navy">
-              <span>{{ isZh ? `可以定制配方和包装吗?` : `Can I customize the formula and packaging?` }}</span>
-              <UiAppIcon name="chevron-down" :size="18" class="transition-transform group-open:rotate-180" />
-            </summary>
-            <p class="mt-3 text-sm leading-relaxed text-navy/70">{{ isZh ? `可以。作为 OEM/ODM 制造商,我们提供${category?.nameZh ?? '补充剂'}的全面定制——活性成分剂量、口味、形状、标签设计和结构化包装。` : `Yes. As an OEM/ODM manufacturer we offer full customization — active dosage, flavor, shape, label artwork and structural packaging.` }}</p>
-          </details>
-          <details class="reveal group rounded-xl border border-mist-border bg-mist/30 p-5 [&_summary]:cursor-pointer">
-            <summary class="flex items-center justify-between font-semibold text-navy">
-              <span>{{ isZh ? `交期多久?` : `What is the lead time?` }}</span>
-              <UiAppIcon name="chevron-down" :size="18" class="transition-transform group-open:rotate-180" />
-            </summary>
-            <p class="mt-3 text-sm leading-relaxed text-navy/70">{{ isZh ? `确认包装设计和订单后,常规生产交期 7–14 个工作日,样品通常 7–15 天内完成。` : `Typical lead time is 7–14 working days after order confirmation; samples within 7–15 days.` }}</p>
+            <p class="mt-3 text-sm leading-relaxed text-navy/70">{{ faq.a }}</p>
           </details>
         </div>
       </div>

@@ -186,8 +186,9 @@ const submit = async () => {
       <div class="grid gap-4 sm:grid-cols-2">
         <!-- Name（必填） -->
         <div>
-          <label class="mb-1.5 block text-sm font-medium text-navy">{{ copy.name }} <span class="text-gold">*</span></label>
+          <label for="qf-name" class="mb-1.5 block text-sm font-medium text-navy">{{ copy.name }} <span class="text-gold">*</span></label>
           <input
+            id="qf-name"
             v-model="form.name"
             type="text"
             :placeholder="copy.namePlaceholder"
@@ -198,8 +199,9 @@ const submit = async () => {
         </div>
         <!-- Email（必填） -->
         <div>
-          <label class="mb-1.5 block text-sm font-medium text-navy">{{ copy.email }} <span class="text-gold">*</span></label>
+          <label for="qf-email" class="mb-1.5 block text-sm font-medium text-navy">{{ copy.email }} <span class="text-gold">*</span></label>
           <input
+            id="qf-email"
             v-model="form.email"
             type="email"
             placeholder="john@company.com"
@@ -210,8 +212,9 @@ const submit = async () => {
         </div>
         <!-- WhatsApp（必填） -->
         <div>
-          <label class="mb-1.5 block text-sm font-medium text-navy">{{ copy.whatsapp }} <span class="text-gold">*</span></label>
+          <label for="qf-whatsapp" class="mb-1.5 block text-sm font-medium text-navy">{{ copy.whatsapp }} <span class="text-gold">*</span></label>
           <input
+            id="qf-whatsapp"
             v-model="form.whatsapp"
             type="tel"
             placeholder="+1 555 123 4567"
@@ -222,8 +225,9 @@ const submit = async () => {
         </div>
         <!-- Company（选填） -->
         <div>
-          <label class="mb-1.5 block text-sm font-medium text-navy">{{ copy.company }}</label>
+          <label for="qf-company" class="mb-1.5 block text-sm font-medium text-navy">{{ copy.company }}</label>
           <input
+            id="qf-company"
             v-model="form.company"
             type="text"
             :placeholder="copy.companyPlaceholder"
@@ -232,8 +236,9 @@ const submit = async () => {
         </div>
         <!-- Country（选填） -->
         <div>
-          <label class="mb-1.5 block text-sm font-medium text-navy">{{ copy.country }}</label>
+          <label for="qf-country" class="mb-1.5 block text-sm font-medium text-navy">{{ copy.country }}</label>
           <input
+            id="qf-country"
             v-model="form.country"
             type="text"
             :placeholder="copy.countryPlaceholder"
@@ -242,8 +247,8 @@ const submit = async () => {
         </div>
         <!-- Product Type（选填） -->
         <div>
-          <label class="mb-1.5 block text-sm font-medium text-navy">{{ copy.productType }}</label>
-          <select v-model="form.productType" class="form-input">
+          <label for="qf-product-type" class="mb-1.5 block text-sm font-medium text-navy">{{ copy.productType }}</label>
+          <select id="qf-product-type" v-model="form.productType" class="form-input">
             <option value="" disabled>{{ copy.productPlaceholder }}</option>
             <option v-for="p in productCategories" :key="p.slug" :value="p.name">{{ isZh ? p.nameZh : p.name }}</option>
             <option value="Other">{{ copy.otherProduct }}</option>
@@ -253,8 +258,9 @@ const submit = async () => {
 
       <!-- Message -->
       <div class="mt-4">
-        <label class="mb-1.5 block text-sm font-medium text-navy">{{ copy.projectDetails }} <span class="text-gold">*</span></label>
+        <label for="qf-message" class="mb-1.5 block text-sm font-medium text-navy">{{ copy.projectDetails }} <span class="text-gold">*</span></label>
         <textarea
+          id="qf-message"
           v-model="form.message"
           rows="4"
           :placeholder="copy.messagePlaceholder"

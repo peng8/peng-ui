@@ -118,7 +118,7 @@ const statList = computed(() =>
         </h1>
         <p class="mt-6 max-w-xl text-base leading-relaxed text-white/80 md:text-lg">
           {{ isZh
-            ? '从软糖、软胶囊到粉剂、滴剂——MILDY 为全球品牌提供一站式贴牌方案,拥有 20+ 年出口经验。'
+            ? '从软糖、软胶囊到粉剂、滴剂——MILDY 为全球品牌提供一站式贴牌方案,拥有 10+ 年出口经验。'
             : 'From gummies and softgels to powders and drops — MILDY delivers one-stop private-label solutions for global brands, with 10+ years of export expertise.'
           }}
         </p>

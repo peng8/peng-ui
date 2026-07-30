@@ -55,12 +55,10 @@ export const messages = {
     'adv.title': 'A Manufacturing Partner You Can Trust',
     'adv.subtitle': 'Six core strengths that make global brands choose MILDY as their long-term OEM/ODM partner.',
 
-    // 产品分类模块
+    // 产品分类模块（首页精选产品板块）
     'pc.eyebrow': 'Our Products',
-    'pc.title': 'Six Major Dosage Forms, Infinite Possibilities',
-    'pc.subtitle': 'From gummies to liquid drops — explore our full range of supplement manufacturing capabilities.',
-    'pc.explore': 'Explore {name}',
-    'pc.viewAll': 'View All Products',
+    'pc.title': 'Featured Products, Ready to Private-Label',
+    'pc.subtitle': 'Gummies, softgels, tablets, capsules, powders & liquid drops — manufactured under one GMP-certified roof, ready for your private label.',
 
     // 合作模式模块
     'cm.eyebrow': 'Cooperation Models',
@@ -194,12 +192,10 @@ export const messages = {
     'adv.title': '值得信赖的制造合作伙伴',
     'adv.subtitle': '六大核心优势,让全球品牌选择 MILDY 作为长期 OEM/ODM 合作伙伴。',
 
-    // 产品分类模块
+    // 产品分类模块（首页精选产品板块）
     'pc.eyebrow': '我们的产品',
-    'pc.title': '六大剂型,无限可能',
-    'pc.subtitle': '从软糖到口服液——探索我们全剂型的营养补充剂制造能力。',
-    'pc.explore': '了解 {name}',
-    'pc.viewAll': '查看全部产品',
+    'pc.title': '精选产品,即开即用',
+    'pc.subtitle': '覆盖软糖、软胶囊、片剂、硬胶囊、粉剂与口服液——同一 GMP 认证厂区生产,随时可贴您的品牌。',
 
     // 合作模式模块
     'cm.eyebrow': '合作模式',

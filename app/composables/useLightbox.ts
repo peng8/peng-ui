@@ -43,5 +43,11 @@ export function useLightbox() {
     () => images.value[index.value] || null
   )
 
+  // 路由变化时关闭弹窗，释放 body 滚动锁（与 PagefindSearch 行为一致）
+  if (import.meta.client) {
+    const route = useRoute()
+    watch(() => route.fullPath, () => close())
+  }
+
   return { isOpen, images, index, current, open, openOne, close, next, prev }
 }

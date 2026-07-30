@@ -26,11 +26,12 @@ export function useLocale() {
 
   /**
    * 翻译函数 —— 保持原签名 t(key, params?)
-   * 占位符 {name} / {shown} 等替换
+   * 占位符 {name} / {shown} 等替换：vue-i18n 已支持，此处手动 replace 作为运行时兜底
+   * （legacy:false 下 vue-i18n 用 Composition API，占位符替换通常生效，
+   *   但保留兜底以防个别 key 未被编译器处理）
    */
   const t = (key: MessageKey, params?: Record<string, string | number>): string => {
-    let s: string = (i18nT(key as string, params ?? {}) as string) || key
-    // 兜底占位符替换（@nuxtjs/i18n 默认已支持，但作为防御）
+    let s: string = (i18nT(key, params ?? {}) as string) || key
     if (params) {
       for (const [k, v] of Object.entries(params)) {
         s = s.replace(new RegExp(`\\{${k}\\}`, 'g'), String(v))

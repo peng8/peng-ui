@@ -13,7 +13,7 @@ useSeoMeta({
 
 const capacityStats = [
   { value: '20,000', label: 'm² Total Area', labelZh: '平方米总面积', icon: 'box' },
-  { value: '12', label: 'Production Lines', labelZh: '条产线', icon: 'gear' },
+  { value: '8', label: 'Production Lines', labelZh: '条产线', icon: 'gear' },
   { value: '8', label: 'GMP Workshops', labelZh: '个 GMP 车间', icon: 'shield-check' },
   { value: '30B+', label: 'Units Annual Capacity', labelZh: '年产能(件)', icon: 'layers' }
 ]

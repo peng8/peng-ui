@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { site, navItems } from '~/data/site'
+import type { MessageKey } from '~/i18n/messages'
 
 const { t, isZh, localePath } = useLocale()
 
@@ -14,19 +15,22 @@ const productLinks = computed(() => [
   { label: isZh.value ? '口服液' : 'Liquid Drops', to: localePath('/products/categories/liquid-drops') }
 ])
 
-const navKeyMap: Record<string, string> = {
-  '/': 'home',
-  '/about': 'about',
-  '/products': 'products',
-  '/services': 'services',
-  '/manufacturing': 'manufacturing',
-  '/how-it-works': 'howItWorks',
-  '/contact': 'contact'
-}
-const localizedNav = computed(() => navItems.map((n) => ({
-  to: localePath(n.to),
-  label: isZh.value ? t(('nav.' + navKeyMap[n.to]) as any) : n.label
-})))
+// 导航项标签统一走 i18n 字典（中英双语言都用 t()），与 TheHeader 写法对齐
+const navKeyMap = {
+  '/': 'nav.home',
+  '/about': 'nav.about',
+  '/products': 'nav.products',
+  '/services': 'nav.services',
+  '/manufacturing': 'nav.manufacturing',
+  '/how-it-works': 'nav.howItWorks',
+  '/contact': 'nav.contact'
+} satisfies Record<string, MessageKey>
+const localizedNav = computed(() =>
+  navItems.map((n) => ({
+    to: localePath(n.to),
+    label: t(navKeyMap[n.to])
+  }))
+)
 </script>
 
 <template>

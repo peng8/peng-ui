@@ -83,7 +83,7 @@ const campusGallery = [
       <div class="wrap">
         <UiSectionHeading
           :eyebrow="isZh ? '发展历程' : 'Our Journey'"
-          :title="isZh ? '二十载成长' : 'Two Decades of Growth'"
+          :title="isZh ? '十载成长' : 'A Decade of Growth'"
           :subtitle="isZh ? '塑造 MILDY 成为全球制造合作伙伴的关键里程碑。' : 'Key milestones that shaped MILDY into a global manufacturing partner.'"
         />
         <div class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">

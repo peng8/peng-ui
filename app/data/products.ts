@@ -1154,9 +1154,9 @@ export const products: Product[] = [
     moq: '500 bottles',
     nameZh: '天然益生菌益生元冰柠檬水冲剂 200亿CFU',
     shortDescZh: '200亿CFU活菌 冰爽护肠速溶',
-    descriptionZh: '纯天然益生菌+益生元冰柠檬水冲剂，每份200亿CFU稳定活性菌株配益生元纤维，平衡肠道、助消化、强免疫。冲剂剂型清爽适口，专为肠道健康品牌打造。OEM/ODM代工及白标定制覆盖CFU含量、菌株组合、口味、条包/罐装与无糖方案，GMP认证生产，活菌稳定性全检，起订量(MOQ)灵活。',
+    descriptionZh: '纯天然益生菌+益生元冰柠檬水冲剂，每份200亿CFU稳定活性菌株配益生元纤维，平衡肠道、助消化、强免疫。冲剂剂型清爽适口，专为肠道健康品牌打造。OEM/ODM代工及白标定制覆盖CFU含量、菌株组合、口味、条包/罐装与无糖方案，GMP认证生产，活菌稳定性全检，起订量(MOQ)500瓶。',
     featuresZh: ['200亿CFU活性益生菌+益生元双效', '冲剂剂型，冰柠檬风味速溶清爽', 'OEM/ODM代工，白标配方定制灵活', 'GMP认证工厂，活菌稳定性全检', '条包/罐装可选，支持无糖配方'],
-    specsZh: [{ label: '剂型', value: 'Powder' }, { label: '有效成分', value: 'All-Natural Probiotic Prebiotic Ice Lemonade 20B CFU' }, { label: '数量', value: 'Custom' }, { label: '包装', value: 'Sachet / Tub / Stick pack' }, { label: '保质期', value: '24 months' }],
+    specsZh: [{ label: '剂型', value: 'Powder' }, { label: '有效成分', value: 'All-Natural Probiotic Prebiotic Ice Lemonade 20B CFU' }, { label: '净含量', value: 'Custom' }, { label: '包装', value: 'Sachet / Tub / Stick pack' }, { label: '保质期', value: '24 months' }],
   },
   {
     slug: 'cotton-candy-electrolyte-powder-8-vitamins-sachets',
@@ -1177,9 +1177,9 @@ export const products: Product[] = [
     moq: '500 bottles',
     nameZh: '棉花糖味电解质粉 8维生素条包',
     shortDescZh: '8种维生素 快速补水恢复',
-    descriptionZh: '棉花糖味电解质粉条包，融合8种必需维生素与关键电解质，助力运动后恢复、补充能量与日常补水，是运动营养及儿童健康品牌的亮眼SKU。OEM/ODM代工与白标定制覆盖电解质配比、维生素组合、口味（棉花糖等）、条包规格与包装设计。GMP认证生产，提供完整COA，剂型速溶，起订量(MOQ)灵活。',
-    featuresZh: ['棉花糖趣味口味，儿童友好', '8种维生素+关键电解质', '条包剂型，速溶易冲', 'OEM/ODM代工与白标定制', 'GMP认证生产，附完整COA', '起订量(MOQ)灵活'],
-    specsZh: [{ label: '剂型', value: 'Powder' }, { label: '有效成分', value: 'Cotton Candy Electrolyte - 8 Vitamins' }, { label: '数量', value: 'Custom' }, { label: '包装', value: 'Sachet / Tub / Stick pack' }, { label: '保质期', value: '24 months' }],
+    descriptionZh: '棉花糖味电解质粉条包，融合8种必需维生素与关键电解质，助力运动后恢复、补充能量与日常补水，是运动营养及儿童健康品牌的亮眼SKU。OEM/ODM代工与白标定制覆盖电解质配比、维生素组合、口味（棉花糖等）、条包规格与包装设计。GMP认证生产，提供完整COA，剂型速溶，起订量(MOQ)500瓶。',
+    featuresZh: ['棉花糖趣味口味，儿童友好', '8种维生素+关键电解质', '条包剂型，速溶易冲', 'OEM/ODM代工与白标定制', 'GMP认证生产，附完整COA', '起订量(MOQ)500瓶'],
+    specsZh: [{ label: '剂型', value: 'Powder' }, { label: '有效成分', value: 'Cotton Candy Electrolyte - 8 Vitamins' }, { label: '净含量', value: 'Custom' }, { label: '包装', value: 'Sachet / Tub / Stick pack' }, { label: '保质期', value: '24 months' }],
   },
   {
     slug: 'creatine-gummies-adult-supplement-energy-management',
@@ -1200,9 +1200,9 @@ export const products: Product[] = [
     moq: '500 bottles',
     nameZh: '成人肌酸软糖 能量管理补充剂',
     shortDescZh: '美味咀嚼肌酸 助力能量管理',
-    descriptionZh: '成人肌酸软糖，美味易嚼，助力日常能量管理与训练表现，咀嚼剂型便携适口，适合运动营养与健康品牌。OEM/ODM代工与白标定制覆盖肌酸含量、口味、剂型与包装设计。GMP认证生产，活性质检，起订量(MOQ)灵活，交付高效。',
+    descriptionZh: '成人肌酸软糖，美味易嚼，助力日常能量管理与训练表现，咀嚼剂型便携适口，适合运动营养与健康品牌。OEM/ODM代工与白标定制覆盖肌酸含量、口味、剂型与包装设计。GMP认证生产，活性质检，起订量(MOQ)500瓶，交付高效。',
     featuresZh: ['美味咀嚼剂型，方便携带', '肌酸能量管理，支持训练表现', 'OEM/ODM代工与白标定制', 'GMP认证生产，活性质检', '口味与包装灵活可选'],
-    specsZh: [{ label: '剂型', value: 'Powder' }, { label: '有效成分', value: 'Creatine Adult Supplement - Energy Management' }, { label: '数量', value: 'Custom' }, { label: '包装', value: 'Sachet / Tub / Stick pack' }, { label: '保质期', value: '24 months' }],
+    specsZh: [{ label: '剂型', value: 'Powder' }, { label: '有效成分', value: 'Creatine Adult Supplement - Energy Management' }, { label: '净含量', value: 'Custom' }, { label: '包装', value: 'Sachet / Tub / Stick pack' }, { label: '保质期', value: '24 months' }],
   },
   {
     slug: 'creatine-monohydrate-gummies-adult-energy-supp-0g-protein',
@@ -1223,7 +1223,7 @@ export const products: Product[] = [
     moq: '500 bottles',
     nameZh: '一水肌酸软糖 成人能量补充 0g蛋白质',
     shortDescZh: '0g蛋白 一水肌酸 高强爆发',
-    descriptionZh: '成人一水肌酸软糖，Q弹耐嚼，支持短时高强度能量与爆发力输出，每份0g蛋白质，纯净无负担。咀嚼剂型便携适口，适合运动营养品牌。OEM/ODM代工与白标定制覆盖肌酸含量、口味、剂型与包装方案。GMP认证生产，活性质检，起订量(MOQ)灵活。',
+    descriptionZh: '成人一水肌酸软糖，Q弹耐嚼，支持短时高强度能量与爆发力输出，每份0g蛋白质，纯净无负担。咀嚼剂型便携适口，适合运动营养品牌。OEM/ODM代工与白标定制覆盖肌酸含量、口味、剂型与包装方案。GMP认证生产，活性质检，起订量(MOQ)500瓶。',
     featuresZh: ['一水肌酸配方，支持高强度爆发', '每份0g蛋白质，纯净无负担', '咀嚼软糖剂型，便携美味', 'OEM/ODM代工与白标定制', 'GMP认证生产，活性质检'],
     specsZh: [{ label: '剂型', value: 'Powder' }, { label: '有效成分', value: 'Creatine Monohydrate, Adult Energy Supp, Protein' }, { label: '净重', value: '0g' }, { label: '包装', value: 'Sachet / Tub / Stick pack' }, { label: '保质期', value: '24 months' }],
   },
@@ -1269,7 +1269,7 @@ export const products: Product[] = [
     moq: '500 bottles',
     nameZh: '冬青专注力 L-酪氨酸能量含袋 15g',
     shortDescZh: '无咖啡因 冬青清新提神专注',
-    descriptionZh: '冬青味L-酪氨酸能量含袋（15g），无烟草无咖啡因，精准释放L-酪氨酸及益智辅因子，带来清爽的专注力与警觉感，是表现型品牌的现代替代能量SKU。OEM/ODM代工与白标定制覆盖活性成分配比、口味、无尼古丁定位及含袋数量。GMP认证生产，提供完整技术文档，剂型便携，起订量(MOQ)灵活。',
+    descriptionZh: '冬青味L-酪氨酸能量含袋（15g），无烟草无咖啡因，精准释放L-酪氨酸及益智辅因子，带来清爽的专注力与警觉感，是表现型品牌的现代替代能量SKU。OEM/ODM代工与白标定制覆盖活性成分配比、口味、无尼古丁定位及含袋数量。GMP认证生产，提供完整技术文档，剂型便携，起订量(MOQ)500瓶。',
     featuresZh: ['无烟草无咖啡因，清爽冬青风味', 'L-酪氨酸+益智辅因子，提升专注', '便携含袋剂型，即开即用', 'OEM/ODM代工与白标定制', 'GMP认证生产，文档齐全'],
     specsZh: [{ label: '剂型', value: 'Powder' }, { label: '有效成分', value: 'Nootropic L-Tyrosine Energy Pouches Wintergreen Focus' }, { label: '净重', value: '15g' }, { label: '包装', value: 'Sachet / Tub / Stick pack' }, { label: '保质期', value: '24 months' }],
   },
@@ -1292,7 +1292,7 @@ export const products: Product[] = [
     moq: '500 bottles',
     nameZh: '训前300g乳清增肌粉（含一水肌酸与B族维生素）',
     shortDescZh: '乳清+肌酸+B族 高强训练燃能',
-    descriptionZh: '训前300g增肌冲剂，融合乳清蛋白、一水肌酸与B族维生素，为高强度训练、肌肉生长与恢复提供燃料，是运动营养品牌的高端全能SKU。OEM/ODM代工与白标定制覆盖蛋白/肌酸配比、口味体系、罐装/条包及品牌视觉。GMP认证生产，含蛋白含量检测与完整COA，冲剂剂型速溶，起订量(MOQ)灵活。',
+    descriptionZh: '训前300g增肌冲剂，融合乳清蛋白、一水肌酸与B族维生素，为高强度训练、肌肉生长与恢复提供燃料，是运动营养品牌的高端全能SKU。OEM/ODM代工与白标定制覆盖蛋白/肌酸配比、口味体系、罐装/条包及品牌视觉。GMP认证生产，含蛋白含量检测与完整COA，冲剂剂型速溶，起订量(MOQ)500瓶。',
     featuresZh: ['乳清蛋白+一水肌酸+B族维生素全能配方', '训前增肌冲剂，速溶好冲调', 'OEM/ODM代工与白标定制', 'GMP认证生产，蛋白含量检测', '罐装/条包可选，附完整COA'],
     specsZh: [{ label: '剂型', value: 'Powder' }, { label: '有效成分', value: 'Pre-Workout Whey Gainer w/ Creatine Mono & B-Vitamins' }, { label: '净重', value: '300g' }, { label: '包装', value: 'Sachet / Tub / Stick pack' }, { label: '保质期', value: '24 months' }],
   },
@@ -1315,9 +1315,9 @@ export const products: Product[] = [
     moq: '500 bottles',
     nameZh: '喜马拉雅西拉杰蜂蜜棒 助眠',
     shortDescZh: '西拉杰+蜂蜜 舒缓安睡',
-    descriptionZh: '喜马拉雅西拉杰蜂蜜棒（助眠），单次份量蜂蜜棒融合优质喜马拉雅西拉杰，温和舒缓，便于睡前服用，是助眠与健康品牌的优质SKU。条包剂型便携即食，OEM/ODM代工与白标定制覆盖西拉杰含量、蜂蜜基底、口味与包装设计。GMP认证生产，活性质检，起订量(MOQ)灵活。',
+    descriptionZh: '喜马拉雅西拉杰蜂蜜棒（助眠），单次份量蜂蜜棒融合优质喜马拉雅西拉杰，温和舒缓，便于睡前服用，是助眠与健康品牌的优质SKU。条包剂型便携即食，OEM/ODM代工与白标定制覆盖西拉杰含量、蜂蜜基底、口味与包装设计。GMP认证生产，活性质检，起订量(MOQ)500瓶。',
     featuresZh: ['西拉杰+蜂蜜双效，温和助眠', '单次份量条包，便携即食', 'OEM/ODM代工与白标定制', 'GMP认证生产，活性质检', '口味与包装灵活可选'],
-    specsZh: [{ label: '剂型', value: 'Powder' }, { label: '有效成分', value: 'Private Label Himalayan Shilajit Honey Sleep Aid' }, { label: '数量', value: 'Custom' }, { label: '包装', value: 'Sachet / Tub / Stick pack' }, { label: '保质期', value: '24 months' }],
+    specsZh: [{ label: '剂型', value: 'Powder' }, { label: '有效成分', value: 'Private Label Himalayan Shilajit Honey Sleep Aid' }, { label: '净含量', value: 'Custom' }, { label: '包装', value: 'Sachet / Tub / Stick pack' }, { label: '保质期', value: '24 months' }],
   },
   {
     slug: 'probiotic-chicory-fiber-powder-for-adult-digestion-and-weight',
@@ -1338,9 +1338,9 @@ export const products: Product[] = [
     moq: '500 bottles',
     nameZh: '益生菌菊粉纤维粉 成人消化与体重',
     shortDescZh: '菊粉+益生菌 润肠控重',
-    descriptionZh: '益生菌菊粉纤维粉，融合菊粉菊糖与活性益生菌，助力成人消化与体重管理，冲剂剂型速溶易冲调，适合肠道健康与体重管理品牌。OEM/ODM代工与白标定制覆盖益生菌菌株、纤维配比、口味与包装方案。GMP认证生产，活菌与纤维含量全检，起订量(MOQ)灵活。',
+    descriptionZh: '益生菌菊粉纤维粉，融合菊粉菊糖与活性益生菌，助力成人消化与体重管理，冲剂剂型速溶易冲调，适合肠道健康与体重管理品牌。OEM/ODM代工与白标定制覆盖益生菌菌株、纤维配比、口味与包装方案。GMP认证生产，活菌与纤维含量全检，起订量(MOQ)500瓶。',
     featuresZh: ['菊粉+益生菌双效，润肠控重', '冲剂剂型，速溶易冲调', 'OEM/ODM代工与白标定制', 'GMP认证生产，含量全检', '支持条包/罐装'],
-    specsZh: [{ label: '剂型', value: 'Powder' }, { label: '有效成分', value: 'Probiotic Chicory Fiber for Adult Digestion & Weight' }, { label: '数量', value: 'Custom' }, { label: '包装', value: 'Sachet / Tub / Stick pack' }, { label: '保质期', value: '24 months' }],
+    specsZh: [{ label: '剂型', value: 'Powder' }, { label: '有效成分', value: 'Probiotic Chicory Fiber for Adult Digestion & Weight' }, { label: '净含量', value: 'Custom' }, { label: '包装', value: 'Sachet / Tub / Stick pack' }, { label: '保质期', value: '24 months' }],
   },
   {
     slug: 'whey-protein-creatine-4-8lb-muscle-gainer-pre-workout',
@@ -1361,8 +1361,8 @@ export const products: Product[] = [
     moq: '500 bottles',
     nameZh: '乳清蛋白+肌酸 4.8lb增肌训前粉',
     shortDescZh: '乳清+肌酸双效 高效增肌',
-    descriptionZh: 'OEM乳清蛋白+肌酸4.8lb增肌训前粉，将快吸收乳清蛋白与肌酸科学配比，支持高强度训练与肌肉生长，冲剂剂型速溶好冲调，适合运动营养品牌。OEM/ODM代工与白标定制覆盖蛋白/肌酸配比、口味、剂型与包装设计。GMP认证生产，蛋白含量检测，起订量(MOQ)灵活。',
-    featuresZh: ['乳清蛋白+肌酸科学配比', '训前增肌冲剂，速溶易冲', 'OEM/ODM代工与白标定制', 'GMP认证生产，蛋白含量检测', '大规格罐装，起订量(MOQ)灵活'],
+    descriptionZh: 'OEM乳清蛋白+肌酸4.8lb增肌训前粉，将快吸收乳清蛋白与肌酸科学配比，支持高强度训练与肌肉生长，冲剂剂型速溶好冲调，适合运动营养品牌。OEM/ODM代工与白标定制覆盖蛋白/肌酸配比、口味、剂型与包装设计。GMP认证生产，蛋白含量检测，起订量(MOQ)500瓶。',
+    featuresZh: ['乳清蛋白+肌酸科学配比', '训前增肌冲剂，速溶易冲', 'OEM/ODM代工与白标定制', 'GMP认证生产，蛋白含量检测', '大规格罐装，起订量(MOQ)500瓶'],
     specsZh: [{ label: '剂型', value: 'Powder' }, { label: '有效成分', value: 'Whey Protein + Creatine Muscle Gainer Pre-Workout' }, { label: '净重', value: '4.8lb' }, { label: '包装', value: 'Sachet / Tub / Stick pack' }, { label: '保质期', value: '24 months' }],
   },
   {
@@ -1384,9 +1384,9 @@ export const products: Product[] = [
     moq: '500 bottles',
     nameZh: '乳清分离蛋白增肌粉 批量白标',
     shortDescZh: '高纯分离蛋白 快吸收增肌',
-    descriptionZh: '乳清分离蛋白增肌粉（OEM白标），以高纯度快吸收乳清分离蛋白为基础，持续为肌肉生长与恢复输送营养，冲剂剂型速溶适口，适合运动营养品牌。OEM/ODM代工与白标定制覆盖蛋白含量、口味、剂型与包装方案。GMP认证生产，蛋白含量检测，起订量(MOQ)灵活，支持批量供货。',
-    featuresZh: ['高纯度乳清分离蛋白，快吸收', '增肌冲剂剂型，速溶适口', 'OEM/ODM代工与白标定制', 'GMP认证生产，蛋白含量检测', '支持批量供货，起订量(MOQ)灵活'],
-    specsZh: [{ label: '剂型', value: 'Powder' }, { label: '有效成分', value: 'Whey Protein Isolate Mass Gainer Bulk' }, { label: '数量', value: 'Custom' }, { label: '包装', value: 'Sachet / Tub / Stick pack' }, { label: '保质期', value: '24 months' }],
+    descriptionZh: '乳清分离蛋白增肌粉（OEM白标），以高纯度快吸收乳清分离蛋白为基础，持续为肌肉生长与恢复输送营养，冲剂剂型速溶适口，适合运动营养品牌。OEM/ODM代工与白标定制覆盖蛋白含量、口味、剂型与包装方案。GMP认证生产，蛋白含量检测，起订量(MOQ)500瓶，支持批量供货。',
+    featuresZh: ['高纯度乳清分离蛋白，快吸收', '增肌冲剂剂型，速溶适口', 'OEM/ODM代工与白标定制', 'GMP认证生产，蛋白含量检测', '支持批量供货，起订量(MOQ)500瓶'],
+    specsZh: [{ label: '剂型', value: 'Powder' }, { label: '有效成分', value: 'Whey Protein Isolate Mass Gainer Bulk' }, { label: '净含量', value: 'Custom' }, { label: '包装', value: 'Sachet / Tub / Stick pack' }, { label: '保质期', value: '24 months' }],
   },
   {
     slug: 'whey-protein-vanilla-strawberry-plastic-shaker',
@@ -1407,9 +1407,9 @@ export const products: Product[] = [
     moq: '500 bottles',
     nameZh: '香草/草莓乳清蛋白 塑料摇摇杯',
     shortDescZh: '双口味乳清 随摇随饮',
-    descriptionZh: '100%香草/草莓乳清蛋白配塑料摇摇杯，搭配两种热门口味的高品质乳清蛋白，简单纯净、随冲随饮，冲剂剂型速溶适口，适合运动营养品牌。OEM/ODM代工与白标定制覆盖蛋白含量、口味、剂型与杯型包装。GMP认证生产，蛋白含量检测，起订量(MOQ)灵活。',
-    featuresZh: ['香草/草莓双口味，热门之选', '配塑料摇摇杯，随冲随饮', 'OEM/ODM代工与白标定制', 'GMP认证生产，蛋白含量检测', '冲剂速溶，起订量(MOQ)灵活'],
-    specsZh: [{ label: '剂型', value: 'Powder' }, { label: '有效成分', value: 'Whey Protein Vanilla/Strawberry Plastic Shaker' }, { label: '数量', value: 'Custom' }, { label: '包装', value: 'Sachet / Tub / Stick pack' }, { label: '保质期', value: '24 months' }],
+    descriptionZh: '100%香草/草莓乳清蛋白配塑料摇摇杯，搭配两种热门口味的高品质乳清蛋白，简单纯净、随冲随饮，冲剂剂型速溶适口，适合运动营养品牌。OEM/ODM代工与白标定制覆盖蛋白含量、口味、剂型与杯型包装。GMP认证生产，蛋白含量检测，起订量(MOQ)500瓶。',
+    featuresZh: ['香草/草莓双口味，热门之选', '配塑料摇摇杯，随冲随饮', 'OEM/ODM代工与白标定制', 'GMP认证生产，蛋白含量检测', '冲剂速溶，起订量(MOQ)500瓶'],
+    specsZh: [{ label: '剂型', value: 'Powder' }, { label: '有效成分', value: 'Whey Protein Vanilla/Strawberry Plastic Shaker' }, { label: '净含量', value: 'Custom' }, { label: '包装', value: 'Sachet / Tub / Stick pack' }, { label: '保质期', value: '24 months' }],
   },
 
   // ===== Liquid Drops =====
@@ -1434,7 +1434,7 @@ export const products: Product[] = [
     shortDescZh: 'NAD+复配PQQ，激活细胞能量',
     descriptionZh: '本款 1000mg NAD+ 液体滴剂复配 PQQ，为高浓度舌下含服配方，支持细胞能量合成、线粒体健康与认知功能。液态剂型吸收迅速，适合高端抗衰老与长寿品牌。提供 OEM/ODM 代工与白标定制，可调整 NAD+ 与 PQQ 剂量、基质、口味及瓶型(30/60ml)。GMP 认证生产，附含量检测与稳定性数据,起订量(MOQ)500 瓶。',
     featuresZh: ['高浓度 NAD+ 复配 PQQ 配方', '舌下含服液态剂型快速吸收', '支持细胞能量与线粒体健康', 'OEM/ODM 代工配方定制', 'GMP 认证工厂生产', '白标定制,灵活包装可选'],
-    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'NAD+ Supplement with PQQ - Cellular Energy' }, { label: '规格', value: 'Custom' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
+    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'NAD+ Supplement with PQQ - Cellular Energy' }, { label: '净含量', value: 'Custom' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
   },
   {
     slug: 'active-whale-nad-60ml-drops-resveratrol-taurine-immune-gmp',
@@ -1457,7 +1457,7 @@ export const products: Product[] = [
     shortDescZh: 'NAD+复配白藜芦醇与牛磺酸',
     descriptionZh: 'Active Whale NAD+ 60ml 滴剂将 NAD+ 与白藜芦醇、牛磺酸科学复配于液体滴管瓶中,支持细胞能量代谢与免疫健康。液态剂型服用便捷、吸收高效。提供 OEM/ODM 代工及白标定制,可调整活性成分配比、口味及包装规格。GMP 认证生产,质控严格,起订量(MOQ)500 瓶,适合海外品牌商采购。',
     featuresZh: ['NAD+ 复配白藜芦醇与牛磺酸', '滴管瓶液体剂型服用便捷', '支持细胞能量与免疫健康', 'OEM/ODM 代工支持', 'GMP 认证制造', '白标定制方案可选'],
-    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'Active Whale NAD+ Resveratrol Taurine Immune GMP' }, { label: '容量(ml)', value: '60ml' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
+    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'Active Whale NAD+ Resveratrol Taurine Immune GMP' }, { label: '容量', value: '60ml' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
   },
   {
     slug: 'ark-drops-shilajit-booster-30-60ml-moq500-custom-sample',
@@ -1480,7 +1480,7 @@ export const products: Product[] = [
     shortDescZh: '高浓度喜来芝滴剂,MOQ500可打样',
     descriptionZh: 'ARK Drops 喜来芝提取物滴剂采用浓缩喜来芝提取,提供 30ml 与 60ml 滴管瓶规格,支持打样定制。液体剂型吸收迅速,富含矿物质与富里酸,适合能量与活力类品牌。提供 OEM/ODM 代工及白标定制服务,可调整浓度、口味与瓶型。GMP 认证生产,起订量(MOQ)500 瓶,适合海外品牌快速试样。',
     featuresZh: ['浓缩喜来芝提取', '30ml/60ml 规格可选', '支持打样快速定制', 'OEM/ODM 代工生产', 'GMP 认证品质保障', '白标定制服务'],
-    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'ARK Shilajit Booster - MOQ500 Custom Sample' }, { label: '容量(ml)', value: '60ml' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
+    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'ARK Shilajit Booster - MOQ500 Custom Sample' }, { label: '容量', value: '60ml' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
   },
   {
     slug: 'cayenne-liquid-60ml-hawthorn-d3-k2-beet-and-turmeric',
@@ -1503,7 +1503,7 @@ export const products: Product[] = [
     shortDescZh: '辣椒复配山楂姜黄与D3 K2',
     descriptionZh: 'OEM 辣椒液体滴剂(60ml)将辣椒与山楂、甜菜、姜黄及维生素 D3/K2 浓缩复配于便携滴管瓶,支持循环与综合营养健康。液态剂型吸收高效。提供 OEM/ODM 代工及白标定制,可调整活性成分配比、口味与瓶型。GMP 认证生产,提供完整 COA 与检测报告,起订量(MOQ)500 瓶,适合营养健康品牌商。',
     featuresZh: ['辣椒复配山楂/甜菜/姜黄', '含维生素 D3 与 K2', '滴管瓶液体剂型便携', 'OEM/ODM 代工支持', 'GMP 认证生产', '白标定制可选'],
-    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'Cayenne – Hawthorn, D3 K2, Beet & Turmeric' }, { label: '容量(ml)', value: '60ml' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
+    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'Cayenne – Hawthorn, D3 K2, Beet & Turmeric' }, { label: '容量', value: '60ml' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
   },
   {
     slug: 'children-s-liquid-multivitamin-1-fl-oz-30-immune-and-bone',
@@ -1526,7 +1526,7 @@ export const products: Product[] = [
     shortDescZh: '儿童复合维生素,免疫骨骼同护',
     descriptionZh: '儿童液体复合维生素(1 fl oz / 30)为浓缩液态配方,服用方便,专为支持儿童免疫健康与骨骼发育设计。液态剂型易于儿童吞咽与吸收。提供 OEM/ODM 代工及白标定制,可调整维生素组合、剂量、口味与瓶型。GMP 认证生产,原料安全可溯源,起订量(MOQ)500 瓶,适合母婴与儿童营养品牌商。',
     featuresZh: ['儿童专属复合维生素配方', '免疫与骨骼双重支持', '液态剂型易吞咽易吸收', 'OEM/ODM 代工配方定制', 'GMP 认证安全品质', '白标定制服务可选'],
-    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'Children\'s Multivitamin (30) / Immune & Bone' }, { label: '容量(fl oz)', value: '1fl oz' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
+    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'Children\'s Multivitamin (30) / Immune & Bone' }, { label: '容量', value: '1fl oz' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
   },
   {
     slug: 'kids-liquid-immune-w-zeolite-me-b12-and-d3-30ml',
@@ -1549,7 +1549,7 @@ export const products: Product[] = [
     shortDescZh: '沸石+甲钴胺+D3,儿童免疫滴剂',
     descriptionZh: 'OEM/ODM 儿童免疫液体滴剂(30ml)将天然沸石、甲钴胺(Me-B12)与维生素 D3 科学复配,专为儿童免疫系统设计。液态剂型口感温和、服用方便。提供 OEM/ODM 代工及白标定制,可调整活性成分配比、口味与瓶型。GMP 认证生产,附完整 COA,起订量(MOQ)500 瓶,适合儿童营养品牌商。',
     featuresZh: ['天然沸石+甲钴胺B12+维生素D3 复配', '儿童免疫专属配方', '液态剂型温和易服', 'OEM/ODM 代工支持', 'GMP 认证品质保障', '白标定制可选'],
-    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'Kids Immune w/ Zeolite, Me-B12 & D3' }, { label: '容量(ml)', value: '30ml' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
+    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'Kids Immune w/ Zeolite, Me-B12 & D3' }, { label: '容量', value: '30ml' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
   },
   {
     slug: 'kids-rhodiola-drops-attention-and-energy-gmp',
@@ -1572,7 +1572,7 @@ export const products: Product[] = [
     shortDescZh: '儿童红景天滴剂,专注精力双提升',
     descriptionZh: 'OEM/ODM 儿童红景天滴剂以红景天提取物为核心,红景天为研究充分的适应原,有助于支持儿童的专注力、精力与抗压能力。液态滴剂剂型服用便捷。提供 OEM/ODM 代工及白标定制,可调整浓度、口味与瓶型。GMP 认证生产,原料可溯源,起订量(MOQ)500 瓶,适合儿童营养与认知健康品牌。',
     featuresZh: ['红景天适应原核心配方', '提升专注力与精力', '儿童友好液态滴剂', 'OEM/ODM 代工定制', 'GMP 认证生产', '白标定制服务可选'],
-    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'Kids Rhodiola - Attention & Energy, GMP' }, { label: '规格', value: 'Custom' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
+    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'Kids Rhodiola - Attention & Energy, GMP' }, { label: '净含量', value: 'Custom' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
   },
   {
     slug: 'lion-s-mane-drops-100-natural-cognitive-and-immune',
@@ -1595,7 +1595,7 @@ export const products: Product[] = [
     shortDescZh: '天然猴头菇滴剂,护脑强免疫',
     descriptionZh: 'OEM 猴头菇滴剂(100% 天然)采用猴头菇液体提取,支持认知功能与免疫健康。液态剂型吸收高效,适合天然草本与脑健康品牌。提供 OEM/ODM 代工及白标定制,可调整提取比例、浓度、口味与瓶型。GMP 认证生产,附植物身份鉴定与完整 COA,起订量(MOQ)500 瓶,适合认知健康类品牌商。',
     featuresZh: ['100% 天然猴头菇提取', '认知与免疫双重支持', '液态剂型高效吸收', 'OEM/ODM 代工配方定制', 'GMP 认证品质保障', '白标定制可选'],
-    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'Lion\'s Mane 100% Natural - Cognitive & Immune' }, { label: '规格', value: 'Custom' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
+    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'Lion\'s Mane 100% Natural - Cognitive & Immune' }, { label: '净含量', value: 'Custom' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
   },
   {
     slug: 'moringa-ashwagandha-ginger-oral-drops',
@@ -1618,7 +1618,7 @@ export const products: Product[] = [
     shortDescZh: '辣木醉茄生姜复配,抗压助消化',
     descriptionZh: '辣木、南非醉茄与生姜口服滴剂为适应原草本复合配方,支持抗压能力、天然能量、消化与免疫平衡。液态剂型服用便捷,适合天然健康与阿育吠陀风格品牌。提供 OEM/ODM 代工及白标定制,可调整草本提取比例、剂量、口味与瓶型。GMP 认证生产,附植物身份检测与完整 COA,起订量(MOQ)500 瓶。',
     featuresZh: ['辣木+南非醉茄+生姜复配', '适应原抗压天然配方', '消化与免疫平衡支持', 'OEM/ODM 代工定制', 'GMP 认证生产', '白标定制服务可选'],
-    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'Moringa Ashwagandha Ginger Oral' }, { label: '规格', value: 'Custom' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
+    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'Moringa Ashwagandha Ginger Oral' }, { label: '净含量', value: 'Custom' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
   },
   {
     slug: 'shilajit-drops-oral-liquid-tonify-qi-and-immunity-moq-500',
@@ -1641,7 +1641,7 @@ export const products: Product[] = [
     shortDescZh: '喜来芝口服滴剂,补气强免疫',
     descriptionZh: '喜来芝口服滴剂采用纯化喜马拉雅喜来芝提取,富里酸含量标准化至 50% 以上,支持天然能量、耐力、免疫与活力。富含矿物质的优质 SKU,适合男性健康与适应原品牌。提供 OEM/ODM 代工及白标定制,可调整富里酸标准化、剂量、口味与瓶型。GMP 认证生产,重金属严格管控,起订量(MOQ)500 瓶。',
     featuresZh: ['喜马拉雅纯化喜来芝提取', '富里酸 ≥50% 标准化', '补气养生提升活力免疫', 'OEM/ODM 代工配方定制', 'GMP 认证重金属管控', '白标定制可选'],
-    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'Shilajit Oral - Tonify Qi & Immunity, MOQ 500' }, { label: '规格', value: 'Custom' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
+    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'Shilajit Oral - Tonify Qi & Immunity, MOQ 500' }, { label: '净含量', value: 'Custom' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
   },
   {
     slug: 'vitamin-d3-k2-mct-oil-eggplant-60ml-gmp-bone-support',
@@ -1664,7 +1664,7 @@ export const products: Product[] = [
     shortDescZh: 'D3+K2 MCT油滴剂,强骨促吸收',
     descriptionZh: '维生素 D3+K2 MCT 油滴剂(60ml)为脂溶性骨骼支持配方,以 MCT 油为载体提升吸收率,支持骨密度、免疫健康与钙平衡。多用途液态 SKU,适合家庭健康品牌。提供 OEM/ODM 代工及白标定制,可调整 D3/K2 剂量、MCT 基质、口味与瓶型/滴管设计。GMP 认证生产,附完整 COA 与含量检测,起订量(MOQ)500 瓶。',
     featuresZh: ['D3+K2 复配 MCT 油载体', '骨密度与钙平衡支持', '脂溶性配方高效吸收', 'OEM/ODM 代工定制', 'GMP 认证生产', '白标定制可选'],
-    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'Vitamin D3 K2 MCT Oil Eggplant GMP Bone Support' }, { label: '容量(ml)', value: '60ml' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
+    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'Vitamin D3 K2 MCT Oil Eggplant GMP Bone Support' }, { label: '容量', value: '60ml' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
   },
   {
     slug: 'vitamin-d3-liquid-immune-support-for-women-prickly-and-lychee',
@@ -1687,7 +1687,7 @@ export const products: Product[] = [
     shortDescZh: '女性专属D3滴剂,仙人掌荔枝风味',
     descriptionZh: '女性维生素 D3 液体滴剂采用仙人掌与荔枝风味,口感怡人,便于日常服用。液态剂型吸收高效,支持女性免疫健康与综合活力。提供 OEM/ODM 代工及白标定制,可调整 D3 剂量、口味与瓶型。GMP 认证生产,附完整 COA 与含量检测,起订量(MOQ)500 瓶,适合女性健康与营养品牌商。',
     featuresZh: ['女性专属免疫支持配方', '仙人掌与荔枝怡人风味', '液态剂型高效吸收', 'OEM/ODM 代工定制', 'GMP 认证生产', '白标定制服务可选'],
-    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'Vitamin D3 Immune Support for Women, Prickly & Lychee' }, { label: '规格', value: 'Custom' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
+    specsZh: [{ label: '剂型', value: 'Oral Liquid/Drops' }, { label: '有效成分', value: 'Vitamin D3 Immune Support for Women, Prickly & Lychee' }, { label: '净含量', value: 'Custom' }, { label: '包装', value: 'Glass/PET bottle + dropper' }, { label: '保质期', value: '24 months' }],
   },
 ]
 
@@ -1730,18 +1730,13 @@ for (const product of products) {
 }
 
 // ---------- 查询辅助函数 ----------
-/** 取所有产品（按数据顺序） */
-export function getAllProducts(): Product[] {
-  return products
-}
-
 /** 按 slug 查单个产品 */
 export function getProductBySlug(slug: string): Product | undefined {
   return products.find((p) => p.slug === slug)
 }
 
-/** 取同剂型其他产品（排除自己，默认返回前 N 个） */
-export function getRelatedProducts(slug: string, limit = 3): Product[] {
+/** 取同剂型其他产品（排除自己，返回前 limit 个） */
+export function getRelatedProducts(slug: string, limit: number): Product[] {
   const current = getProductBySlug(slug)
   if (!current) return []
   return products

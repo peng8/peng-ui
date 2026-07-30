@@ -1,30 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import { products, productCategories } from './app/data/products'
+import { products } from './app/data/products'
+import { getAllProductListRoutes } from './app/data/productRoutes'
 import { DEFAULT_PRODUCT_IMAGE_BASE_URL } from './app/data/productImageUrl'
 
 // 两个语言：英文为默认裸路径，中文使用 /zh 前缀
 const LOCALES = ['en', 'zh'] as const
-
-// 产品列表分页：每页 9 个
-const PAGE_SIZE = 16
-// 生成某剂型某页的「裸路径」（不含 locale 前缀）
-// 分类路由放在 /products/categories/ 前缀下，避免与详情页 /products/[slug] 冲突
-const listUrl = (cat: string, page: number) =>
-  cat === 'all'
-    ? page <= 1 ? '/products' : `/products/page/${page}`
-    : page <= 1 ? `/products/categories/${cat}` : `/products/categories/${cat}/page/${page}`
-// 取所有需要预渲染的「裸列表路径」（全部 + 各分类的所有页码）
-const getAllListRoutes = () => {
-  const routes: string[] = ['/products']
-  const cats = ['all', ...productCategories.map((c) => c.slug)]
-  for (const cat of cats) {
-    const count = cat === 'all' ? products.length : products.filter((p) => p.category === cat).length
-    const total = Math.max(1, Math.ceil(count / PAGE_SIZE))
-    for (let p = 2; p <= total; p++) routes.push(listUrl(cat, p))
-    if (cat !== 'all') routes.push(listUrl(cat, 1))
-  }
-  return routes
-}
 
 // 给一组裸路径乘以所有 locale：英文保留裸路径，中文生成 /zh/xxx
 const withLocales = (bareRoutes: string[]) =>
@@ -44,7 +24,7 @@ const staticPageRoutes = [
 
 const canonicalBareRoutes = Array.from(new Set([
   ...staticPageRoutes,
-  ...getAllListRoutes(),
+  ...getAllProductListRoutes(),
   ...products.map((p) => `/products/${p.slug}`)
 ]))
 
@@ -78,7 +58,7 @@ export default defineNuxtConfig({
       nitroConfig.prerender ||= {}
       nitroConfig.prerender.routes ||= []
       const productDetailRoutes = withLocales(products.map((p) => `/products/${p.slug}`))
-      const listRoutes = withLocales(getAllListRoutes())
+      const listRoutes = withLocales(getAllProductListRoutes())
       const pageRoutes = withLocales(staticPageRoutes)
       nitroConfig.prerender.routes.push(
         ...pageRoutes,
