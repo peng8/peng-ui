@@ -8,6 +8,32 @@ export function getFilteredProducts(category: string): Product[] {
   return category === 'all' ? products : products.filter((p) => p.category === category)
 }
 
+/**
+ * 首页精选产品：每个剂型取首个产品，凑满 count 个（不足则按数据顺序补足）。
+ * 这样首页 8 个卡片能覆盖多种剂型，避免单一剂型刷屏。
+ */
+export function getFeaturedProducts(count = 8): Product[] {
+  const featured: Product[] = []
+  const seen = new Set<string>()
+  // 第一轮：每个剂型取 1 个，保证剂型多样性
+  for (const cat of productCategories) {
+    const first = products.find((p) => p.category === cat.slug)
+    if (first && !seen.has(first.slug)) {
+      featured.push(first)
+      seen.add(first.slug)
+    }
+    if (featured.length >= count) return featured
+  }
+  // 第二轮：按数据顺序补足到 count 个
+  for (const p of products) {
+    if (seen.has(p.slug)) continue
+    featured.push(p)
+    seen.add(p.slug)
+    if (featured.length >= count) break
+  }
+  return featured
+}
+
 /** 某剂型下的总页数（至少 1） */
 export function getTotalPages(category: string): number {
   const count = getFilteredProducts(category).length

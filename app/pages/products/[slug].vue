@@ -15,7 +15,7 @@ if (!product.value) {
 }
 
 const category = computed(() => getCategoryBySlug(product.value!.category))
-const related = computed(() => getRelatedProducts(slug.value, 3))
+const related = computed(() => getRelatedProducts(slug.value, 4))
 
 // 动态 SEO
 // title 命中买家搜索意图(产品名 + 剂型 + OEM/Supplier)，超长时智能截断产品名保关键词
@@ -317,7 +317,7 @@ const formatSpecValue = (value: string) => {
           :title="isZh ? `更多${category?.nameZh ?? ''}产品` : `More ${category?.name ?? ''} Products`"
           align="left"
         />
-        <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <ProductGridCard
             v-for="(item, i) in related"
             :key="item.slug"
