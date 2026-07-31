@@ -1,5 +1,7 @@
 // GET /api/products/:slug — returns a single product + related products + category
-import { getProductBySlug, getRelatedProducts, getCategoryBySlug } from '~/data/products-mutations'
+// getCategoryBySlug 从轻量的 products.ts 导入（仅依赖 productCategories，避免拉入 ~400KB 产品库）
+import { getProductBySlug, getRelatedProducts } from '~/data/products-mutations'
+import { getCategoryBySlug } from '~/data/products'
 
 export default defineEventHandler((event) => {
   const slug = getRouterParam(event, 'slug')

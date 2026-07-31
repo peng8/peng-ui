@@ -40,9 +40,10 @@ onMounted(() => {
 const localeHead = useLocaleHead()
 
 // 标题模板按当前 locale 选择站名 + tagline（中文/英文不同）
+// htmlAttrs 用 getter 保持响应式：locale 切换时 <html lang> 跟随更新
 useHead({
   titleTemplate: (t) => (t ? `${t} | ${site.brand}` : `${isZh.value ? site.nameCn : site.name} — ${isZh.value ? site.taglineZh : site.tagline}`),
-  htmlAttrs: localeHead.value.htmlAttrs
+  htmlAttrs: () => localeHead.value.htmlAttrs
 })
 
 const route = useRoute()
@@ -79,6 +80,8 @@ useSeoMeta({
 })
 
 // 结构化数据：Organization（利于 SEO / Google 富摘要）
+// 注：站点搜索由 Pagefind 客户端弹窗提供，无 /products?q= 服务端路由，
+// 故不输出虚构的 WebSite.potentialAction SearchAction（爬虫抓取会得到 404）。
 useHead({
   script: [
     {
@@ -100,25 +103,6 @@ useHead({
           addressCountry: 'CN'
         },
         ...(site.social.length ? { sameAs: site.social.map((s) => s.href) } : {})
-      })
-    },
-    {
-      type: 'application/ld+json',
-      innerHTML: JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'WebSite',
-        name: site.name,
-        alternateName: site.nameCn,
-        url: SITE_URL,
-        inLanguage: ['en-US', 'zh-CN'],
-        potentialAction: {
-          '@type': 'SearchAction',
-          target: {
-            '@type': 'EntryPoint',
-            urlTemplate: `${SITE_URL}/products?q={search_term_string}`
-          },
-          'query-input': 'required name=search_term_string'
-        }
       })
     }
   ]

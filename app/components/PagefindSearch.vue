@@ -26,6 +26,9 @@ const results = ref<Array<{ url: string; excerpt: string; title: string }>>([])
 const loading = ref(false)
 const searched = ref(false)
 const inputEl = ref<HTMLInputElement | null>(null)
+const panelEl = ref<HTMLElement | null>(null)
+let lastFocused: HTMLElement | null = null
+const { lock, unlock } = useScrollLock()
 
 // 按需加载 Pagefind 的 search 入口
 // 路径 /pagefind/pagefind.js 由 Pagefind 构建时生成,开发环境不存在
@@ -45,10 +48,24 @@ const loadPagefind = async () => {
   return pagefind
 }
 
-const sanitizeExcerpt = (html: string) =>
-  html
-    .replace(/<(?!\/?mark\b)[^>]*>/gi, '')
-    .replace(/<mark\b[^>]*>/gi, '<mark class="mark">')
+// 安全地清理 Pagefind excerpt：用 DOMParser 解析后只保留 <mark> 文本高亮，
+// 剥离所有其他标签与事件属性，避免 v-html 渲染被污染内容时的 XSS 风险。
+const sanitizeExcerpt = (html: string) => {
+  if (typeof document === 'undefined') return ''
+  const doc = new DOMParser().parseFromString(html, 'text/html')
+  // 移除所有非 mark 元素但保留其文本内容
+  doc.body.querySelectorAll('*').forEach((el) => {
+    if (el.tagName.toLowerCase() !== 'mark') {
+      const text = document.createTextNode(el.textContent ?? '')
+      el.replaceWith(text)
+    } else {
+      // 清除 mark 上任何属性，统一加 class
+      ;[...el.attributes].forEach((attr) => el.removeAttribute(attr.name))
+      el.classList.add('mark')
+    }
+  })
+  return doc.body.innerHTML
+}
 
 // 防抖搜索
 let timer: ReturnType<typeof setTimeout> | null = null
@@ -115,14 +132,23 @@ const close = () => {
 // 打开时自动聚焦输入框
 watch(open, async (v) => {
   if (v) {
+    lastFocused = (document.activeElement as HTMLElement) ?? null
+    lock()
     await nextTick()
     inputEl.value?.focus()
-    document.body.style.overflow = 'hidden'
     // 预加载 Pagefind
     loadPagefind()
   } else {
-    document.body.style.overflow = ''
+    unlock()
+    if (lastFocused) {
+      lastFocused.focus?.()
+      lastFocused = null
+    }
   }
+})
+
+onBeforeUnmount(() => {
+  if (open.value) unlock()
 })
 
 // 路由变化时关闭
@@ -143,7 +169,11 @@ watch(() => route.fullPath, () => close())
 
         <!-- 弹窗主体 -->
         <div
+          ref="panelEl"
           class="relative w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/5"
+          role="dialog"
+          aria-modal="true"
+          :aria-label="isZh ? '站内搜索' : 'Site search'"
           data-pagefind-ignore
         >
           <!-- 输入栏 -->
@@ -154,6 +184,7 @@ watch(() => route.fullPath, () => close())
               v-model="query"
               type="text"
               :placeholder="isZh ? '搜索产品、剂型、服务…' : 'Search products, services…'"
+              :aria-label="isZh ? '搜索产品、剂型、服务' : 'Search products, services'"
               class="flex-1 bg-transparent text-base text-navy placeholder:text-navy/40 focus:outline-none"
               @input="onInput"
               @keydown="onKeydown"

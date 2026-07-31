@@ -18,6 +18,8 @@ const timeline = computed(() =>
     duration: isZh.value ? s.durationZh : s.duration
   }))
 )
+// 注：TimelineItem 内部已用 isZh 选择 titleZh/descZh/durationZh，
+// 此处 timeline 的本地化字段供「视觉流程概览」模块直接使用。
 
 const faqs = [
   {
@@ -59,8 +61,9 @@ const faqs = [
 ]
 
 // JSON-LD FAQPage structured data for Google rich results
+// 用 computed 保持响应式：locale 切换后结构化数据跟随更新（与详情页写法对齐）
 useHead({
-  script: [{
+  script: computed(() => [{
     type: 'application/ld+json',
     innerHTML: JSON.stringify({
       '@context': 'https://schema.org',
@@ -71,7 +74,7 @@ useHead({
         acceptedAnswer: { '@type': 'Answer', text: isZh.value ? f.aZh : f.a }
       }))
     })
-  }]
+  }])
 })
 </script>
 

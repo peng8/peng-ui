@@ -1,7 +1,13 @@
 <script setup lang="ts">
 // 全局图片弹窗预览：配合 useLightbox 单例
+// 唯一挂载点：在此处理路由关闭、卸载清理、body 滚动锁与焦点管理，
+// 避免 useLightbox() 在每个调用组件重复注册钩子导致互相干扰。
 const { isOpen, current, close, next, prev, images } = useLightbox()
 const { isZh } = useLocale()
+const { lock, unlock } = useScrollLock()
+
+const panelEl = ref<HTMLElement | null>(null)
+let lastFocused: HTMLElement | null = null
 
 const onKey = (e: KeyboardEvent) => {
   if (!isOpen.value) return
@@ -10,15 +16,31 @@ const onKey = (e: KeyboardEvent) => {
   if (e.key === 'ArrowLeft') prev()
 }
 
-// Body scroll lock
+// Body scroll lock（引用计数，与其他弹窗共存）
 watch(isOpen, (open) => {
-  document.body.style.overflow = open ? 'hidden' : ''
+  if (open) {
+    lock()
+    // 焦点管理：记录触发元素，打开后聚焦面板（便于 ESC 立即生效）
+    lastFocused = (document.activeElement as HTMLElement) ?? null
+    nextTick(() => panelEl.value?.focus())
+  } else {
+    unlock()
+    // 关闭后恢复焦点到触发元素
+    if (lastFocused) {
+      lastFocused.focus?.()
+      lastFocused = null
+    }
+  }
 })
+
+// 路由变化时关闭弹窗（SPA 导航）
+const route = useRoute()
+watch(() => route.fullPath, () => close())
 
 onMounted(() => window.addEventListener('keydown', onKey))
 onBeforeUnmount(() => {
   window.removeEventListener('keydown', onKey)
-  document.body.style.overflow = ''
+  if (isOpen.value) unlock()
 })
 </script>
 
@@ -27,9 +49,11 @@ onBeforeUnmount(() => {
     <Transition name="lb">
       <div
         v-if="isOpen"
+        ref="panelEl"
         class="fixed inset-0 z-[100] flex items-center justify-center bg-navy-900/90 p-4 backdrop-blur-sm"
         role="dialog"
         aria-modal="true"
+        tabindex="-1"
         :aria-label="isZh ? '图片查看器' : 'Image viewer'"
         @click.self="close"
       >

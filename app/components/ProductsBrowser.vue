@@ -5,6 +5,7 @@
 import type { MessageKey } from '~/i18n/messages'
 import { productCategories } from '~/data/products'
 import { productImageUrl } from '~/data/productImageUrl'
+import { normalizeSearchText } from '~/data/searchUtils'
 import type { ProductCardItem, ProductListResponse } from '~/data/products-types'
 import { PRODUCT_PAGE_SIZE, productListApiPath } from '~/composables/useProducts'
 
@@ -26,14 +27,8 @@ const searchQuery = ref('')
 const searchPage = ref(1)
 const isSearching = computed(() => searchQuery.value.trim().length > 0)
 const searchLoading = ref(false)
+const searchError = ref(false)
 const searchIndex = ref<Array<ProductCardItem & { searchText: string }> | null>(null)
-
-const normalizeSearchText = (value: string) =>
-  value
-    .toLowerCase()
-    .replace(/&/g, ' and ')
-    .replace(/[^a-z0-9\u4e00-\u9fa5]+/g, ' ')
-    .trim()
 
 // 列表页只获取当前分类 + 当前页卡片数据，避免每个静态页面重复内嵌完整产品库。
 const productFetchKey = computed(() => `products-${activeCat.value}-${currentPage.value}`)
@@ -47,10 +42,12 @@ const { data: productPage } = await useAsyncData<ProductListResponse>(
 )
 
 const ensureSearchIndex = async () => {
-  if (searchIndex.value) return
+  if (searchIndex.value || searchError.value) return
   searchLoading.value = true
   try {
     searchIndex.value = await $fetch<Array<ProductCardItem & { searchText: string }>>('/api/products/search-index')
+  } catch {
+    searchError.value = true
   } finally {
     searchLoading.value = false
   }
@@ -128,6 +125,7 @@ const goSearchPage = (page: number) => {
 const clearSearch = () => {
   searchQuery.value = ''
   searchPage.value = 1
+  searchError.value = false
 }
 
 // 筛选项：「全部」+ 6 大剂型（按当前语言切换显示名）
@@ -167,7 +165,7 @@ useSeoMeta({
       ? `探索 MILDY ${catName.value ? catName.value.nameZh : '全剂型'}营养补充剂产品${
           safePage.value > 1 ? ` — 第 ${safePage.value} / ${totalPages.value} 页` : ''
         }。支持白标定制与配方开发。`
-      : `Explore MILDY ${catName.value ? catName.value.name.toLowerCase() : 'full range of'} supplement products${
+      : `Explore MILDY ${catName.value ? catName.value.name.toLowerCase() : 'supplement'} products${
           safePage.value > 1 ? ` — page ${safePage.value} of ${totalPages.value}` : ''
         }. Private label and custom formulation available.`
 })
@@ -234,6 +232,7 @@ watch(pageItems, () => {
               v-model="searchQuery"
               type="search"
               :placeholder="isZh ? '搜索产品名称、描述、分类' : 'Search products by name, description, category'"
+              :aria-label="isZh ? '搜索产品' : 'Search products'"
               class="h-12 w-full appearance-none rounded-lg border border-mist-border bg-white py-3 pl-11 pr-12 text-sm text-navy outline-none transition-colors placeholder:text-navy/35 focus:border-navy/30 focus:ring-2 focus:ring-navy/10 [&::-webkit-search-cancel-button]:hidden"
             >
             <button
@@ -256,6 +255,11 @@ watch(pageItems, () => {
         <div v-if="searchLoading" class="rounded-xl bg-white py-20 text-center shadow-card ring-1 ring-mist-border">
           <UiAppIcon name="search" :size="40" class="mx-auto text-navy/30" />
           <p class="mt-4 text-navy/60">{{ isZh ? '正在搜索产品' : 'Searching products' }}</p>
+        </div>
+
+        <div v-else-if="searchError && isSearching" class="rounded-xl bg-white py-20 text-center shadow-card ring-1 ring-mist-border">
+          <UiAppIcon name="search" :size="40" class="mx-auto text-navy/30" />
+          <p class="mt-4 text-navy/60">{{ isZh ? '搜索索引加载失败，请清除搜索后重试' : 'Search index failed to load. Please clear and try again.' }}</p>
         </div>
 
         <div v-else-if="pageItems.length" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -293,10 +297,10 @@ watch(pageItems, () => {
             <UiAppIcon name="chevron-right" :size="14" class="rotate-180" />
             {{ t('products.prev') }}
           </button>
-          <span v-else class="btn-navy px-4 py-2 text-xs cursor-not-allowed opacity-40">
+          <button v-else type="button" disabled aria-disabled="true" class="btn-navy px-4 py-2 text-xs cursor-not-allowed opacity-40">
             <UiAppIcon name="chevron-right" :size="14" class="rotate-180" />
             {{ t('products.prev') }}
-          </span>
+          </button>
 
           <!-- 数字页码：用 line-height + text-align 实现单行文字垂直水平居中 -->
           <template
@@ -306,6 +310,7 @@ watch(pageItems, () => {
             <NuxtLink
               v-if="item.type === 'page' && !isSearching"
               :to="localePath(productPageUrl(activeCat, item.page))"
+              :aria-current="item.page === safePage ? 'page' : undefined"
               class="inline-flex h-9 min-w-9 items-center justify-center rounded-md px-3 text-sm font-semibold leading-none transition-colors"
               :class="item.page === safePage ? 'bg-navy text-white' : 'bg-white text-navy/70 ring-1 ring-mist-border hover:bg-mist'"
             >
@@ -314,6 +319,7 @@ watch(pageItems, () => {
             <button
               v-else-if="item.type === 'page'"
               type="button"
+              :aria-current="item.page === safePage ? 'page' : undefined"
               class="inline-flex h-9 min-w-9 items-center justify-center rounded-md px-3 text-sm font-semibold leading-none transition-colors"
               :class="item.page === safePage ? 'bg-navy text-white' : 'bg-white text-navy/70 ring-1 ring-mist-border hover:bg-mist'"
               @click="goSearchPage(item.page)"
@@ -347,10 +353,10 @@ watch(pageItems, () => {
             {{ t('products.next') }}
             <UiAppIcon name="chevron-right" :size="14" />
           </button>
-          <span v-else class="btn-navy px-4 py-2 text-xs cursor-not-allowed opacity-40">
+          <button v-else type="button" disabled aria-disabled="true" class="btn-navy px-4 py-2 text-xs cursor-not-allowed opacity-40">
             {{ t('products.next') }}
             <UiAppIcon name="chevron-right" :size="14" />
-          </span>
+          </button>
         </div>
       </div>
     </section>

@@ -6,6 +6,7 @@ export default <Partial<Config>>{
     './app/layouts/**/*.vue',
     './app/pages/**/*.vue',
     './app/app.vue',
+    './app/error.vue',
     './app/data/**/*.{js,ts}'
   ],
   theme: {

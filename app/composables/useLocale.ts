@@ -37,7 +37,9 @@ export function useLocale() {
     if (params) {
       for (const [k, v] of Object.entries(params)) {
         if (v === undefined) continue
-        s = s.replace(new RegExp(`\\{${k}\\}`, 'g'), String(v))
+        // 转义 param key 中的正则元字符，避免误匹配
+        const escaped = k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+        s = s.replace(new RegExp(`\\{${escaped}\\}`, 'g'), String(v))
       }
     }
     return s

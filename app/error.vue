@@ -5,21 +5,26 @@ import { productCategories } from '~/data/products'
 
 const props = defineProps<{ error: NuxtError }>()
 
+const { t, isZh, localePath } = useLocale()
 const is404 = computed(() => props.error?.statusCode === 404)
 
 // 404 必须告诉爬虫不要索引，避免软 404 污染收录
 useSeoMeta({
   robots: 'noindex, nofollow',
   title: () => (is404.value ? 'Page Not Found (404)' : 'Error'),
-  description: 'The page you are looking for does not exist. Browse MILDY\'s supplement categories or contact us for OEM/ODM manufacturing.'
+  description: () => isZh.value
+    ? '您访问的页面不存在或已被移动。浏览我们的产品剂型,或返回首页。'
+    : "The page you are looking for doesn't exist. Browse MILDY's supplement categories or contact us for OEM/ODM manufacturing."
 })
 
 const handleError = () => clearError({ redirect: '/' })
 
-const { t, isZh, localePath } = useLocale()
 // error.vue 是独立渲染（不在主 app.vue 上下文），手动补 i18n head（locale/direction + hreflang）
 const localeHead = useLocaleHead()
-useHead({ htmlAttrs: localeHead.value.htmlAttrs, link: localeHead.value.link })
+useHead({
+  htmlAttrs: () => localeHead.value.htmlAttrs,
+  link: () => localeHead.value.link
+})
 
 const errorTitle = computed(() => is404.value ? t('error.404.title') : t('error.500.title'))
 const errorDescription = computed(() => is404.value ? t('error.404.description') : t('error.500.description'))

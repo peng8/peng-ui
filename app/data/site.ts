@@ -45,7 +45,8 @@ export const site: SiteInfo = {
     whatsappHref: 'https://wa.me/8618613000659',
     address: 'Building E, Feixingzhe Zhide Communication & Electronics Technology Park, No. 77 Yaxin South Street, Huadu District, Guangzhou, China',
     addressCn: '广州市花都区雅新南街77号飞行者智德通信电子科技园E栋',
-    // 地图坐标(高德 GCJ-02 坐标系) —— 用于 Google Maps 嵌入定位
+    // 地图坐标（高德 GCJ-02 坐标系）—— 注意：Google Maps 使用 WGS-84，
+    // 直接用 GCJ-02 坐标在 Google Maps 上会有百米级偏移。若用于海外导航需先转 WGS-84。
     lat: 23.359527,
     lng: 113.238178,
     hours: 'Mon – Sat, 9:00 – 18:00 (GMT+8)'

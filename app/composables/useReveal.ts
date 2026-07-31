@@ -50,11 +50,10 @@ export function useReveal() {
   return { observe, observeAll }
 }
 
-// 页面卸载时断开共享观察器
-if (typeof window !== 'undefined') {
-  window.addEventListener('beforeunload', () => {
-    sharedIo?.disconnect()
-    sharedIo = null
-    observed.clear()
-  })
+// 断开共享观察器并清空集合 —— 供布局 onBeforeUnmount 调用，避免长会话内存泄漏。
+// 注意：beforeunload 不会在 SPA 路由切换时触发，故改由布局组件显式调用。
+export function destroyRevealObserver() {
+  sharedIo?.disconnect()
+  sharedIo = null
+  observed.clear()
 }

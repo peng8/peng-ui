@@ -1,4 +1,6 @@
 // 全局图片弹窗预览状态（单例）
+// 状态为模块级单例，多个组件共享；生命周期与路由关闭由唯一挂载点 Lightbox.vue 负责，
+// 不在 useLightbox() 内注册 watch/onUnmounted，避免每个调用组件重复注册、互相干扰。
 export interface LightboxImage {
   src: string
   alt?: string
@@ -15,18 +17,12 @@ export function useLightbox() {
     images.value = list
     index.value = Math.max(0, Math.min(start, list.length - 1))
     isOpen.value = true
-    if (typeof document !== 'undefined') {
-      document.body.style.overflow = 'hidden'
-    }
   }
 
   const openOne = (img: LightboxImage) => open([img], 0)
 
   const close = () => {
     isOpen.value = false
-    if (typeof document !== 'undefined') {
-      document.body.style.overflow = ''
-    }
   }
 
   const next = () => {
@@ -42,17 +38,6 @@ export function useLightbox() {
   const current = computed<LightboxImage | null>(
     () => images.value[index.value] || null
   )
-
-  // 路由变化时关闭弹窗，释放 body 滚动锁（与 PagefindSearch 行为一致）
-  if (import.meta.client) {
-    const route = useRoute()
-    watch(() => route.fullPath, () => close())
-  }
-
-  // 组件卸载时确保恢复 body 滚动
-  if (import.meta.client) {
-    onUnmounted(() => close())
-  }
 
   return { isOpen, images, index, current, open, openOne, close, next, prev }
 }

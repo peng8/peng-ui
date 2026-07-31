@@ -34,6 +34,12 @@ const onError = () => {
   error.value = true
   loaded.value = true
 }
+
+// src 变化时重置状态：避免切换图片时旧 loaded/error 残留导致新图不显示或无淡入
+watch(() => props.src, () => {
+  loaded.value = false
+  error.value = false
+})
 </script>
 
 <template>

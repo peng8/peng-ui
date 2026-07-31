@@ -839,4 +839,5 @@ export const messages = {
   }
 } as const
 
-export type MessageKey = string
+/** 所有合法的 i18n key —— 从 en 字典推导，拼错 key 时 TS 会报错（en/zh key 已对齐）。 */
+export type MessageKey = keyof typeof messages['en']

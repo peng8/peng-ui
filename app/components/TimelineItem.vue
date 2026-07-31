@@ -2,6 +2,7 @@
 import type { ProcessStep } from '~/data/process'
 
 defineProps<{ item: ProcessStep; index?: number; last?: boolean }>()
+const { isZh } = useLocale()
 </script>
 
 <template>
@@ -23,10 +24,10 @@ defineProps<{ item: ProcessStep; index?: number; last?: boolean }>()
     <div class="pb-10">
       <div class="flex flex-wrap items-center gap-3">
         <span class="text-xs font-bold uppercase tracking-widest text-gold">{{ item.step }}</span>
-        <span class="rounded-full bg-leaf/10 px-2.5 py-0.5 text-[11px] font-semibold text-leaf-dark">{{ item.duration }}</span>
+        <span class="rounded-full bg-leaf/10 px-2.5 py-0.5 text-[11px] font-semibold text-leaf-dark">{{ isZh ? item.durationZh : item.duration }}</span>
       </div>
-      <h3 class="mt-2 text-xl font-bold text-navy">{{ item.title }}</h3>
-      <p class="mt-2 max-w-md text-sm leading-relaxed text-navy/60">{{ item.desc }}</p>
+      <h3 class="mt-2 text-xl font-bold text-navy">{{ isZh ? item.titleZh : item.title }}</h3>
+      <p class="mt-2 max-w-md text-sm leading-relaxed text-navy/60">{{ isZh ? item.descZh : item.desc }}</p>
     </div>
   </div>
 </template>

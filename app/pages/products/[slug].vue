@@ -75,8 +75,12 @@ useSeoMeta({
   title: () => { const p = product.value; return p ? (isZh.value ? (p.nameZh ?? p.name) : seoTitle.value) : '' },
   description: () => { const p = product.value; return p ? (isZh.value ? (p.shortDescZh ?? p.shortDesc) : p.shortDesc) : '' },
   ogTitle: () => { const p = product.value; return p ? (isZh.value ? (p.nameZh ?? p.name) : seoTitle.value) : '' },
-  ogType: 'website',
-  ogImage: () => { const p = product.value; if (!p) return ''; return p.cover.startsWith('http') ? p.cover : `${SITE_URL}${p.cover}` }
+  ogType: 'product',
+  ogImage: () => { const p = product.value; if (!p) return ''; return p.cover.startsWith('http') ? p.cover : `${SITE_URL}${p.cover}` },
+  ogImageWidth: 1200,
+  ogImageHeight: 1200,
+  twitterCard: 'summary_large_image',
+  twitterImage: () => { const p = product.value; if (!p) return ''; return p.cover.startsWith('http') ? p.cover : `${SITE_URL}${p.cover}` }
 })
 
 // 结构化数据：Product + BreadcrumbList（Google 富摘要：产品信息 + 面包屑路径）

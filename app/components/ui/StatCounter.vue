@@ -11,9 +11,11 @@ const props = withDefaults(
 )
 
 const el = ref<HTMLElement | null>(null)
-const display = ref('0')
+// SSR 渲染终值，避免首屏 "0" 跳动；客户端水合后从 0 滚动到目标值
+const display = ref(props.value)
 const started = ref(false)
 let io: IntersectionObserver | null = null
+let rafId: number | null = null
 
 // 解析数字部分与前后缀
 const parsed = computed(() => {
@@ -39,15 +41,17 @@ const animate = () => {
     display.value = props.value
     return
   }
+  // 客户端从 0 开始滚动，制造动画效果
+  display.value = formatNum(0, hasComma) + suffix
   const start = performance.now()
   const step = (now: number) => {
     const t = Math.min((now - start) / props.duration, 1)
     // easeOutCubic
     const eased = 1 - Math.pow(1 - t, 3)
     display.value = formatNum(num * eased, hasComma) + suffix
-    if (t < 1) requestAnimationFrame(step)
+    if (t < 1) rafId = requestAnimationFrame(step)
   }
-  requestAnimationFrame(step)
+  rafId = requestAnimationFrame(step)
 }
 
 onMounted(() => {
@@ -69,7 +73,10 @@ onMounted(() => {
   observer.observe(el.value)
 })
 
-onBeforeUnmount(() => io?.disconnect())
+onBeforeUnmount(() => {
+  io?.disconnect()
+  if (rafId !== null) cancelAnimationFrame(rafId)
+})
 </script>
 
 <template>

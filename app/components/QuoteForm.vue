@@ -41,6 +41,8 @@ const errors = reactive<Record<keyof FormState, string>>({
 
 const status = ref<'idle' | 'submitting' | 'success' | 'error'>('idle')
 const errorMsg = ref('')
+// honeypot 反垃圾字段：正常用户不会填写，机器人常填，提交时若非空则静默丢弃
+const website = ref('')
 let resetTimer: ReturnType<typeof setTimeout> | null = null
 
 onBeforeUnmount(() => {
@@ -104,7 +106,14 @@ const validate = (): boolean => {
 }
 
 const submit = async () => {
+  if (status.value === 'submitting') return
   if (!validate()) return
+  // honeypot：非空说明是机器人，假装成功但不提交
+  if (website.value) {
+    status.value = 'success'
+    resetTimer = setTimeout(() => (status.value = 'idle'), 6000)
+    return
+  }
   status.value = 'submitting'
   errorMsg.value = ''
 
@@ -115,6 +124,9 @@ const submit = async () => {
     return
   }
 
+  // fetch 超时控制：15 秒未返回则中止，避免按钮一直 "提交中"
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 15000)
   try {
     const res = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
@@ -122,6 +134,7 @@ const submit = async () => {
         'Content-Type': 'application/json',
         Accept: 'application/json'
       },
+      signal: controller.signal,
       body: JSON.stringify({
         access_key: web3formsAccessKey,
         subject: `New Inquiry from ${form.name}${form.company ? ` — ${form.company}` : ''}`,
@@ -156,7 +169,11 @@ const submit = async () => {
     }
   } catch (e) {
     status.value = 'error'
-    errorMsg.value = copy.value.networkError
+    errorMsg.value = (e instanceof DOMException && e.name === 'AbortError')
+      ? (isZh.value ? '请求超时,请重试。' : 'Request timed out. Please try again.')
+      : copy.value.networkError
+  } finally {
+    clearTimeout(timeout)
   }
 }
 </script>
@@ -191,6 +208,11 @@ const submit = async () => {
         <span>{{ errorMsg }}</span>
       </div>
       <div class="grid gap-4 sm:grid-cols-2">
+        <!-- Honeypot 反垃圾字段（视觉隐藏，正常用户不填） -->
+        <div class="hidden" aria-hidden="true">
+          <label for="qf-website">Website</label>
+          <input id="qf-website" v-model="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
         <!-- Name（必填） -->
         <div>
           <label for="qf-name" class="mb-1.5 block text-sm font-medium text-navy">{{ copy.name }} <span class="text-gold">*</span></label>
@@ -198,11 +220,14 @@ const submit = async () => {
             id="qf-name"
             v-model="form.name"
             type="text"
+            autocomplete="name"
             :placeholder="copy.namePlaceholder"
             class="form-input"
             :class="errors.name ? 'input-error' : ''"
+            :aria-invalid="errors.name ? 'true' : 'false'"
+            :aria-describedby="errors.name ? 'qf-name-error' : undefined"
           />
-          <p v-if="errors.name" role="alert" class="mt-1 text-xs text-red-500">{{ errors.name }}</p>
+          <p v-if="errors.name" id="qf-name-error" role="alert" class="mt-1 text-xs text-red-500">{{ errors.name }}</p>
         </div>
         <!-- Email（必填） -->
         <div>
@@ -211,11 +236,14 @@ const submit = async () => {
             id="qf-email"
             v-model="form.email"
             type="email"
+            autocomplete="email"
             placeholder="john@company.com"
             class="form-input"
             :class="errors.email ? 'input-error' : ''"
+            :aria-invalid="errors.email ? 'true' : 'false'"
+            :aria-describedby="errors.email ? 'qf-email-error' : undefined"
           />
-          <p v-if="errors.email" role="alert" class="mt-1 text-xs text-red-500">{{ errors.email }}</p>
+          <p v-if="errors.email" id="qf-email-error" role="alert" class="mt-1 text-xs text-red-500">{{ errors.email }}</p>
         </div>
         <!-- WhatsApp（必填） -->
         <div>
@@ -224,11 +252,14 @@ const submit = async () => {
             id="qf-whatsapp"
             v-model="form.whatsapp"
             type="tel"
+            autocomplete="tel"
             placeholder="+1 555 123 4567"
             class="form-input"
             :class="errors.whatsapp ? 'input-error' : ''"
+            :aria-invalid="errors.whatsapp ? 'true' : 'false'"
+            :aria-describedby="errors.whatsapp ? 'qf-whatsapp-error' : undefined"
           />
-          <p v-if="errors.whatsapp" role="alert" class="mt-1 text-xs text-red-500">{{ errors.whatsapp }}</p>
+          <p v-if="errors.whatsapp" id="qf-whatsapp-error" role="alert" class="mt-1 text-xs text-red-500">{{ errors.whatsapp }}</p>
         </div>
         <!-- Company（选填） -->
         <div>
@@ -237,6 +268,7 @@ const submit = async () => {
             id="qf-company"
             v-model="form.company"
             type="text"
+            autocomplete="organization"
             :placeholder="copy.companyPlaceholder"
             class="form-input"
           />
@@ -248,6 +280,7 @@ const submit = async () => {
             id="qf-country"
             v-model="form.country"
             type="text"
+            autocomplete="country-name"
             :placeholder="copy.countryPlaceholder"
             class="form-input"
           />
@@ -273,8 +306,10 @@ const submit = async () => {
           :placeholder="copy.messagePlaceholder"
           class="form-input resize-none"
           :class="errors.message ? 'input-error' : ''"
+          :aria-invalid="errors.message ? 'true' : 'false'"
+          :aria-describedby="errors.message ? 'qf-message-error' : undefined"
         />
-        <p v-if="errors.message" role="alert" class="mt-1 text-xs text-red-500">{{ errors.message }}</p>
+        <p v-if="errors.message" id="qf-message-error" role="alert" class="mt-1 text-xs text-red-500">{{ errors.message }}</p>
       </div>
 
       <div class="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
@@ -286,6 +321,7 @@ const submit = async () => {
           size="lg"
           icon="send"
           :block="true"
+          :disabled="status === 'submitting'"
           class="sm:w-auto"
           :class="status === 'submitting' ? 'pointer-events-none opacity-70' : ''"
         >

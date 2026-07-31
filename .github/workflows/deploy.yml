@@ -33,6 +33,9 @@ jobs:
 
       - name: Generate static site
         run: npm run generate
+        env:
+          # 产品数据量较大，SSG 预渲染需更多内存避免 OOM
+          NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

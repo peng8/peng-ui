@@ -36,9 +36,11 @@ const go = (i: number) => {
 const next = () => go(current.value + 1)
 const prev = () => go(current.value - 1)
 
-// 自动播放：6 秒切换，悬停暂停
+// 自动播放：6 秒切换，悬停暂停。尊重 prefers-reduced-motion：用户偏好减少动画时禁用自动播放。
+const prefersReducedMotion = ref(false)
 const start = () => {
   stop()
+  if (prefersReducedMotion.value) return
   timer = setInterval(() => {
     if (!paused.value) next()
   }, 6000)
@@ -50,7 +52,14 @@ const stop = () => {
   }
 }
 
-onMounted(start)
+onMounted(() => {
+  if (typeof window !== 'undefined' && window.matchMedia) {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    prefersReducedMotion.value = mq.matches
+    mq.addEventListener('change', (e) => (prefersReducedMotion.value = e.matches))
+  }
+  start()
+})
 onBeforeUnmount(stop)
 
 // stat 标签按 locale 选用（site.stats.label 为英文，中文走 hero.statN 字典）
@@ -66,6 +75,8 @@ const statList = computed(() => {
 <template>
   <section
     class="relative min-h-[92vh] overflow-hidden"
+    aria-roledescription="carousel"
+    :aria-label="isZh ? '工厂能力与服务亮点轮播' : 'Factory capabilities and service highlights'"
     @mouseenter="paused = true"
     @mouseleave="paused = false"
   >
@@ -160,6 +171,7 @@ const statList = computed(() => {
             :key="i"
             class="group flex items-center"
             :aria-label="t('hero.goToSlide', { n: i + 1 })"
+            :aria-current="i === current ? 'true' : undefined"
             @click.prevent="go(i)"
           >
             <span

@@ -3,20 +3,14 @@
 // NEVER import this from client-facing pages/components (it's ~400 KB).
 import { curatedProducts, productCategories } from './products'
 import { importedProducts } from './importedProducts'
-import type { Product, ProductCategory } from './products-types'
+import type { Product } from './products-types'
 
 // ---------- Dedup & mutation ----------
-const normalizeProductIdentity = (value: string) =>
-  value
-    .toLowerCase()
-    .replace(/&/g, 'and')
-    .replace(/[^a-z0-9]+/g, ' ')
-    .trim()
-
 const dedupeProducts = (items: Product[]) => {
   const seen = new Set<string>()
   return items.filter((product) => {
-    const key = `${product.category}:${normalizeProductIdentity(product.name)}`
+    // 以 slug（路由主键）去重，同名同分类但 slug 不同的产品不会被误丢弃
+    const key = product.slug
     if (seen.has(key)) return false
     seen.add(key)
     return true
@@ -36,7 +30,8 @@ const buildDescription = (p: Product) => {
 
 /** Build the full, deduplicated, mutation-applied product list. */
 function buildFullProducts(): Product[] {
-  const all = dedupeProducts([...curatedProducts, ...importedProducts])
+  // 浅拷贝每个产品对象后再改字段，避免 mutate 源数据（curatedProducts/importedProducts）污染 client 模块
+  const all = dedupeProducts([...curatedProducts, ...importedProducts]).map((p) => ({ ...p }))
   for (const product of all) {
     if (clippedCopyPattern.test(product.shortDesc)) product.shortDesc = buildShortDesc(product)
     if (clippedCopyPattern.test(product.description)) product.description = buildDescription(product)
@@ -51,11 +46,6 @@ let _allProducts: Product[] | null = null
 export function getAllProducts(): Product[] {
   if (!_allProducts) _allProducts = buildFullProducts()
   return _allProducts
-}
-
-/** Total product count (for pagination / route generation). */
-export function getTotalProductCount(): number {
-  return getAllProducts().length
 }
 
 // ---------- Query helpers (operate on full product list) ----------
@@ -74,7 +64,4 @@ export function getRelatedProducts(slug: string, limit: number): Product[] {
     .slice(0, limit)
 }
 
-/** Category lookup by slug. */
-export function getCategoryBySlug(slug: string): ProductCategory | undefined {
-  return productCategories.find((c) => c.slug === slug)
-}
+// getCategoryBySlug 已移至轻量的 products.ts（仅依赖 productCategories，无需拉入完整产品库）

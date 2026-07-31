@@ -5,6 +5,7 @@
 
 # Node
 node_modules/
+node_modules/.cache/
 
 # IDE
 .vscode/
@@ -22,9 +23,10 @@ Thumbs.db
 
 # Misc
 *.log
+*.local
 
 # AI 提示词文档（内部参考,不进仓库）
-保健品*.md
+ai-prompts-*.md
 
 # local secrets
 .env

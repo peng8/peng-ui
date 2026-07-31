@@ -1,7 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import { curatedProducts, productCategories } from './app/data/products'
 import { getAllProducts } from './app/data/products-mutations'
-import { getTotalPages, productListApiPath, productPageUrl } from './app/data/productRoutes'
+import { getAllProductListRoutes, getAllProductListApiRoutes } from './app/data/productRoutes'
 import { DEFAULT_PRODUCT_IMAGE_BASE_URL } from './app/data/productImageUrl'
 
 // 两个语言：英文为默认裸路径，中文使用 /zh 前缀
@@ -26,32 +25,13 @@ const staticPageRoutes = [
 // Full product list for SSG route generation (server-only, not in client bundle)
 const allProducts = getAllProducts()
 
-// 产品列表分页路由生成（使用完整产品列表计算页数，确保 SSG 预渲染所有分页）
-const PRODUCT_PAGE_SIZE = 16
-function buildProductListRoutes(): string[] {
-  const routes: string[] = ['/products']
-  const allCats = ['all', ...productCategories.map((c) => c.slug)]
-  for (const cat of allCats) {
-    const total = getTotalPages(cat, allProducts)
-    for (let p = 2; p <= total; p++) routes.push(productPageUrl(cat, p))
-    if (cat !== 'all') routes.push(productPageUrl(cat, 1))
-  }
-  return routes
-}
-
-function buildProductListApiRoutes(): string[] {
-  const routes: string[] = []
-  const allCats = ['all', ...productCategories.map((c) => c.slug)]
-  for (const cat of allCats) {
-    const total = getTotalPages(cat, allProducts)
-    for (let page = 1; page <= total; page++) routes.push(productListApiPath(cat, page))
-  }
-  return routes
-}
+// 产品列表分页路由 + 列表 API 路由（复用 productRoutes 的统一规则，避免分页逻辑在两处漂移）
+const productListRoutes = getAllProductListRoutes(allProducts)
+const productListApiRoutes = getAllProductListApiRoutes(allProducts)
 
 const canonicalBareRoutes = Array.from(new Set([
   ...staticPageRoutes,
-  ...buildProductListRoutes(),
+  ...productListRoutes,
   ...allProducts.map((p) => `/products/${p.slug}`)
 ]))
 
@@ -72,7 +52,7 @@ const sitemapEntries = (locale: typeof LOCALES[number]) =>
   })
 
 export default defineNuxtConfig({
-  compatibilityDate: '2025-01-01',
+  compatibilityDate: '2026-07-01',
   devtools: { enabled: false },
 
   // 产品路由由数据驱动显式预渲染 ——
@@ -85,14 +65,14 @@ export default defineNuxtConfig({
       nitroConfig.prerender ||= {}
       nitroConfig.prerender.routes ||= []
       const productDetailRoutes = withLocales(allProducts.map((p) => `/products/${p.slug}`))
-      const listRoutes = withLocales(buildProductListRoutes())
+      const listRoutes = withLocales(productListRoutes)
       const pageRoutes = withLocales(staticPageRoutes)
       const productApiRoutes = allProducts.map((p) => `/api/products/${p.slug}`)
       nitroConfig.prerender.routes.push(
         ...pageRoutes,
         ...productDetailRoutes,
         ...listRoutes,
-        ...buildProductListApiRoutes(),
+        ...productListApiRoutes,
         ...productApiRoutes,
         '/api/products/search-index',
         '/404.html'
@@ -173,16 +153,19 @@ export default defineNuxtConfig({
   },
 
   // 所有图片已本地化为站内相对路径，
-  // IPX 在 SSG 时统一预渲染为 WebP + 响应式多尺寸，无需外部域名白名单。
+  // IPX 在 SSG 时统一预渲染为 WebP/AVIF + 响应式多尺寸，无需外部域名白名单。
   image: {
-    format: ['webp']
+    format: ['avif', 'webp'],
+    quality: 80,
+    screens: { xs: 320, sm: 640, md: 768, lg: 1024, xl: 1280, xxl: 1536 },
+    densities: [1, 2]
   },
 
   nitro: {
     prerender: {
       // 抓取页面内所有 <NuxtLink>，自动预渲染整站为静态 HTML。
       crawlLinks: false,
-      routes: [],
+      // 预渲染路由由 hooks.nitro:config 统一注入，此处不重复声明
       failOnError: true
     }
   }

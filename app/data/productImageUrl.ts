@@ -1,4 +1,4 @@
-export const DEFAULT_PRODUCT_IMAGE_BASE_URL = 'https://img.mildy-health.com' 
+export const DEFAULT_PRODUCT_IMAGE_BASE_URL = 'https://img.mildy-health.com'
 // 备用图片地址 https://img-storage-1sp.pages.dev
 type ImportMetaWithEnv = ImportMeta & {
   env?: Record<string, string | undefined>
@@ -12,7 +12,7 @@ export const productImageBaseUrl = (
   nodeEnv.NUXT_PUBLIC_PRODUCT_IMAGE_BASE_URL ||
   nodeEnv.PRODUCT_IMAGE_BASE_URL ||
   DEFAULT_PRODUCT_IMAGE_BASE_URL
-).replace(/\/+$/, '')
+).trim().replace(/\/+$/, '')
 
 export const productImageUrl = (path: string) => {
   if (/^https?:\/\//.test(path)) return path

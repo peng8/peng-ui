@@ -35,16 +35,28 @@ export function getTotalPages(category: string, productList: Product[] = curated
   return Math.max(1, Math.ceil(count / PRODUCT_PAGE_SIZE))
 }
 
-/** 取所有需要预渲染的「裸列表路径」（全部 + 各分类的所有页码） */
-export function getAllProductListRoutes(): string[] {
+/** 取所有需要预渲染的「裸列表路径」（全部 + 各分类的所有页码）。
+ *  传入完整产品列表可获得精确页数（SSG 预渲染用），默认用精简列表。 */
+export function getAllProductListRoutes(productList?: Product[]): string[] {
   const routes: string[] = ['/products']
   const allCats = ['all', ...productCategories.map((c) => c.slug)]
   for (const cat of allCats) {
-    const total = getTotalPages(cat)
+    const total = getTotalPages(cat, productList)
     for (let p = 2; p <= total; p++) {
       routes.push(productPageUrl(cat, p))
     }
     if (cat !== 'all') routes.push(productPageUrl(cat, 1))
+  }
+  return routes
+}
+
+/** 取所有需要预渲染的「列表 API 路径」（SSG 预渲染 JSON 用）。 */
+export function getAllProductListApiRoutes(productList?: Product[]): string[] {
+  const routes: string[] = []
+  const allCats = ['all', ...productCategories.map((c) => c.slug)]
+  for (const cat of allCats) {
+    const total = getTotalPages(cat, productList)
+    for (let page = 1; page <= total; page++) routes.push(productListApiPath(cat, page))
   }
   return routes
 }
