@@ -17,14 +17,17 @@ withDefaults(
 
 <template>
   <section class="relative overflow-hidden pt-16 md:pt-20">
-    <!-- 背景 -->
+    <!-- 背景：走 NuxtImg/IPX 出 WebP + 响应式（hero 恒为全宽，sizes=100vw） -->
     <div class="absolute inset-0">
-      <img
+      <NuxtImg
         :src="image"
         alt=""
         class="h-full w-full object-cover"
         width="1920"
         height="700"
+        format="webp"
+        quality="78"
+        sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
         loading="eager"
         fetchpriority="high"
         decoding="async"

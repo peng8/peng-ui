@@ -12,9 +12,11 @@ useSeoMeta({
 
 // 用经纬度坐标生成 Google Maps 嵌入地址
 // q=lat,lng 格式只会落一个标记点,避免地址文本匹配出多个候选点
+// 注意：必须用 WGS-84 坐标（wgsLat/wgsLng）。lat/lng 是 GCJ-02（高德火星坐标），
+// 直接喂给 Google Maps 会偏移约 620 米,客户按错图找不到厂。
 const mapSrc = computed(() => {
-  const { lat, lng } = site.contact
-  return `https://maps.google.com/maps?q=${lat},${lng}&z=16&output=embed`
+  const { wgsLat, wgsLng } = site.contact
+  return `https://maps.google.com/maps?q=${wgsLat},${wgsLng}&z=16&output=embed`
 })
 
 const contactMethods = [

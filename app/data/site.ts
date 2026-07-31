@@ -20,6 +20,9 @@ export interface SiteInfo {
     addressCn: string
     lat: number
     lng: number
+    /** WGS-84 坐标（Google Maps 用）；lat/lng 为 GCJ-02（国内高德用） */
+    wgsLat: number
+    wgsLng: number
     hours: string
   }
   social: { label: string; icon: string; href: string }[]
@@ -45,10 +48,16 @@ export const site: SiteInfo = {
     whatsappHref: 'https://wa.me/8618613000659',
     address: 'Building E, Feixingzhe Zhide Communication & Electronics Technology Park, No. 77 Yaxin South Street, Huadu District, Guangzhou, China',
     addressCn: '广州市花都区雅新南街77号飞行者智德通信电子科技园E栋',
-    // 地图坐标（高德 GCJ-02 坐标系）—— 注意：Google Maps 使用 WGS-84，
-    // 直接用 GCJ-02 坐标在 Google Maps 上会有百米级偏移。若用于海外导航需先转 WGS-84。
+    // 地图坐标 —— 两套坐标系并存：
+    // · lat/lng       = 高德 GCJ-02（火星坐标），用于国内高德/百度地图
+    // · wgsLat/wgsLng = WGS-84，用于 Google Maps（contact 页 embed）
+    // 两者不可混用：把 GCJ-02 直接喂给 Google Maps 会偏移约 620 米（本点实测 纬290m+经546m），
+    // 客户按错图导航会找不到厂。GCJ-02→WGS-84 转换见下文注释的算法。
     lat: 23.359527,
     lng: 113.238178,
+    // WGS-84：由上面 GCJ-02 经标准反解算法转出（迭代法，误差 <1m）
+    wgsLat: 23.362132,
+    wgsLng: 113.232837,
     hours: 'Mon – Sat, 9:00 – 18:00 (GMT+8)'
   },
   social: [],

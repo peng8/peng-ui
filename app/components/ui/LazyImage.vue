@@ -52,7 +52,10 @@ watch(() => props.src, () => {
       v-if="!loaded"
       class="absolute inset-0 animate-pulse bg-gradient-to-br from-mist-dark to-mist"
     />
-    <!-- 站内图：WebP + 响应式 -->
+    <!-- 站内图：WebP + 响应式。
+         注：NuxtImg 单 <img> 模式下 format 数组不会生成 <picture> 协商，
+         nuxt.config 的 format:['avif','webp'] 仅对 NuxtPicture 生效；
+         这里必须显式 format="webp"，否则省略 f_ 参数会回退成原 JPEG，图片反而变大。 -->
     <NuxtImg
       v-if="isLocal"
       :src="src"

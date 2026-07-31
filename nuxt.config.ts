@@ -154,6 +154,9 @@ export default defineNuxtConfig({
 
   // 所有图片已本地化为站内相对路径，
   // IPX 在 SSG 时统一预渲染为 WebP/AVIF + 响应式多尺寸，无需外部域名白名单。
+  // 注意：format 数组仅在 <NuxtPicture> 下才会生成多格式 <source> 协商；
+  // 全站实际用的是 <NuxtImg>（单 <img>，见 ui/LazyImage.vue / home/HeroBanner.vue），
+  // 它们各自显式 format="webp"，故此处数组目前不生效，保留仅作将来切 NuxtPicture 时的默认值。
   image: {
     format: ['avif', 'webp'],
     quality: 80,

@@ -52,15 +52,23 @@ const stop = () => {
   }
 }
 
+let motionMq: MediaQueryList | null = null
+const onMotionChange = (e: MediaQueryListEvent) => (prefersReducedMotion.value = e.matches)
+
 onMounted(() => {
   if (typeof window !== 'undefined' && window.matchMedia) {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    prefersReducedMotion.value = mq.matches
-    mq.addEventListener('change', (e) => (prefersReducedMotion.value = e.matches))
+    motionMq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    prefersReducedMotion.value = motionMq.matches
+    motionMq.addEventListener('change', onMotionChange)
   }
   start()
 })
-onBeforeUnmount(stop)
+onBeforeUnmount(() => {
+  stop()
+  // 移除 matchMedia 监听，避免组件卸载后回调仍触发 / 泄漏
+  motionMq?.removeEventListener('change', onMotionChange)
+  motionMq = null
+})
 
 // stat 标签按 locale 选用（site.stats.label 为英文，中文走 hero.statN 字典）
 const statList = computed(() => {
@@ -97,6 +105,7 @@ const statList = computed(() => {
           height="1440"
           format="webp"
           quality="78"
+          sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           :loading="i === 0 ? 'eager' : 'lazy'"
           :fetchpriority="i === 0 ? 'high' : 'auto'"
           decoding="async"
@@ -123,7 +132,9 @@ const statList = computed(() => {
     </button>
 
     <!-- 内容 -->
-    <div class="wrap relative flex min-h-[92vh] flex-col justify-center pt-20 pb-12">
+    <!-- 移动端底部预留足够空间（pb-40）容纳悬浮的「圆点+数据条」，避免竖排双 CTA 被遮挡；
+         md 及以上数据条为单行较矮，padding 相应收紧 -->
+    <div class="wrap relative flex min-h-[92vh] flex-col justify-center pt-20 pb-40 md:pb-28">
       <div class="max-w-2xl animate-fade-up">
         <!-- 动态 eyebrow（跟随当前轮播图） -->
         <Transition name="eyebrow-fade" mode="out-in">
@@ -151,8 +162,8 @@ const statList = computed(() => {
           </UiAppButton>
         </div>
 
-        <!-- 小亮点 -->
-        <ul class="mt-10 grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-4">
+        <!-- 小亮点（移动端收紧间距，避免把双 CTA 挤向底部数据条） -->
+        <ul class="mt-7 grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-4 md:mt-10">
           <li v-for="a in advantages" :key="a" class="flex items-center gap-2 text-sm text-white/85">
             <UiAppIcon name="check" :size="16" class="text-gold" />
             {{ a }}

@@ -1,7 +1,16 @@
 <script setup lang="ts">
 import { site, SITE_URL } from '~/data/site'
+// 预加载正文关键字体（400 = body 默认字重），减少首屏字体闪烁/CLS。
+// 通过 ~/assets 引用，Nuxt/Vite 会在构建期把它替换成带 hash 的 /_nuxt/*.woff2 并注入 <link rel="preload">。
+import interRegular from '~/assets/fonts/inter-latin-400-normal.woff2'
 
 const { isZh } = useLocale()
+
+useHead({
+  link: [
+    { rel: 'preload', as: 'font', type: 'font/woff2', href: interRegular, crossorigin: 'anonymous' }
+  ]
+})
 
 // Google Analytics 4（gtag.js）—— 来自 runtimeConfig.public.gaId
 const gaId = useRuntimeConfig().public.gaId
@@ -37,30 +46,16 @@ onMounted(() => {
 })
 
 // 注入 <html lang> 与 hreflang 交替链接 —— 由 @nuxtjs/i18n 提供，自动按当前 locale 生成
+// useLocaleHead(seo 默认开启) 会同时输出：canonical、hreflang(含 x-default)、og:url、og:locale(/alternate)
 const localeHead = useLocaleHead()
 
 // 标题模板按当前 locale 选择站名 + tagline（中文/英文不同）
-// htmlAttrs 用 getter 保持响应式：locale 切换时 <html lang> 跟随更新
+// htmlAttrs/link/meta 用 getter 保持响应式：locale 或路由切换时跟随更新
 useHead({
   titleTemplate: (t) => (t ? `${t} | ${site.brand}` : `${isZh.value ? site.nameCn : site.name} — ${isZh.value ? site.taglineZh : site.tagline}`),
-  htmlAttrs: () => localeHead.value.htmlAttrs
-})
-
-const route = useRoute()
-// 去掉路径里的 /zh 前缀，得到「裸路径」用于 hreflang 拼接；兼容旧 /en 链接。
-const stripLocalePrefix = (p: string) => p.replace(/^\/(en|zh)(?=\/|$)/, '') || '/'
-const canonicalUrl = computed(() => `${SITE_URL}${route.path}`)
-const basePath = computed(() => stripLocalePrefix(route.path))
-const englishPath = computed(() => basePath.value === '/' ? '' : basePath.value)
-
-// canonical + hreflang alternates（每个页面 x-default 指向英文）
-useHead({
-  link: computed(() => [
-    { rel: 'canonical', href: canonicalUrl.value },
-    { rel: 'alternate', hreflang: 'en-US', href: `${SITE_URL}${englishPath.value}` },
-    { rel: 'alternate', hreflang: 'zh-CN', href: `${SITE_URL}/zh${basePath.value === '/' ? '' : basePath.value}` },
-    { rel: 'alternate', hreflang: 'x-default', href: `${SITE_URL}${englishPath.value}` }
-  ])
+  htmlAttrs: () => localeHead.value.htmlAttrs,
+  link: () => localeHead.value.link,
+  meta: () => localeHead.value.meta
 })
 
 useSeoMeta({
@@ -70,7 +65,7 @@ useSeoMeta({
   ogDescription: () => isZh.value ? site.descriptionZh : site.description,
   ogType: 'website',
   ogSiteName: isZh.value ? site.nameCn : site.name,
-  ogUrl: canonicalUrl,
+  // og:url 已由 useLocaleHead() 的 meta 统一输出（规范化的 locale 路径），此处不再重复
   ogImage: `${SITE_URL}/images/ogImage.jpeg`,
   ogImageWidth: 1200,
   ogImageHeight: 630,
