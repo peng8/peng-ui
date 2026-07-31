@@ -1,12 +1,8 @@
 <script setup lang="ts">
 // 全部产品第 N 页（路径参数式，便于 SSG 预渲染独立 HTML）
+// 页码验证由 SSG 路由生成保证；浏览器直接访问不存在的页码由服务端返回 404。
 const route = useRoute()
 const page = computed(() => Number(route.params.page))
-
-// 页码越界 → 404
-if (!Number.isFinite(page.value) || page.value < 2 || page.value > getTotalPages('all')) {
-  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
-}
 </script>
 
 <template>

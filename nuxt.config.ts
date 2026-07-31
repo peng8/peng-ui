@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import { products } from './app/data/products'
-import { getAllProductListRoutes } from './app/data/productRoutes'
+import { curatedProducts, productCategories } from './app/data/products'
+import { getAllProducts } from './app/data/products-mutations'
+import { getTotalPages, productListApiPath, productPageUrl } from './app/data/productRoutes'
 import { DEFAULT_PRODUCT_IMAGE_BASE_URL } from './app/data/productImageUrl'
 
 // 两个语言：英文为默认裸路径，中文使用 /zh 前缀
@@ -22,10 +23,36 @@ const staticPageRoutes = [
   '/terms'
 ]
 
+// Full product list for SSG route generation (server-only, not in client bundle)
+const allProducts = getAllProducts()
+
+// 产品列表分页路由生成（使用完整产品列表计算页数，确保 SSG 预渲染所有分页）
+const PRODUCT_PAGE_SIZE = 16
+function buildProductListRoutes(): string[] {
+  const routes: string[] = ['/products']
+  const allCats = ['all', ...productCategories.map((c) => c.slug)]
+  for (const cat of allCats) {
+    const total = getTotalPages(cat, allProducts)
+    for (let p = 2; p <= total; p++) routes.push(productPageUrl(cat, p))
+    if (cat !== 'all') routes.push(productPageUrl(cat, 1))
+  }
+  return routes
+}
+
+function buildProductListApiRoutes(): string[] {
+  const routes: string[] = []
+  const allCats = ['all', ...productCategories.map((c) => c.slug)]
+  for (const cat of allCats) {
+    const total = getTotalPages(cat, allProducts)
+    for (let page = 1; page <= total; page++) routes.push(productListApiPath(cat, page))
+  }
+  return routes
+}
+
 const canonicalBareRoutes = Array.from(new Set([
   ...staticPageRoutes,
-  ...getAllProductListRoutes(),
-  ...products.map((p) => `/products/${p.slug}`)
+  ...buildProductListRoutes(),
+  ...allProducts.map((p) => `/products/${p.slug}`)
 ]))
 
 const sitemapEntries = (locale: typeof LOCALES[number]) =>
@@ -57,13 +84,17 @@ export default defineNuxtConfig({
     'nitro:config': (nitroConfig) => {
       nitroConfig.prerender ||= {}
       nitroConfig.prerender.routes ||= []
-      const productDetailRoutes = withLocales(products.map((p) => `/products/${p.slug}`))
-      const listRoutes = withLocales(getAllProductListRoutes())
+      const productDetailRoutes = withLocales(allProducts.map((p) => `/products/${p.slug}`))
+      const listRoutes = withLocales(buildProductListRoutes())
       const pageRoutes = withLocales(staticPageRoutes)
+      const productApiRoutes = allProducts.map((p) => `/api/products/${p.slug}`)
       nitroConfig.prerender.routes.push(
         ...pageRoutes,
         ...productDetailRoutes,
         ...listRoutes,
+        ...buildProductListApiRoutes(),
+        ...productApiRoutes,
+        '/api/products/search-index',
         '/404.html'
       )
     }
@@ -97,6 +128,7 @@ export default defineNuxtConfig({
 
   // 自动生成 sitemap.xml + robots.txt（@nuxtjs/i18n 与 @nuxtjs/sitemap 原生集成，自动输出 hreflang）
   sitemap: {
+    zeroRuntime: true,
     autoLastmod: true,
     autoI18n: false,
     sitemaps: {
@@ -110,10 +142,10 @@ export default defineNuxtConfig({
   // 也可通过环境变量 NUXT_PUBLIC_WEB3FORMS_ACCESS_KEY 覆盖
   runtimeConfig: {
     public: {
-      web3formsAccessKey: 'b07fa823-6ec0-4508-abb1-244849ee6019', // ← 在此填入你的 access_key
+      web3formsAccessKey: process.env.NUXT_PUBLIC_WEB3FORMS_ACCESS_KEY || 'b07fa823-6ec0-4508-abb1-244849ee6019',
       productImageBaseUrl: process.env.NUXT_PUBLIC_PRODUCT_IMAGE_BASE_URL || DEFAULT_PRODUCT_IMAGE_BASE_URL,
       // Google Analytics 4 衡量 ID（gtag.js）；可通过环境变量 NUXT_PUBLIC_GA_ID 覆盖
-      gaId: 'G-16K2YJ87K0'
+      gaId: process.env.NUXT_PUBLIC_GA_ID || 'G-16K2YJ87K0'
     }
   },
 

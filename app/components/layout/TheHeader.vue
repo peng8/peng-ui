@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { site, navItems } from '~/data/site'
-import type { MessageKey } from '~/i18n/messages'
+import { site, navItems, navKeyMap } from '~/data/site'
 
 const route = useRoute()
 const mobileOpen = ref(false)
@@ -42,15 +41,6 @@ const isActive = (to: string) => {
 }
 
 // 导航项：裸路径 → localePath 包装后的路由；标签统一走 i18n 字典（中英双语言都用 t()）
-const navKeyMap = {
-  '/': 'nav.home',
-  '/about': 'nav.about',
-  '/products': 'nav.products',
-  '/services': 'nav.services',
-  '/manufacturing': 'nav.manufacturing',
-  '/how-it-works': 'nav.howItWorks',
-  '/contact': 'nav.contact'
-} satisfies Record<string, MessageKey>
 const navList = computed(() =>
   navItems.map((n) => ({
     to: localePath(n.to),
@@ -158,6 +148,7 @@ const navList = computed(() =>
               ? 'border-navy/15 text-navy hover:border-navy/40'
               : 'border-white/40 text-white hover:border-white'
           "
+          :aria-label="isZh ? '切换语言' : 'Switch language'"
           @click="toggle"
         >
           <span :class="locale === 'en' ? '' : 'opacity-50'">EN</span>
@@ -203,6 +194,7 @@ const navList = computed(() =>
           <div class="mt-3 flex items-center gap-3">
             <button
               class="flex items-center gap-1 rounded-md border border-navy/15 px-2.5 py-1.5 text-xs font-semibold text-navy"
+              :aria-label="isZh ? '切换语言' : 'Switch language'"
               @click="toggle"
             >
               <span :class="locale === 'en' ? '' : 'opacity-50'">EN</span>

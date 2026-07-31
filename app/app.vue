@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import { site } from '~/data/site'
-
-// 站点绝对地址（与 nuxt.config 的 site.url 保持一致）
-const SITE_URL = 'https://www.mildy-health.com'
+import { site, SITE_URL } from '~/data/site'
 
 const { isZh } = useLocale()
 
@@ -40,7 +37,7 @@ onMounted(() => {
 })
 
 // 注入 <html lang> 与 hreflang 交替链接 —— 由 @nuxtjs/i18n 提供，自动按当前 locale 生成
-const localeHead = useLocaleHead({ addSeoAttributes: true })
+const localeHead = useLocaleHead()
 
 // 标题模板按当前 locale 选择站名 + tagline（中文/英文不同）
 useHead({
@@ -76,7 +73,7 @@ useSeoMeta({
   ogImage: `${SITE_URL}/images/ogImage.jpeg`,
   ogImageWidth: 1200,
   ogImageHeight: 630,
-  ogImageAlt: () => `${isZh.value ? site.nameCn : site.name} — 全球营养补充剂 OEM/ODM 解决方案`,
+  ogImageAlt: () => `${isZh.value ? site.nameCn : site.name} — ${isZh.value ? '全球营养补充剂 OEM/ODM 解决方案' : 'Global Nutritional Supplement OEM/ODM Solutions'}`,
   twitterCard: 'summary_large_image',
   twitterImage: `${SITE_URL}/images/ogImage.jpeg`
 })
@@ -113,7 +110,15 @@ useHead({
         name: site.name,
         alternateName: site.nameCn,
         url: SITE_URL,
-        inLanguage: ['en-US', 'zh-CN']
+        inLanguage: ['en-US', 'zh-CN'],
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: {
+            '@type': 'EntryPoint',
+            urlTemplate: `${SITE_URL}/products?q={search_term_string}`
+          },
+          'query-input': 'required name=search_term_string'
+        }
       })
     }
   ]

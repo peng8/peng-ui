@@ -1,55 +1,10 @@
-// Product catalog data.
-// 6 dosage-form categories with curated and imported product entries.
-
-// ---------- 类型定义 ----------
-import { importedProducts } from './importedProducts'
+// Product catalog — client-safe lean version.
+// productCategories + curated products only (~50 KB).
+// Full product list (incl. imported) lives in products-mutations.ts (server/API only).
 import { productImageUrl } from './productImageUrl'
+import type { Product, ProductCategory } from './products-types'
 
-export interface ProductSpec {
-  label: string
-  value: string
-}
-
-export interface Product {
-  slug: string
-  name: string
-  /** 所属剂型 slug，对应 productCategories.slug */
-  category: string
-  /** 封面大图（列表卡片 + 详情页主图默认） */
-  cover: string
-  /** 详情页缩略图画廊（点击切换主图） */
-  gallery: string[]
-  /** 列表卡片上的简短一句话 */
-  shortDesc: string
-  /** 详情页正文描述 */
-  description: string
-  /** 卖点特性（勾选列表） */
-  features: string[]
-  /** 规格参数表（键值对） */
-  specs: ProductSpec[]
-  /** 起订量 */
-  moq: string
-  // ---- 以下为中文字段（可选，缺失则回退到英文）----
-  nameZh?: string
-  shortDescZh?: string
-  descriptionZh?: string
-  featuresZh?: string[]
-  specsZh?: ProductSpec[]
-}
-
-export interface ProductCategory {
-  slug: string
-  name: string
-  nameZh: string
-  short: string
-  shortZh: string
-  desc: string
-  descZh: string
-  image: string
-  features: string[]
-  moq: string
-  examples: { name: string; image: string }[]
-}
+export type { ProductSpec, Product, ProductCategory } from './products-types'
 
 // ---------- 6 大剂型分类 ----------
 export const productCategories: ProductCategory[] = [
@@ -157,8 +112,8 @@ export const productCategories: ProductCategory[] = [
   },
 ]
 
-// ---------- Curated product entries ----------
-export const products: Product[] = [
+// ---------- Curated product entries (client-safe, no imported products) ----------
+export const curatedProducts: Product[] = [
 
   // ===== Gummies =====
   {
@@ -812,7 +767,7 @@ export const products: Product[] = [
   {
     slug: 'pure-himalayan-shilajit-resin-fulvic-50',
     name: 'Pure Himalayan Shilajit Resin Fulvic 50%',
-    category: 'tablets',
+    category: 'powders',
     cover: productImageUrl('m0_7i_767iq7i7ml9luppxt6p3mhzm.jpg'),
     gallery: [],
     shortDesc: 'Wholesale 100% Pure Himalayan Shilajit Resin Fulvic 50% is a dark, natural resin collected from high-altitude Himalayan rocks. It is concent...',
@@ -1691,61 +1646,9 @@ export const products: Product[] = [
   },
 ]
 
-products.push(...importedProducts)
+// Deduplication, mutations, and heavy query helpers moved to products-mutations.ts (server/API only)
 
-const normalizeProductIdentity = (value: string) =>
-  value
-    .toLowerCase()
-    .replace(/&/g, 'and')
-    .replace(/[^a-z0-9]+/g, ' ')
-    .trim()
-
-const dedupeProducts = (items: Product[]) => {
-  const seen = new Set<string>()
-
-  return items.filter((product) => {
-    const key = `${product.category}:${normalizeProductIdentity(product.name)}`
-    if (seen.has(key)) return false
-    seen.add(key)
-    return true
-  })
-}
-
-products.splice(0, products.length, ...dedupeProducts(products))
-
-const clippedCopyPattern = /\s*(?:\.{3}|…)\s*$/
-const categoryNameMap = Object.fromEntries(productCategories.map((c) => [c.slug, c.name]))
-
-const buildShortDesc = (p: Product) =>
-  `${p.name} for private-label supplement brands, with custom formulation, dosage and packaging options.`
-
-const buildDescription = (p: Product) => {
-  const categoryName = categoryNameMap[p.category]?.toLowerCase() ?? 'supplement'
-  return `${p.name} is available as an OEM/ODM ${categoryName} solution for private-label supplement brands. MILDY supports formula adjustment, dosage planning, flavor or shell options, label-ready packaging and export documentation through a GMP-certified manufacturing workflow.`
-}
-
-for (const product of products) {
-  if (clippedCopyPattern.test(product.shortDesc)) product.shortDesc = buildShortDesc(product)
-  if (clippedCopyPattern.test(product.description)) product.description = buildDescription(product)
-}
-
-// ---------- 查询辅助函数 ----------
-/** 按 slug 查单个产品 */
-export function getProductBySlug(slug: string): Product | undefined {
-  return products.find((p) => p.slug === slug)
-}
-
-/** 取同剂型其他产品（排除自己，返回前 limit 个） */
-export function getRelatedProducts(slug: string, limit: number): Product[] {
-  const current = getProductBySlug(slug)
-  if (!current) return []
-  return products
-    .filter((p) => p.category === current.category && p.slug !== slug)
-    .slice(0, limit)
-}
-
-/** 按 slug 查剂型分类（用于详情页角标文案） */
+/** 按 slug 查剂型分类（仅使用 productCategories，无重量级数据依赖） */
 export function getCategoryBySlug(slug: string): ProductCategory | undefined {
   return productCategories.find((c) => c.slug === slug)
 }
-

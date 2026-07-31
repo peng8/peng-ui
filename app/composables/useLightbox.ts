@@ -49,5 +49,10 @@ export function useLightbox() {
     watch(() => route.fullPath, () => close())
   }
 
+  // 组件卸载时确保恢复 body 滚动
+  if (import.meta.client) {
+    onUnmounted(() => close())
+  }
+
   return { isOpen, images, index, current, open, openOne, close, next, prev }
 }

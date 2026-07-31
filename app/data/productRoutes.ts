@@ -1,7 +1,8 @@
 // 产品路由纯模块 —— 列表分页 URL 与预渲染路由生成
 // 同时被 nuxt.config.ts（构建期预渲染）与 useProducts.ts（运行时）复用，
 // 避免「分类×页码→裸路径」规则在两处各写一份导致漂移。
-import { products, productCategories } from './products'
+import { curatedProducts, productCategories } from './products'
+import type { Product } from './products-types'
 
 /** 产品列表分页：每页 16 个 */
 export const PRODUCT_PAGE_SIZE = 16
@@ -24,9 +25,13 @@ export function productPageUrl(category: string, page: number): string {
     : `/products/categories/${category}/page/${page}`
 }
 
-/** 某剂型下的总页数（至少 1） */
-export function getTotalPages(category: string): number {
-  const count = category === 'all' ? products.length : products.filter((p) => p.category === category).length
+export function productListApiPath(category: string, page: number): string {
+  return `/api/products/list/${category}/${Math.max(1, Math.floor(page || 1))}`
+}
+
+/** 某剂型下的总页数（至少 1）。默认使用精简列表；传入完整列表可获得精确页数。 */
+export function getTotalPages(category: string, productList: Product[] = curatedProducts): number {
+  const count = category === 'all' ? productList.length : productList.filter((p) => p.category === category).length
   return Math.max(1, Math.ceil(count / PRODUCT_PAGE_SIZE))
 }
 

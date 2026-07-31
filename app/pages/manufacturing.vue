@@ -12,17 +12,17 @@ useSeoMeta({
 })
 
 const capacityStats = [
-  { value: '20,000', label: 'm² Total Area', labelZh: '平方米总面积', icon: 'box' },
-  { value: '8', label: 'Production Lines', labelZh: '条产线', icon: 'gear' },
-  { value: '8', label: 'GMP Workshops', labelZh: '个 GMP 车间', icon: 'shield-check' },
-  { value: '30B+', label: 'Units Annual Capacity', labelZh: '年产能(件)', icon: 'layers' }
+  { value: '20,000', icon: 'box' },
+  { value: '8', icon: 'gear' },
+  { value: '8', icon: 'shield-check' },
+  { value: '30B+', icon: 'layers' }
 ]
 
 const equipmentImages = [
-  { src: '/images/manufacturing/equip-1.jpg', alt: 'HPLC instrument', altZh: 'HPLC 检测仪器', class: '' },
-  { src: '/images/manufacturing/equip-2.jpg', alt: 'Encapsulation machine', altZh: '胶囊填充设备', class: 'mt-8' },
-  { src: '/images/manufacturing/equip-3.jpg', alt: 'Blending tank', altZh: '混合罐设备', class: '' },
-  { src: '/images/manufacturing/equip-4.jpg', alt: 'Packaging line', altZh: '包装生产线', class: 'mt-8' }
+  { src: '/images/manufacturing/equip-1.jpg', class: '' },
+  { src: '/images/manufacturing/equip-2.jpg', class: 'mt-8' },
+  { src: '/images/manufacturing/equip-3.jpg', class: '' },
+  { src: '/images/manufacturing/equip-4.jpg', class: 'mt-8' }
 ]
 
 </script>
@@ -30,11 +30,11 @@ const equipmentImages = [
 <template>
   <div>
     <PageHero
-      :eyebrow="isZh ? '生产实力' : 'Manufacturing'"
-      :title="isZh ? '走进世界级工厂' : 'Inside Our World-Class Facility'"
-      :subtitle="isZh ? '20,000 平方米专用产业园,为规模、精度和合规而建。' : 'A 20,000 m² purpose-built industrial park engineered for volume, precision and compliance.'"
+      :eyebrow="t('mfg.hero.eyebrow')"
+      :title="t('mfg.hero.title')"
+      :subtitle="t('mfg.hero.subtitle')"
       image="/images/manufacturing/hero.jpg"
-      :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: localePath('/') }, { label: isZh ? '生产实力' : 'Manufacturing' }]"
+      :breadcrumb="[{ label: t('nav.home'), to: localePath('/') }, { label: t('nav.manufacturing') }]"
     />
 
     <!-- 数据概览 -->
@@ -43,13 +43,13 @@ const equipmentImages = [
         <div class="grid grid-cols-2 gap-8 lg:grid-cols-4">
           <div
             v-for="(s, i) in capacityStats"
-            :key="s.label"
+            :key="i"
             class="reveal text-center"
             :style="`transition-delay: ${i * 80}ms`"
           >
             <UiAppIcon :name="s.icon" :size="32" class="mx-auto text-gold" />
             <UiStatCounter :value="s.value" light class="mt-3" />
-            <p class="mt-1 text-xs uppercase tracking-wider text-white/60">{{ isZh ? s.labelZh : s.label }}</p>
+            <p class="mt-1 text-xs uppercase tracking-wider text-white/60">{{ t(`mfg.stats.${i + 1}.label`) }}</p>
           </div>
         </div>
       </div>
@@ -59,23 +59,23 @@ const equipmentImages = [
     <section class="section bg-white">
       <div class="wrap">
         <UiSectionHeading
-          :eyebrow="isZh ? '我们的设施' : 'Our Facilities'"
-          :title="isZh ? '每个环节,为品质而设' : 'Every Stage, Engineered for Quality'"
-          :subtitle="isZh ? '从原料入库到成品发货——每个环节都有专用空间。' : 'From raw material intake to finished-goods shipping — purpose-built spaces for every step.'"
+          :eyebrow="t('mfg.facilities.eyebrow')"
+          :title="t('mfg.facilities.title')"
+          :subtitle="t('mfg.facilities.subtitle')"
         />
         <div class="mt-12 grid gap-8 md:grid-cols-2">
           <div
             v-for="(f, i) in facilities"
-            :key="f.title"
+            :key="i"
             class="reveal group overflow-hidden rounded-2xl bg-mist shadow-card ring-1 ring-mist-border"
             :style="`transition-delay: ${(i % 2) * 100}ms`"
           >
             <div class="block w-full overflow-hidden">
-              <UiLazyImage :src="f.image" :alt="isZh ? f.titleZh : f.title" ratio="aspect-[16/10]" class="transition-transform duration-700 group-hover:scale-105" />
+              <UiLazyImage :src="f.image" :alt="t(`mfg.facility.${i + 1}.title`)" ratio="aspect-[16/10]" class="transition-transform duration-700 group-hover:scale-105" />
             </div>
             <div class="p-6">
-              <h3 class="text-lg font-bold text-navy">{{ isZh ? f.titleZh : f.title }}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-navy/65">{{ isZh ? f.descZh : f.desc }}</p>
+              <h3 class="text-lg font-bold text-navy">{{ t(`mfg.facility.${i + 1}.title`) }}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-navy/65">{{ t(`mfg.facility.${i + 1}.desc`) }}</p>
             </div>
           </div>
         </div>
@@ -86,14 +86,14 @@ const equipmentImages = [
     <section class="section bg-mist">
       <div class="wrap">
         <UiSectionHeading
-          :eyebrow="isZh ? '品质控制' : 'Quality Control'"
-          :title="isZh ? '四层质量护盾' : 'Four-Layer Quality Shield'"
-          :subtitle="isZh ? '质量不是检出来的——而是贯穿生产每一环节造出来的。' : `Quality isn't inspected in — it's built in at every stage of production.`"
+          :eyebrow="t('mfg.qc.eyebrow')"
+          :title="t('mfg.qc.title')"
+          :subtitle="t('mfg.qc.subtitle')"
         />
         <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           <div
             v-for="(step, i) in qcSteps"
-            :key="step.title"
+            :key="i"
             class="reveal relative rounded-2xl bg-white p-7 shadow-card"
             :style="`transition-delay: ${i * 80}ms`"
           >
@@ -101,8 +101,8 @@ const equipmentImages = [
             <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-leaf/10 text-leaf-dark">
               <UiAppIcon name="shield-check" :size="24" />
             </div>
-            <h3 class="mt-4 text-base font-bold text-navy">{{ isZh ? step.titleZh : step.title }}</h3>
-            <p class="mt-2 text-sm leading-relaxed text-navy/60">{{ isZh ? step.descZh : step.desc }}</p>
+            <h3 class="mt-4 text-base font-bold text-navy">{{ t(`mfg.qc.${i + 1}.title`) }}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-navy/60">{{ t(`mfg.qc.${i + 1}.desc`) }}</p>
           </div>
         </div>
       </div>
@@ -112,45 +112,25 @@ const equipmentImages = [
     <section class="section bg-white">
       <div class="wrap grid items-center gap-12 lg:grid-cols-2">
         <div class="reveal grid grid-cols-2 gap-4">
-          <img
-            v-for="img in equipmentImages"
+          <UiLazyImage
+            v-for="(img, i) in equipmentImages"
             :key="img.src"
             :src="img.src"
-            :alt="isZh ? img.altZh : img.alt"
+            :alt="t(`mfg.equipImg.${i + 1}.alt`)"
+            ratio="aspect-square"
             class="rounded-xl object-cover shadow-card"
             :class="img.class"
-            loading="lazy"
           />
         </div>
         <div class="reveal" :style="`transition-delay:120ms`">
-          <span class="eyebrow"><span class="h-px w-6 bg-gold" />{{ isZh ? '设备与技术' : 'Equipment & Technology' }}</span>
-          <h2 class="mt-3 text-3xl font-bold md:text-4xl">{{ isZh ? '投入最精良的设备' : 'Invested in the Best Equipment' }}</h2>
+          <span class="eyebrow"><span class="h-px w-6 bg-gold" />{{ t('mfg.equipment.eyebrow') }}</span>
+          <h2 class="mt-3 text-3xl font-bold md:text-4xl">{{ t('mfg.equipment.title') }}</h2>
           <p class="mt-5 leading-relaxed text-navy/70">
-            <template v-if="isZh">
-              我们持续投入最先进的机械设备和分析仪器,确保产出稳定、高效且完全合规。
-            </template>
-            <template v-else>
-              We continuously reinvest in state-of-the-art machinery and analytical instruments to keep
-              our output consistent, efficient and fully compliant.
-            </template>
+            {{ t('mfg.equipment.desc') }}
           </p>
           <ul class="mt-6 space-y-3">
-            <li v-for="e in (isZh ? [
-              '高速旋转式压片机(24+ 工位)',
-              '全自动软胶囊封装产线',
-              'HPLC、GC、UV-Vis 及快速微生物检测',
-              '配备 HEPA 过滤的恒温恒湿洁净室',
-              '自动化条包与袋装灌装产线',
-              '机器人辅助包装与码垛'
-            ] : [
-              'High-speed rotary tablet presses (24+ stations)',
-              'Automatic softgel encapsulation lines',
-              'HPLC, GC, UV-Vis & rapid microbiology testing',
-              'Climate-controlled cleanrooms with HEPA filtration',
-              'Automated stick-pack & sachet filling lines',
-              'Robot-assisted packaging and palletizing'
-            ])" :key="e" class="flex items-start gap-3 text-sm text-navy/75">
-              <UiAppIcon name="check" :size="18" class="mt-0.5 text-leaf" />{{ e }}
+            <li v-for="idx in 6" :key="idx" class="flex items-start gap-3 text-sm text-navy/75">
+              <UiAppIcon name="check" :size="18" class="mt-0.5 text-leaf" />{{ t(`mfg.equipment.${idx}`) }}
             </li>
           </ul>
         </div>
@@ -160,9 +140,9 @@ const equipmentImages = [
     <!-- CTA -->
     <section class="section bg-navy">
       <div class="wrap reveal text-center">
-        <h2 class="text-3xl font-bold text-white md:text-4xl">{{ isZh ? '想参观我们的工厂?' : 'Want to Visit Our Factory?' }}</h2>
-        <p class="mx-auto mt-4 max-w-xl text-white/75">{{ isZh ? '提供现场及线上工厂参观,立即预约。' : 'On-site and virtual factory tours available. Schedule your visit today.' }}</p>
-        <UiAppButton :to="localePath('/contact')" variant="primary" size="lg" icon="send" class="mt-8">{{ isZh ? '预约参观' : 'Book a Tour' }}</UiAppButton>
+        <h2 class="text-3xl font-bold text-white md:text-4xl">{{ t('mfg.cta.title') }}</h2>
+        <p class="mx-auto mt-4 max-w-xl text-white/75">{{ t('mfg.cta.subtitle') }}</p>
+        <UiAppButton :to="localePath('/contact')" variant="primary" size="lg" icon="send" class="mt-8">{{ t('mfg.cta.button') }}</UiAppButton>
       </div>
     </section>
   </div>

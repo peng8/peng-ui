@@ -30,49 +30,35 @@ const campusGallery = [
 <template>
   <div>
     <PageHero
-      :eyebrow="isZh ? '关于 MILDY' : 'About MILDY Health'"
-      :title="isZh ? '10 年营养补充剂制造卓越之路' : '10 Years of Supplement Manufacturing Excellence'"
-      :subtitle="isZh ? '从广州的车间到 20,000 平方米的全球出口工厂——80+ 国家信赖品牌背后的故事。' : 'From a Guangzhou workshop to a 20,000 m² global export powerhouse — the story behind the brand trusted by 80+ countries.'"
+      :eyebrow="t('about.hero.eyebrow')"
+      :title="t('about.hero.title')"
+      :subtitle="t('about.hero.subtitle')"
       image="/images/about/hero.jpg"
-      :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: localePath('/') }, { label: isZh ? '关于我们' : 'About Us' }]"
+      :breadcrumb="[{ label: t('nav.home'), to: localePath('/') }, { label: t('nav.about') }]"
     />
 
     <!-- 公司简介 -->
     <section class="section bg-white">
       <div class="wrap grid items-center gap-12 lg:grid-cols-2">
         <div class="reveal">
-          <span class="eyebrow"><span class="h-px w-6 bg-gold" />{{ isZh ? '关于我们' : 'Who We Are' }}</span>
-          <h2 class="mt-3 text-3xl font-bold md:text-4xl">{{ isZh ? '营养制造领域值得信赖之名' : 'A Trusted Name in Nutritional Manufacturing' }}</h2>
+          <span class="eyebrow"><span class="h-px w-6 bg-gold" />{{ t('about.intro.eyebrow') }}</span>
+          <h2 class="mt-3 text-3xl font-bold md:text-4xl">{{ t('about.intro.title') }}</h2>
           <p class="mt-5 leading-relaxed text-navy/70">
-            <template v-if="isZh">
-              {{ site.name }}（{{ site.nameCn }}）是中国广州领先的膳食补充剂代工制造商。自 {{ site.founded }} 年起,我们专注于 OEM 和 ODM 自有品牌生产,覆盖所有主要剂型——软糖、软胶囊、片剂、硬胶囊、粉剂和口服液。
-            </template>
-            <template v-else>
-              {{ site.name }} ({{ site.nameCn }}) is a leading dietary supplement contract manufacturer based in
-              Guangzhou, China. Since {{ site.founded }}, we have specialized in OEM and ODM private-label
-              production across all major dosage forms — gummies, softgels, tablets, hard capsules, powders and liquid drops.
-            </template>
+            {{ t('about.intro.p1', { name: site.name, nameCn: site.nameCn, founded: site.founded }) }}
           </p>
           <p class="mt-4 leading-relaxed text-navy/70">
-            <template v-if="isZh">
-              今天,我们 20,000 平方米的高科技工厂在严格的 GMP 管控下运行 8 条自动化产线,服务 80+ 国家的品牌方、跨境卖家和经销商。我们持有 GMP、FDA、NSF、BRC、HALAL 和 ISO 认证——这是我们对质量不懈承诺的体现。
-            </template>
-            <template v-else>
-              Today, our 20,000 m² high-tech facility operates 8 automated production lines under strict GMP controls,
-              serving brand owners, cross-border sellers and distributors across 80+ countries. We are proud to hold
-              GMP, FDA, NSF, BRC, HALAL and ISO certifications — a reflection of our uncompromising commitment to quality.
-            </template>
+            {{ t('about.intro.p2') }}
           </p>
           <div class="mt-7 grid grid-cols-2 gap-5">
-            <div v-for="s in site.stats.slice(0,4)" :key="s.label">
+            <div v-for="(s, idx) in site.stats.slice(0,4)" :key="s.label">
               <UiStatCounter :value="s.value" />
-              <p class="mt-1 text-xs text-navy/55">{{ isZh ? s.labelZh : s.label }}</p>
+              <p class="mt-1 text-xs text-navy/55">{{ t(`site.stats.${idx + 1}.label`) }}</p>
             </div>
           </div>
         </div>
         <div class="reveal grid grid-cols-2 gap-4" :style="`transition-delay:120ms`">
-          <button v-for="(g, i) in campusGallery" :key="i" class="group overflow-hidden rounded-xl" @click="openOne({ src: g.src, caption: isZh ? g.captionZh : g.caption })">
-            <UiLazyImage :src="g.src" :alt="isZh ? g.captionZh : g.caption" :ratio="i === 0 ? 'aspect-[3/4]' : 'aspect-square'" class="h-full transition-transform duration-700 group-hover:scale-105" :class="i === 0 ? 'row-span-2' : ''" />
+          <button v-for="(g, i) in campusGallery" :key="i" class="group overflow-hidden rounded-xl" @click="openOne({ src: g.src, caption: t(`about.gallery.${i + 1}.caption`) })">
+            <UiLazyImage :src="g.src" :alt="t(`about.gallery.${i + 1}.caption`)" :ratio="i === 0 ? 'aspect-[3/4]' : 'aspect-square'" class="h-full transition-transform duration-700 group-hover:scale-105" :class="i === 0 ? 'row-span-2' : ''" />
           </button>
         </div>
       </div>
@@ -82,9 +68,9 @@ const campusGallery = [
     <section class="section bg-mist">
       <div class="wrap">
         <UiSectionHeading
-          :eyebrow="isZh ? '发展历程' : 'Our Journey'"
-          :title="isZh ? '十载成长' : 'A Decade of Growth'"
-          :subtitle="isZh ? '塑造 MILDY 成为全球制造合作伙伴的关键里程碑。' : 'Key milestones that shaped MILDY into a global manufacturing partner.'"
+          :eyebrow="t('about.journey.eyebrow')"
+          :title="t('about.journey.title')"
+          :subtitle="t('about.journey.subtitle')"
         />
         <div class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <div
@@ -95,8 +81,8 @@ const campusGallery = [
           >
             <span class="absolute -right-2 -top-3 text-6xl font-extrabold text-navy/5">{{ m.year }}</span>
             <span class="relative text-sm font-bold text-gold">{{ m.year }}</span>
-            <h3 class="relative mt-2 text-lg font-bold text-navy">{{ isZh ? m.titleZh : m.title }}</h3>
-            <p class="relative mt-2 text-sm leading-relaxed text-navy/60">{{ isZh ? m.descZh : m.desc }}</p>
+            <h3 class="relative mt-2 text-lg font-bold text-navy">{{ t(`about.milestone.${i + 1}.title`) }}</h3>
+            <p class="relative mt-2 text-sm leading-relaxed text-navy/60">{{ t(`about.milestone.${i + 1}.desc`) }}</p>
           </div>
         </div>
       </div>
@@ -106,8 +92,8 @@ const campusGallery = [
     <section class="section bg-white">
       <div class="wrap">
         <UiSectionHeading
-          :eyebrow="isZh ? '核心价值观' : 'Our Values'"
-          :title="isZh ? '驱动我们前行' : 'What Drives Us Forward'"
+          :eyebrow="t('about.values.eyebrow')"
+          :title="t('about.values.title')"
         />
         <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <div
@@ -119,8 +105,8 @@ const campusGallery = [
             <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-navy/5 text-navy">
               <UiAppIcon :name="v.icon" :size="30" />
             </div>
-            <h3 class="mt-5 text-lg font-bold text-navy">{{ isZh ? v.titleZh : v.title }}</h3>
-            <p class="mt-2 text-sm leading-relaxed text-navy/60">{{ isZh ? v.descZh : v.desc }}</p>
+            <h3 class="mt-5 text-lg font-bold text-navy">{{ t(`about.values.${i + 1}.title`) }}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-navy/60">{{ t(`about.values.${i + 1}.desc`) }}</p>
           </div>
         </div>
       </div>
@@ -130,9 +116,9 @@ const campusGallery = [
     <section class="section bg-mist">
       <div class="wrap">
         <UiSectionHeading
-          :eyebrow="isZh ? '我们的团队' : 'Our Team'"
-          :title="isZh ? '走近 MILDY 背后的人' : 'Meet the People Behind MILDY'"
-          :subtitle="isZh ? '致力于将您的产品推向世界的资深专业团队。' : 'Experienced professionals dedicated to delivering your product to the world.'"
+          :eyebrow="t('about.team.eyebrow')"
+          :title="t('about.team.title')"
+          :subtitle="t('about.team.subtitle')"
         />
         <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <div
@@ -150,7 +136,7 @@ const campusGallery = [
             </div>
             <div class="p-5 text-center">
               <h3 class="text-base font-bold text-navy">{{ member.name }}</h3>
-              <p class="mt-1 text-xs text-navy/55">{{ isZh ? member.roleZh : member.role }}</p>
+              <p class="mt-1 text-xs text-navy/55">{{ t(`about.team.${i + 1}.role`) }}</p>
             </div>
           </div>
         </div>
@@ -160,11 +146,11 @@ const campusGallery = [
     <!-- CTA -->
     <section class="section bg-navy">
       <div class="wrap reveal text-center">
-        <h2 class="text-3xl font-bold text-white md:text-4xl">{{ isZh ? '携手共建卓越' : "Let's Build Something Great Together" }}</h2>
-        <p class="mx-auto mt-4 max-w-xl text-white/75">{{ isZh ? '加入 80+ 信赖 MILDY 产品的全球品牌。' : 'Join 80+ global brands who trust MILDY with their products.' }}</p>
+        <h2 class="text-3xl font-bold text-white md:text-4xl">{{ t('about.cta.title') }}</h2>
+        <p class="mx-auto mt-4 max-w-xl text-white/75">{{ t('about.cta.subtitle') }}</p>
         <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <UiAppButton :to="localePath('/contact')" variant="primary" size="lg" icon="send">{{ isZh ? '联系我们' : 'Get In Touch' }}</UiAppButton>
-          <UiAppButton :to="localePath('/manufacturing')" variant="outline" size="lg" icon-right="arrow-right">{{ isZh ? '参观工厂' : 'Tour Our Factory' }}</UiAppButton>
+          <UiAppButton :to="localePath('/contact')" variant="primary" size="lg" icon="send">{{ t('about.cta.contact') }}</UiAppButton>
+          <UiAppButton :to="localePath('/manufacturing')" variant="outline" size="lg" icon-right="arrow-right">{{ t('about.cta.tour') }}</UiAppButton>
         </div>
       </div>
     </section>

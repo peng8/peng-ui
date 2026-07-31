@@ -2,9 +2,10 @@
 // 产品列表卡片：列表页 + 详情页「同类推荐」共用
 // 沿用原 ProductCard.vue 的卡片视觉风格，点击跳详情页
 import type { Product } from '~/data/products'
+import type { ProductCardItem } from '~/data/products-types'
 import { getCategoryBySlug } from '~/data/products'
 
-const props = defineProps<{ product: Product; index?: number }>()
+const props = defineProps<{ product: Product | ProductCardItem; index?: number }>()
 
 const { isZh, formatMoq, localePath } = useLocale()
 

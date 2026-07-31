@@ -16,10 +16,13 @@ useSeoMeta({
 
 const handleError = () => clearError({ redirect: '/' })
 
-const { isZh, localePath } = useLocale()
+const { t, isZh, localePath } = useLocale()
 // error.vue 是独立渲染（不在主 app.vue 上下文），手动补 i18n head（locale/direction + hreflang）
-const localeHead = useLocaleHead({ addSeoAttributes: true })
+const localeHead = useLocaleHead()
 useHead({ htmlAttrs: localeHead.value.htmlAttrs, link: localeHead.value.link })
+
+const errorTitle = computed(() => is404.value ? t('error.404.title') : t('error.500.title'))
+const errorDescription = computed(() => is404.value ? t('error.404.description') : t('error.500.description'))
 </script>
 
 <template>
@@ -37,13 +40,10 @@ useHead({ htmlAttrs: localeHead.value.htmlAttrs, link: localeHead.value.link })
           {{ is404 ? '404' : '⚠' }}
         </p>
         <h1 class="mt-4 text-3xl font-bold md:text-4xl">
-          {{ is404 ? (isZh ? '页面未找到' : 'Page Not Found') : (isZh ? '出错了' : 'Something Went Wrong') }}
+          {{ errorTitle }}
         </h1>
         <p class="mx-auto mt-4 max-w-xl text-white/70">
-          {{ is404
-            ? (isZh ? '您访问的页面不存在或已被移动。浏览我们的产品剂型,或返回首页。' : 'The page you are looking for doesn\'t exist or has been moved. Browse our supplement dosage forms or head back home.')
-            : (isZh ? '发生了一个错误,请稍后重试或返回首页。' : 'An unexpected error occurred. Please try again or return home.')
-          }}
+          {{ errorDescription }}
         </p>
 
         <!-- 主 CTA -->
@@ -52,19 +52,19 @@ useHead({ htmlAttrs: localeHead.value.htmlAttrs, link: localeHead.value.link })
             class="rounded-full bg-gold px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-gold-dark"
             @click="handleError"
           >
-            {{ isZh ? '返回首页' : 'Back to Home' }}
+            {{ t('error.backHome') }}
           </button>
           <NuxtLink
             :to="localePath('/products')"
             class="rounded-full border border-white/30 px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
           >
-            {{ isZh ? '浏览全部产品' : 'Browse All Products' }}
+            {{ t('error.browseProducts') }}
           </NuxtLink>
         </div>
 
         <!-- 产品分类内链（帮助用户/爬虫重新找到有效页面） -->
         <div class="mx-auto mt-12 max-w-2xl">
-          <p class="text-xs uppercase tracking-wider text-white/50">{{ isZh ? '热门剂型' : 'Popular Dosage Forms' }}</p>
+          <p class="text-xs uppercase tracking-wider text-white/50">{{ t('error.popularForms') }}</p>
           <div class="mt-4 flex flex-wrap justify-center gap-2">
             <NuxtLink
               v-for="cat in productCategories"

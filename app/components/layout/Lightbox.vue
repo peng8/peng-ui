@@ -10,8 +10,16 @@ const onKey = (e: KeyboardEvent) => {
   if (e.key === 'ArrowLeft') prev()
 }
 
+// Body scroll lock
+watch(isOpen, (open) => {
+  document.body.style.overflow = open ? 'hidden' : ''
+})
+
 onMounted(() => window.addEventListener('keydown', onKey))
-onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', onKey)
+  document.body.style.overflow = ''
+})
 </script>
 
 <template>
@@ -20,6 +28,9 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
       <div
         v-if="isOpen"
         class="fixed inset-0 z-[100] flex items-center justify-center bg-navy-900/90 p-4 backdrop-blur-sm"
+        role="dialog"
+        aria-modal="true"
+        :aria-label="isZh ? '图片查看器' : 'Image viewer'"
         @click.self="close"
       >
         <!-- 关闭 -->

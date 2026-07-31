@@ -5,7 +5,8 @@
 import type { MessageKey } from '~/i18n/messages'
 import { productCategories } from '~/data/products'
 import { productImageUrl } from '~/data/productImageUrl'
-import { PRODUCT_PAGE_SIZE } from '~/composables/useProducts'
+import type { ProductCardItem, ProductListResponse } from '~/data/products-types'
+import { PRODUCT_PAGE_SIZE, productListApiPath } from '~/composables/useProducts'
 
 const props = withDefaults(
   defineProps<{
@@ -24,6 +25,8 @@ const currentPage = computed(() => Math.max(1, props.page || 1))
 const searchQuery = ref('')
 const searchPage = ref(1)
 const isSearching = computed(() => searchQuery.value.trim().length > 0)
+const searchLoading = ref(false)
+const searchIndex = ref<Array<ProductCardItem & { searchText: string }> | null>(null)
 
 const normalizeSearchText = (value: string) =>
   value
@@ -32,38 +35,49 @@ const normalizeSearchText = (value: string) =>
     .replace(/[^a-z0-9\u4e00-\u9fa5]+/g, ' ')
     .trim()
 
-// 搜索时无视剂型 Tab，直接搜全部产品；未搜索时按当前分类展示
-const baseFiltered = computed(() => (isSearching.value ? getFilteredProducts('all') : getFilteredProducts(activeCat.value)))
-const filtered = computed(() => {
+// 列表页只获取当前分类 + 当前页卡片数据，避免每个静态页面重复内嵌完整产品库。
+const productFetchKey = computed(() => `products-${activeCat.value}-${currentPage.value}`)
+const { data: productPage } = await useAsyncData<ProductListResponse>(
+  productFetchKey,
+  () => $fetch(productListApiPath(activeCat.value, currentPage.value)),
+  {
+    watch: [activeCat, currentPage],
+    default: () => ({ items: [], total: 0, totalPages: 1, page: 1, category: activeCat.value })
+  }
+)
+
+const ensureSearchIndex = async () => {
+  if (searchIndex.value) return
+  searchLoading.value = true
+  try {
+    searchIndex.value = await $fetch<Array<ProductCardItem & { searchText: string }>>('/api/products/search-index')
+  } finally {
+    searchLoading.value = false
+  }
+}
+
+// 搜索时无视剂型 Tab，直接搜全部产品；搜索索引仅在用户输入后懒加载。
+const filtered = computed<ProductCardItem[]>(() => {
+  if (!isSearching.value) return productPage.value?.items ?? []
+
   const query = normalizeSearchText(searchQuery.value)
-  if (!query) return baseFiltered.value
+  if (!query) return []
 
   const terms = query.split(/\s+/).filter(Boolean)
+  const list = searchIndex.value ?? []
 
-  return baseFiltered.value.filter((product) => {
-    const category = productCategories.find((item) => item.slug === product.category)
-    const haystack = normalizeSearchText(
-      [
-        product.name,
-        product.nameZh,
-        product.shortDesc,
-        product.shortDescZh,
-        product.slug,
-        product.category,
-        category?.name,
-        category?.nameZh
-      ]
-        .filter(Boolean)
-        .join(' ')
-    )
-
-    return terms.every((term) => haystack.includes(term))
-  })
+  return list.filter((product) => terms.every((term) => product.searchText.includes(term)))
 })
-const totalPages = computed(() => Math.max(1, Math.ceil(filtered.value.length / PRODUCT_PAGE_SIZE)))
+const resultTotal = computed(() => (isSearching.value ? filtered.value.length : productPage.value?.total ?? 0))
+const totalPages = computed(() =>
+  isSearching.value
+    ? Math.max(1, Math.ceil(filtered.value.length / PRODUCT_PAGE_SIZE))
+    : productPage.value?.totalPages ?? 1
+)
 const activePage = computed(() => (isSearching.value ? searchPage.value : currentPage.value))
 const safePage = computed(() => Math.min(Math.max(1, activePage.value), totalPages.value))
 const pageItems = computed(() => {
+  if (!isSearching.value) return productPage.value?.items ?? []
   const start = (safePage.value - 1) * PRODUCT_PAGE_SIZE
   return filtered.value.slice(start, start + PRODUCT_PAGE_SIZE)
 })
@@ -127,7 +141,7 @@ const filters = computed(() => [
 
 // 面包屑：分类页多一级（路径用 localePath 包装带 locale 前缀）
 const breadcrumb = computed(() => {
-  const base = [
+  const base: { label: string; to?: string }[] = [
     { label: isZh.value ? '首页' : 'Home', to: localePath('/') },
     { label: isZh.value ? '产品中心' : 'Products', to: localePath('/products') }
   ]
@@ -169,6 +183,7 @@ watch(
 
 watch(searchQuery, () => {
   searchPage.value = 1
+  if (isSearching.value) ensureSearchIndex()
 })
 
 // 搜索/翻页是客户端原地更新（路由不变），布局里的 reveal 观察不会重跑，
@@ -219,7 +234,7 @@ watch(pageItems, () => {
               v-model="searchQuery"
               type="search"
               :placeholder="isZh ? '搜索产品名称、描述、分类' : 'Search products by name, description, category'"
-              class="h-12 w-full rounded-lg border border-mist-border bg-white py-3 pl-11 pr-12 text-sm text-navy outline-none transition-colors placeholder:text-navy/35 focus:border-navy/30 focus:ring-2 focus:ring-navy/10"
+              class="h-12 w-full appearance-none rounded-lg border border-mist-border bg-white py-3 pl-11 pr-12 text-sm text-navy outline-none transition-colors placeholder:text-navy/35 focus:border-navy/30 focus:ring-2 focus:ring-navy/10 [&::-webkit-search-cancel-button]:hidden"
             >
             <button
               v-if="isSearching"
@@ -235,10 +250,15 @@ watch(pageItems, () => {
 
         <!-- 结果计数 -->
         <p class="mb-8 text-sm text-navy/55">
-          {{ t('products.showing', { shown: pageItems.length, total: filtered.length }) }}
+          {{ searchLoading ? (isZh ? '正在加载搜索索引...' : 'Loading search index...') : t('products.showing', { shown: pageItems.length, total: resultTotal }) }}
         </p>
 
-        <div v-if="pageItems.length" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div v-if="searchLoading" class="rounded-xl bg-white py-20 text-center shadow-card ring-1 ring-mist-border">
+          <UiAppIcon name="search" :size="40" class="mx-auto text-navy/30" />
+          <p class="mt-4 text-navy/60">{{ isZh ? '正在搜索产品' : 'Searching products' }}</p>
+        </div>
+
+        <div v-else-if="pageItems.length" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           <ProductGridCard
             v-for="(item, i) in pageItems"
             :key="item.slug"

@@ -1,26 +1,65 @@
 <script setup lang="ts">
 // 产品详情页 —— 封面大图 + 缩略图画廊 + 描述特性 + 规格参数表 + 咨询定制 CTA + 同类推荐
-import { getProductBySlug, getCategoryBySlug, getRelatedProducts } from '~/data/products'
+// Product data fetched from server API; heavy products-mutations.ts is never bundled into client.
+import type { Product, ProductCategory } from '~/data/products'
+import { SITE_URL } from '~/data/site'
 
 const route = useRoute()
 const slug = computed(() => String(route.params.slug))
 
 const {  t, isZh , formatMoq, localePath } = useLocale()
 
-const product = computed(() => getProductBySlug(slug.value))
+const { data, pending } = await useAsyncData(
+  `product-${slug.value}`,
+  () => $fetch<{ product: Product; category: ProductCategory | null; related: Product[] }>(`/api/products/${slug.value}`),
+  { watch: [slug] }
+)
 
-// 找不到产品 → 抛 404，交由 Nuxt 的错误页 / error.vue 处理
-if (!product.value) {
-  throw createError({ statusCode: 404, statusMessage: 'Product not found', fatal: true })
-}
+const product = computed(() => data.value?.product)
+const category = computed(() => data.value?.category)
+const related = computed(() => data.value?.related ?? [])
 
-const category = computed(() => getCategoryBySlug(product.value!.category))
-const related = computed(() => getRelatedProducts(slug.value, 4))
+// 找不到产品 → 抛 404，交由 Nuxt 的错误页 / error.vue 处理。
+// 注意：客户端在详情页之间跳转时 setup 重新执行，数据有空窗（pending=true、product=undefined），
+// 不能在此同步 throw，否则导航瞬间误判 404 卡住页面。必须用 watch 等取数结束后再判。
+watch([product, pending], ([p, isPending]) => {
+  if (!isPending && !p) {
+    throw createError({ statusCode: 404, statusMessage: 'Product not found', fatal: true })
+  }
+}, { immediate: true })
+
+// FAQ 单一数据源：页面可见 <details> 与 JSON-LD FAQPage schema 共用，避免两份文案漂移。
+// 必须声明在 useHead 之前——其 script computed 引用了 faqs；若声明在后，
+// 客户端导航时 unhead 提前解析会撞上 const 暂时性死区(TDZ)，抛 ReferenceError 中断路由。
+const faqs = computed(() => {
+  const p = product.value
+  if (!p) return []
+  const cat = category.value
+  if (isZh.value) {
+    const pn = p.nameZh ?? p.name
+    const cn = cat?.nameZh ?? '补充剂'
+    const pm = formatMoq(p.moq)
+    return [
+      { q: `${pn} 的最小起订量是多少?`, a: `${pn} 的最小起订量为 ${pm},我们也为新合作伙伴提供试单。` },
+      { q: '可以定制配方和包装吗?', a: `可以。作为 OEM/ODM 制造商,我们提供${cn}的全面定制——活性成分剂量、口味、形状、标签设计和结构化包装。` },
+      { q: '交期多久?', a: '确认包装设计和订单后,常规生产交期 7–14 个工作日,样品通常 7–15 天内完成。' },
+      { q: '工厂持有哪些认证?', a: '我们 20,000 平方米工厂持有 GMP 认证、FDA 注册、BRCGS 和 NSF GMP。每批次出具完整 COA,涵盖有效成分、重金属和微生物检测。' }
+    ]
+  }
+  const cn = cat?.name ?? 'supplements'
+  return [
+    { q: `What is the MOQ for ${p.name}?`, a: `The minimum order quantity for ${p.name} is ${p.moq}. We also support trial orders for new partners — contact us to discuss your volume needs.` },
+    { q: 'Can I customize the formula and packaging?', a: `Yes. As an OEM/ODM manufacturer we offer full customization for ${cn} — including active ingredient dosage, flavor, shape, color, label artwork and structural packaging. Free formulation consultation is available.` },
+    { q: 'What is the lead time?', a: 'Typical production lead time is 7–14 working days after artwork and order confirmation. Samples are usually ready within 7–15 days. Sea-freight export documentation is handled in-house.' },
+    { q: 'Which certifications does your facility hold?', a: 'Our 20,000 m² facility is GMP-certified with FDA registration, BRCGS and NSF GMP. Every batch ships with a full COA covering active assay, heavy metals and microbiology.' }
+  ]
+})
 
 // 动态 SEO
 // title 命中买家搜索意图(产品名 + 剂型 + OEM/Supplier)，超长时智能截断产品名保关键词
 const seoTitle = computed(() => {
-  const p = product.value!
+  const p = product.value
+  if (!p) return ''
   const catName = category.value?.name ?? 'Supplement'
   // 后缀固定约 18 字符，预留产品名空间；超长则按单词边界截断
   const suffix = ` | OEM ${catName} Supplier`
@@ -32,21 +71,19 @@ const seoTitle = computed(() => {
   return `${name}${suffix}`
 })
 
-// 站点绝对地址（与 app.vue / nuxt.config 的 site.url 一致）
-const SITE_URL = 'https://www.mildy-health.com'
-
 useSeoMeta({
-  title: () => isZh.value ? (product.value!.nameZh ?? product.value!.name) : seoTitle.value,
-  description: () => isZh.value ? (product.value!.shortDescZh ?? product.value!.shortDesc) : product.value!.shortDesc,
-  ogTitle: () => isZh.value ? (product.value!.nameZh ?? product.value!.name) : seoTitle.value,
-  ogType: 'product',
-  ogImage: () => (product.value!.cover.startsWith('http') ? product.value!.cover : `${SITE_URL}${product.value!.cover}`)
+  title: () => { const p = product.value; return p ? (isZh.value ? (p.nameZh ?? p.name) : seoTitle.value) : '' },
+  description: () => { const p = product.value; return p ? (isZh.value ? (p.shortDescZh ?? p.shortDesc) : p.shortDesc) : '' },
+  ogTitle: () => { const p = product.value; return p ? (isZh.value ? (p.nameZh ?? p.name) : seoTitle.value) : '' },
+  ogType: 'website',
+  ogImage: () => { const p = product.value; if (!p) return ''; return p.cover.startsWith('http') ? p.cover : `${SITE_URL}${p.cover}` }
 })
 
 // 结构化数据：Product + BreadcrumbList（Google 富摘要：产品信息 + 面包屑路径）
 useHead({
   script: computed(() => {
-    const p = product.value!
+    const p = product.value
+    if (!p) return []
     const cat = category.value
     const zh = isZh.value
     const pn = zh ? p.nameZh ?? p.name : p.name
@@ -109,8 +146,11 @@ useHead({
 })
 
 // SEO 正文：基于产品名+剂型+MOQ+OEM 关键词生成，补充详情页文字内容（利于关键词排名）
+// 注意：客户端在详情页之间跳转(点同类推荐)时，useAsyncData 重新取数存在空窗，product 可能为 undefined，
+// 故这些 computed 必须对空数据安全（不能用 product.value! 非空断言），否则渲染期抛 TypeError 中断导航。
 const seoParagraph = computed(() => {
-  const p = product.value!
+  const p = product.value
+  if (!p) return ''
   const cat = category.value
   if (isZh.value) {
     const catNameZh = cat?.nameZh ?? '营养补充剂'
@@ -121,33 +161,13 @@ const seoParagraph = computed(() => {
   return `MILDY Health is a leading OEM/ODM manufacturer of ${catName.toLowerCase()} in China, offering private-label and custom-formulation services for ${p.name}. With a 20,000 m² GMP-certified facility, FDA registration and BRCGS accreditation, we serve supplement brands, cross-border sellers and distributors across 80+ countries. Our ${catName.toLowerCase()} capabilities cover custom active-ingredient dosage, flavors, shapes, vegan bases and branded packaging — starting from ${p.moq}. Request a free formulation consultation, samples within 7–15 days, and a no-obligation quote for your ${catName.toLowerCase()} project.`
 })
 
-// FAQ 单一数据源：页面可见 <details> 与 JSON-LD FAQPage schema 共用，避免两份文案漂移
-const faqs = computed(() => {
-  const p = product.value!
-  const cat = category.value
-  if (isZh.value) {
-    const pn = p.nameZh ?? p.name
-    const cn = cat?.nameZh ?? '补充剂'
-    const pm = formatMoq(p.moq)
-    return [
-      { q: `${pn} 的最小起订量是多少?`, a: `${pn} 的最小起订量为 ${pm},我们也为新合作伙伴提供试单。` },
-      { q: '可以定制配方和包装吗?', a: `可以。作为 OEM/ODM 制造商,我们提供${cn}的全面定制——活性成分剂量、口味、形状、标签设计和结构化包装。` },
-      { q: '交期多久?', a: '确认包装设计和订单后,常规生产交期 7–14 个工作日,样品通常 7–15 天内完成。' },
-      { q: '工厂持有哪些认证?', a: '我们 20,000 平方米工厂持有 GMP 认证、FDA 注册、BRCGS 和 NSF GMP。每批次出具完整 COA,涵盖有效成分、重金属和微生物检测。' }
-    ]
-  }
-  const cn = cat?.name ?? 'supplements'
-  return [
-    { q: `What is the MOQ for ${p.name}?`, a: `The minimum order quantity for ${p.name} is ${p.moq}. We also support trial orders for new partners — contact us to discuss your volume needs.` },
-    { q: 'Can I customize the formula and packaging?', a: `Yes. As an OEM/ODM manufacturer we offer full customization for ${cn} — including active ingredient dosage, flavor, shape, color, label artwork and structural packaging. Free formulation consultation is available.` },
-    { q: 'What is the lead time?', a: 'Typical production lead time is 7–14 working days after artwork and order confirmation. Samples are usually ready within 7–15 days. Sea-freight export documentation is handled in-house.' },
-    { q: 'Which certifications does your facility hold?', a: 'Our 20,000 m² facility is GMP-certified with FDA registration, BRCGS and NSF GMP. Every batch ships with a full COA covering active assay, heavy metals and microbiology.' }
-  ]
-})
-
 // 画廊：封面图为主图；若产品附带额外画廊图则追加为缩略图（目前产品仅封面一张）
-const gallery = computed(() => [product.value!.cover, ...product.value!.gallery])
+const gallery = computed(() => {
+  const p = product.value
+  return p ? [p.cover, ...p.gallery] : []
+})
 const activeImg = ref(0)
+const activeGalleryImage = computed(() => gallery.value[activeImg.value] ?? gallery.value[0] ?? product.value?.cover ?? '')
 watch(gallery, () => (activeImg.value = 0))
 
 const formatSpecValue = (value: string) => {
@@ -221,7 +241,7 @@ const formatSpecLabel = (label: string) => {
         <!-- 左侧：主图 + 缩略图行 -->
         <div class="reveal lg:sticky lg:top-28 lg:self-start">
           <div class="overflow-hidden rounded-2xl bg-mist-dark shadow-card">
-            <UiLazyImage :src="gallery[activeImg]" :alt="(isZh ? product.nameZh : product.name) ?? product.name" ratio="aspect-square" eager />
+            <UiLazyImage :src="activeGalleryImage" :alt="(isZh ? product.nameZh : product.name) ?? product.name" ratio="aspect-square" eager />
           </div>
           <!-- 缩略图行：仅当存在多张图时显示 -->
           <div v-if="gallery.length > 1" class="mt-4 grid grid-cols-4 gap-3">

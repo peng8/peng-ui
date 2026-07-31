@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { cooperationModes } from '~/data/cases'
 
-const {  t, isZh , localePath } = useLocale()
+const { t, isZh, localePath } = useLocale()
 </script>
 
 <template>
@@ -34,7 +34,8 @@ const {  t, isZh , localePath } = useLocale()
           <div class="p-6 md:p-8">
             <p class="text-sm leading-relaxed text-navy/70">{{ isZh ? mode.descZh : mode.desc }}</p>
             <p class="mt-4 rounded-lg bg-navy/5 px-4 py-3 text-xs font-medium text-navy/70">
-              🎯 {{ isZh ? mode.bestZh : mode.best }}
+              <UiAppIcon name="check" :size="16" class="text-gold" />
+              {{ isZh ? mode.bestZh : mode.best }}
             </p>
             <ul class="mt-5 grid gap-2.5">
               <li v-for="(f, fi) in mode.features" :key="f" class="flex items-start gap-2.5 text-sm text-navy/75">
@@ -43,7 +44,7 @@ const {  t, isZh , localePath } = useLocale()
               </li>
             </ul>
             <UiAppButton :to="localePath('/services')" variant="navy" icon-right="arrow-right" class="mt-7">
-              {{ isZh ? '了解更多' : 'Learn More' }}
+              {{ t('common.learnMore') }}
             </UiAppButton>
           </div>
         </div>

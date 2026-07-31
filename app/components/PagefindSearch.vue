@@ -15,6 +15,12 @@ interface PagefindResult {
   }>
 }
 
+interface PagefindModule {
+  options: (options: Record<string, unknown>) => Promise<void>
+  init: () => Promise<void>
+  search: (query: string) => Promise<{ results: PagefindResult[] }>
+}
+
 const query = ref('')
 const results = ref<Array<{ url: string; excerpt: string; title: string }>>([])
 const loading = ref(false)
@@ -24,12 +30,13 @@ const inputEl = ref<HTMLInputElement | null>(null)
 // 按需加载 Pagefind 的 search 入口
 // 路径 /pagefind/pagefind.js 由 Pagefind 构建时生成,开发环境不存在
 // 用运行时拼接路径,避免 Vite 静态分析尝试解析(dev 模式下文件不存在会报错)
-let pagefind: any = null
+let pagefind: PagefindModule | null = null
 const loadPagefind = async () => {
   if (pagefind) return pagefind
   try {
     const pagefindUrl = '/pagefind/' + 'pagefind.js'
-    pagefind = await import(/* @vite-ignore */ pagefindUrl)
+    const importRuntime = new Function('path', 'return import(path)') as (path: string) => Promise<PagefindModule>
+    pagefind = await importRuntime(pagefindUrl)
     await pagefind.options({})
     await pagefind.init()
   } catch (e) {
@@ -37,6 +44,11 @@ const loadPagefind = async () => {
   }
   return pagefind
 }
+
+const sanitizeExcerpt = (html: string) =>
+  html
+    .replace(/<(?!\/?mark\b)[^>]*>/gi, '')
+    .replace(/<mark\b[^>]*>/gi, '<mark class="mark">')
 
 // 防抖搜索
 let timer: ReturnType<typeof setTimeout> | null = null
@@ -71,7 +83,7 @@ const runSearch = async () => {
     results.value = top.map((d) => ({
       url: d.url,
       title: d.meta?.title || d.url,
-      excerpt: d.excerpt
+      excerpt: sanitizeExcerpt(d.excerpt)
     }))
   } catch (e) {
     results.value = []

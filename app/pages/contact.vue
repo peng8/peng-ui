@@ -18,21 +18,21 @@ const mapSrc = computed(() => {
 })
 
 const contactMethods = [
-  { icon: 'mail', label: 'Email', labelZh: '邮箱', value: site.contact.email, valueZh: site.contact.email, href: `mailto:${site.contact.email}`, desc: 'For detailed inquiries and quotations', descZh: '适用于详细询盘与报价' },
-  { icon: 'whatsapp', label: 'WhatsApp', labelZh: 'WhatsApp', value: 'Chat Now', valueZh: '立即沟通', href: site.contact.whatsappHref, desc: 'Fast response — typically within minutes', descZh: '快速响应——通常几分钟内' },
-  { icon: 'phone', label: 'Phone', labelZh: '电话', value: site.contact.phone, valueZh: site.contact.phone, href: site.contact.phoneHref, desc: `${site.contact.hours}`, descZh: `${site.contact.hours}` },
-  { icon: 'pin', label: 'Address', labelZh: '地址', value: site.contact.address, valueZh: site.contact.addressCn, href: null, desc: 'Factory visits welcome by appointment', descZh: '欢迎预约参观工厂' }
+  { icon: 'mail', key: '1', value: site.contact.email, href: `mailto:${site.contact.email}`, valueParams: { email: site.contact.email } },
+  { icon: 'whatsapp', key: '2', value: null, href: site.contact.whatsappHref, valueParams: {} },
+  { icon: 'phone', key: '3', value: site.contact.phone, href: site.contact.phoneHref, valueParams: { phone: site.contact.phone, hours: site.contact.hours } },
+  { icon: 'pin', key: '4', value: null, href: null, valueParams: { address: isZh.value ? site.contact.addressCn : site.contact.address } }
 ]
 </script>
 
 <template>
   <div>
     <PageHero
-      :eyebrow="isZh ? '联系我们' : 'Contact'"
-      :title="isZh ? '让我们开始对话' : `Let's Start a Conversation`"
-      :subtitle="isZh ? '告诉我们您的项目,我们将在 24 小时内回复定制方案。' : `Tell us about your project and we'll get back to you within 24 hours with a tailored proposal.`"
+      :eyebrow="t('contact.hero.eyebrow')"
+      :title="t('contact.hero.title')"
+      :subtitle="t('contact.hero.subtitle')"
       image="/images/contact/hero.jpg"
-      :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: localePath('/') }, { label: isZh ? '联系我们' : 'Contact' }]"
+      :breadcrumb="[{ label: t('nav.home'), to: localePath('/') }, { label: t('nav.contact') }]"
     />
 
     <section class="section bg-white">
@@ -40,43 +40,38 @@ const contactMethods = [
         <div class="grid gap-12 lg:grid-cols-[1fr_1.1fr]">
           <!-- 左：联系方式 -->
           <div>
-            <span class="eyebrow"><span class="h-px w-6 bg-gold" />{{ isZh ? '联系我们' : 'Get In Touch' }}</span>
-            <h2 class="mt-3 text-2xl font-bold md:text-3xl">{{ isZh ? '多种方式联系到我们' : 'Multiple Ways to Reach Us' }}</h2>
+            <span class="eyebrow"><span class="h-px w-6 bg-gold" />{{ t('contact.info.eyebrow') }}</span>
+            <h2 class="mt-3 text-2xl font-bold md:text-3xl">{{ t('contact.info.title') }}</h2>
             <p class="mt-4 text-sm leading-relaxed text-navy/65">
-              <template v-if="isZh">
-                无论您偏好邮件、WhatsApp 还是电话——我们的国际销售团队随时为您提供帮助。
-              </template>
-              <template v-else>
-                Whether you prefer email, WhatsApp or a phone call — our international sales team is ready to help.
-              </template>
+              {{ t('contact.info.desc') }}
             </p>
 
             <div class="mt-8 space-y-5">
               <div
                 v-for="method in contactMethods"
-                :key="method.label"
+                :key="method.key"
                 class="flex items-start gap-4 rounded-xl bg-mist p-5 transition-all hover:shadow-card"
               >
                 <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-navy text-gold">
                   <UiAppIcon :name="method.icon" :size="24" />
                 </div>
                 <div>
-                  <h3 class="text-sm font-bold text-navy">{{ isZh ? method.labelZh : method.label }}</h3>
+                  <h3 class="text-sm font-bold text-navy">{{ t(`contact.method.${method.key}.label`) }}</h3>
                   <component
                     :is="method.href ? 'a' : 'p'"
                     v-bind="method.href ? { href: method.href, target: method.href.startsWith('http') ? '_blank' : undefined, rel: 'noopener noreferrer' } : {}"
                     class="mt-1 text-base font-semibold text-navy-500 transition-colors hover:text-navy"
                   >
-                    {{ isZh ? method.valueZh : method.value }}
+                    {{ t(`contact.method.${method.key}.value`, method.valueParams) }}
                   </component>
-                  <p class="mt-1 text-xs text-navy/50">{{ isZh ? method.descZh : method.desc }}</p>
+                  <p class="mt-1 text-xs text-navy/50">{{ t(`contact.method.${method.key}.desc`, method.valueParams) }}</p>
                 </div>
               </div>
             </div>
 
             <!-- 社媒 -->
             <div class="mt-8">
-              <h3 class="text-sm font-bold text-navy">{{ isZh ? '关注我们' : 'Follow Us' }}</h3>
+              <h3 class="text-sm font-bold text-navy">{{ t('contact.followUs') }}</h3>
               <div class="mt-3 flex gap-3">
                 <a
                   v-for="s in site.social"
@@ -105,13 +100,13 @@ const contactMethods = [
     <section class="bg-mist">
       <div class="wrap py-16">
         <UiSectionHeading
-          :eyebrow="isZh ? '我们的位置' : 'Our Location'"
-          :title="isZh ? '在中国广州找到我们' : 'Find Us in Guangzhou, China'"
-          :subtitle="isZh ? '位于广州高新区产业园,邻近主要港口,交通便利。' : `Conveniently located in Guangzhou's High-Tech Industrial Zone, close to major ports.`"
+          :eyebrow="t('contact.location.eyebrow')"
+          :title="t('contact.location.title')"
+          :subtitle="t('contact.location.subtitle')"
         />
         <div class="reveal mt-10 overflow-hidden rounded-2xl shadow-card">
           <iframe
-            :title="isZh ? 'MILDY 健康位置' : 'MILDY Health location'"
+            :title="t('contact.location.mapTitle')"
             :src="mapSrc"
             width="100%"
             height="400"

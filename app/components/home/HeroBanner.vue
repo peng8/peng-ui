@@ -5,11 +5,12 @@ import type { MessageKey } from '~/i18n/messages'
 const {  t, isZh , localePath } = useLocale()
 
 // 小亮点：英文硬编码 + 中文走字典
-const advantages = computed(() =>
-  isZh.value
-    ? ['GMP/FDA 认证', '全剂型覆盖', '低起订白标', '海运出口']
-    : ['GMP & FDA Certified', 'Full Dosage Forms', 'Low MOQ White Label', 'Sea Freight Export']
-)
+const advantages = computed(() => [
+  t('hero.advantage.1'),
+  t('hero.advantage.2'),
+  t('hero.advantage.3'),
+  t('hero.advantage.4')
+])
 
 // Hero 轮播图：4 张宣传图，每张配引导文案（i18n key）
 const slides = [
@@ -20,8 +21,14 @@ const slides = [
 ]
 
 const current = ref(0)
-const timer = ref<ReturnType<typeof setInterval> | null>(null)
+const currentSlide = computed(() => slides[current.value] ?? slides[0]!)
+let timer: ReturnType<typeof setInterval> | null = null
 const paused = ref(false)
+
+// 注意：所有轮播图在 SSR/预渲染时都会渲染出 <NuxtImg>（见模板，不再用 visitedSlides 条件渲染），
+// 这样 IPX 在 generate 阶段才能为全部 4 张图生成静态 WebP。
+// 纯静态托管(GitHub Pages)没有运行时 IPX，若首屏只渲染第一张，后三张部署后必 404。
+// 省带宽仍由 loading="lazy" 保证：浏览器会延迟加载非首图，不阻塞首屏。
 
 const go = (i: number) => {
   current.value = (i + slides.length) % slides.length
@@ -32,14 +39,14 @@ const prev = () => go(current.value - 1)
 // 自动播放：6 秒切换，悬停暂停
 const start = () => {
   stop()
-  timer.value = setInterval(() => {
+  timer = setInterval(() => {
     if (!paused.value) next()
   }, 6000)
 }
 const stop = () => {
-  if (timer.value) {
-    clearInterval(timer.value)
-    timer.value = null
+  if (timer) {
+    clearInterval(timer)
+    timer = null
   }
 }
 
@@ -47,12 +54,13 @@ onMounted(start)
 onBeforeUnmount(stop)
 
 // stat 标签按 locale 选用（site.stats.label 为英文，中文走 hero.statN 字典）
-const statList = computed(() =>
-  site.stats.map((s, i) => ({
+const statList = computed(() => {
+  const statKeys: MessageKey[] = ['hero.stat1', 'hero.stat2', 'hero.stat3', 'hero.stat4']
+  return site.stats.map((s, i) => ({
     value: s.value,
-    label: isZh.value ? t((['hero.stat1', 'hero.stat2', 'hero.stat3', 'hero.stat4'] as MessageKey[])[i]) : s.label
+    label: isZh.value ? t(statKeys[i] ?? statKeys[0]!) : s.label
   }))
-)
+})
 </script>
 
 <template>
@@ -70,12 +78,14 @@ const statList = computed(() =>
         :class="i === current ? 'opacity-100' : 'opacity-0 pointer-events-none'"
         :aria-label="t(slide.eyebrowKey)"
       >
-        <img
+        <NuxtImg
           :src="slide.image"
           :alt="t(slide.eyebrowKey)"
           class="h-full w-full object-cover"
           width="2560"
           height="1440"
+          format="webp"
+          quality="78"
           :loading="i === 0 ? 'eager' : 'lazy'"
           :fetchpriority="i === 0 ? 'high' : 'auto'"
           decoding="async"
@@ -88,14 +98,14 @@ const statList = computed(() =>
     <!-- 左右切换箭头 -->
     <button
       class="absolute left-3 top-1/2 z-20 hidden -translate-y-1/2 items-center justify-center rounded-full bg-white/15 p-2 text-white backdrop-blur transition hover:bg-white/30 md:flex"
-      :aria-label="isZh ? '上一张' : 'Previous slide'"
+      :aria-label="t('hero.prevSlide')"
       @click.prevent="prev"
     >
       <UiAppIcon name="chevron-right" :size="22" class="rotate-180" />
     </button>
     <button
       class="absolute right-3 top-1/2 z-20 hidden -translate-y-1/2 items-center justify-center rounded-full bg-white/15 p-2 text-white backdrop-blur transition hover:bg-white/30 md:flex"
-      :aria-label="isZh ? '下一张' : 'Next slide'"
+      :aria-label="t('hero.nextSlide')"
       @click.prevent="next"
     >
       <UiAppIcon name="chevron-right" :size="22" />
@@ -108,28 +118,25 @@ const statList = computed(() =>
         <Transition name="eyebrow-fade" mode="out-in">
           <span :key="current" class="eyebrow text-gold-light">
             <span class="h-px w-6 bg-gold" />
-            {{ t(slides[current].eyebrowKey) }} · OEM/ODM Since {{ site.founded }}
+            {{ t(currentSlide.eyebrowKey) }} · OEM/ODM Since {{ site.founded }}
           </span>
         </Transition>
         <h1 class="mt-5 text-4xl font-extrabold leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl">
-          {{ isZh ? '您值得信赖的' : 'Your Trusted Partner for' }}
-          <span class="text-gradient-gold">{{ isZh ? '营养补充剂' : 'Nutritional Supplement' }}</span>
-          {{ isZh ? '制造合作伙伴' : 'Manufacturing' }}
+          {{ t('hero.title.part1') }}
+          <span class="text-gradient-gold">{{ t('hero.title.highlight') }}</span>
+          {{ t('hero.title.part3') }}
         </h1>
         <p class="mt-6 max-w-xl text-base leading-relaxed text-white/80 md:text-lg">
-          {{ isZh
-            ? '从软糖、软胶囊到粉剂、滴剂——MILDY 为全球品牌提供一站式贴牌方案,拥有 10+ 年出口经验。'
-            : 'From gummies and softgels to powders and drops — MILDY delivers one-stop private-label solutions for global brands, with 10+ years of export expertise.'
-          }}
+          {{ t('hero.description') }}
         </p>
 
         <!-- 双 CTA -->
         <div class="mt-8 flex flex-col gap-3 sm:flex-row">
           <UiAppButton :to="localePath('/contact')" variant="primary" size="lg" icon="send">
-            {{ isZh ? '获取报价' : 'Get A Quote' }}
+            {{ t('hero.cta.quote') }}
           </UiAppButton>
           <UiAppButton :to="localePath('/products')" variant="outline" size="lg" icon-right="arrow-right" class="hero-cta-outline">
-            {{ isZh ? '查看产品' : 'View Our Products' }}
+            {{ t('hero.cta.viewProducts') }}
           </UiAppButton>
         </div>
 
@@ -152,7 +159,7 @@ const statList = computed(() =>
             v-for="(slide, i) in slides"
             :key="i"
             class="group flex items-center"
-            :aria-label="`Go to slide ${i + 1}`"
+            :aria-label="t('hero.goToSlide', { n: i + 1 })"
             @click.prevent="go(i)"
           >
             <span

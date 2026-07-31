@@ -13,16 +13,17 @@ const props = withDefaults(
 const el = ref<HTMLElement | null>(null)
 const display = ref('0')
 const started = ref(false)
+let io: IntersectionObserver | null = null
 
 // 解析数字部分与前后缀
 const parsed = computed(() => {
   const match = props.value.match(/^([\d,]+)(.*)$/)
   if (!match) return { num: 0, suffix: '', hasComma: false }
-  const num = parseInt(match[1].replace(/,/g, ''), 10)
+  const numberPart = match[1] ?? '0'
   return {
-    num,
-    suffix: (props.suffix || '') + match[2],
-    hasComma: match[1].includes(',')
+    num: parseInt(numberPart.replace(/,/g, ''), 10),
+    suffix: (props.suffix || '') + (match[2] ?? ''),
+    hasComma: numberPart.includes(',')
   }
 })
 
@@ -55,17 +56,20 @@ onMounted(() => {
     animate()
     return
   }
-  const io = new IntersectionObserver(
+  const observer = new IntersectionObserver(
     (entries) => {
       if (entries[0]?.isIntersecting) {
         animate()
-        io.disconnect()
+        observer.disconnect()
       }
     },
     { threshold: 0.4 }
   )
-  io.observe(el.value)
+  io = observer
+  observer.observe(el.value)
 })
+
+onBeforeUnmount(() => io?.disconnect())
 </script>
 
 <template>

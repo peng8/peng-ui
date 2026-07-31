@@ -41,6 +41,11 @@ const errors = reactive<Record<keyof FormState, string>>({
 
 const status = ref<'idle' | 'submitting' | 'success' | 'error'>('idle')
 const errorMsg = ref('')
+let resetTimer: ReturnType<typeof setTimeout> | null = null
+
+onBeforeUnmount(() => {
+  if (resetTimer) clearTimeout(resetTimer)
+})
 
 const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 // WhatsApp 号码：允许 +、数字、空格、-，至少 6 位数字
@@ -144,7 +149,7 @@ const submit = async () => {
         message: ''
       })
       // 6秒后回到可再次填写状态
-      setTimeout(() => (status.value = 'idle'), 6000)
+      resetTimer = setTimeout(() => (status.value = 'idle'), 6000)
     } else {
       status.value = 'error'
       errorMsg.value = data.message || copy.value.submissionFailed
@@ -176,6 +181,8 @@ const submit = async () => {
       <!-- 错误提示条：保留表单内容，让用户可修改后重试 -->
       <div
         v-if="status === 'error'"
+        role="alert"
+        aria-live="assertive"
         class="mb-4 flex items-start gap-2.5 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700"
       >
         <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-red-500 text-white">
@@ -195,7 +202,7 @@ const submit = async () => {
             class="form-input"
             :class="errors.name ? 'input-error' : ''"
           />
-          <p v-if="errors.name" class="mt-1 text-xs text-red-500">{{ errors.name }}</p>
+          <p v-if="errors.name" role="alert" class="mt-1 text-xs text-red-500">{{ errors.name }}</p>
         </div>
         <!-- Email（必填） -->
         <div>
@@ -208,7 +215,7 @@ const submit = async () => {
             class="form-input"
             :class="errors.email ? 'input-error' : ''"
           />
-          <p v-if="errors.email" class="mt-1 text-xs text-red-500">{{ errors.email }}</p>
+          <p v-if="errors.email" role="alert" class="mt-1 text-xs text-red-500">{{ errors.email }}</p>
         </div>
         <!-- WhatsApp（必填） -->
         <div>
@@ -221,7 +228,7 @@ const submit = async () => {
             class="form-input"
             :class="errors.whatsapp ? 'input-error' : ''"
           />
-          <p v-if="errors.whatsapp" class="mt-1 text-xs text-red-500">{{ errors.whatsapp }}</p>
+          <p v-if="errors.whatsapp" role="alert" class="mt-1 text-xs text-red-500">{{ errors.whatsapp }}</p>
         </div>
         <!-- Company（选填） -->
         <div>
@@ -267,7 +274,7 @@ const submit = async () => {
           class="form-input resize-none"
           :class="errors.message ? 'input-error' : ''"
         />
-        <p v-if="errors.message" class="mt-1 text-xs text-red-500">{{ errors.message }}</p>
+        <p v-if="errors.message" role="alert" class="mt-1 text-xs text-red-500">{{ errors.message }}</p>
       </div>
 
       <div class="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-between">

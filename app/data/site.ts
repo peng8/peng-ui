@@ -1,4 +1,6 @@
 // 企业基础信息、联系方式、社媒
+export const SITE_URL = 'https://www.mildy-health.com'
+
 export interface SiteInfo {
   name: string
   nameCn: string
@@ -58,10 +60,21 @@ export const site: SiteInfo = {
 }
 
 // 导航菜单
+export const navKeyMap = {
+  '/': 'nav.home',
+  '/about': 'nav.about',
+  '/products': 'nav.products',
+  '/services': 'nav.services',
+  '/manufacturing': 'nav.manufacturing',
+  '/how-it-works': 'nav.howItWorks',
+  '/contact': 'nav.contact'
+} as const
+
 export interface NavItem {
   label: string
-  to: string
+  to: keyof typeof navKeyMap
 }
+
 export const navItems: NavItem[] = [
   { label: 'Home', to: '/' },
   { label: 'About Us', to: '/about' },

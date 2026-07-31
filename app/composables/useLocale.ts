@@ -3,10 +3,12 @@
 // - 内部使用 useI18n() / useSwitchLocalePath() / useLocalePath()
 // - 切换语言跳转到对应 locale 的同一路径（URL 前缀策略）
 // - 保留 t() 函数保持原签名(MessageKey 类型校验 + 占位符替换)
-import type { Locale, MessageKey } from '~/i18n/messages'
+import type { Locale } from '~/i18n/messages'
 
 export function useLocale() {
-  const { locale, t: i18nT } = useI18n()
+  const { locale, t: rawT } = useI18n()
+  type TranslateParams = Record<string, string | number | undefined>
+  const i18nT = rawT as unknown as (key: string, params?: TranslateParams) => string
   const switchLocalePath = useSwitchLocalePath()
   const localePath = useLocalePath()
 
@@ -30,10 +32,11 @@ export function useLocale() {
    * （legacy:false 下 vue-i18n 用 Composition API，占位符替换通常生效，
    *   但保留兜底以防个别 key 未被编译器处理）
    */
-  const t = (key: MessageKey, params?: Record<string, string | number>): string => {
+  const t = (key: string, params?: TranslateParams): string => {
     let s: string = (i18nT(key, params ?? {}) as string) || key
     if (params) {
       for (const [k, v] of Object.entries(params)) {
+        if (v === undefined) continue
         s = s.replace(new RegExp(`\\{${k}\\}`, 'g'), String(v))
       }
     }

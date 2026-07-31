@@ -2,18 +2,18 @@
 import type { MessageKey } from '~/i18n/messages'
 import { site } from '~/data/site'
 
-const {  t, isZh , localePath } = useLocale()
+const { t, localePath } = useLocale()
 
 const facilityStats = computed(() => [
-  { value: '20,000', label: isZh.value ? '平方米厂区' : 'm² Facility Area', icon: 'box' },
-  { value: '8', label: isZh.value ? '条产线' : 'Production Lines', icon: 'gear' },
-  { value: '8', label: isZh.value ? '大车间' : 'Workshops', icon: 'shield-check' }
+  { value: '20,000', label: t('fs.stat1'), icon: 'box' },
+  { value: '8', label: t('fs.stat2'), icon: 'gear' },
+  { value: '8', label: t('fs.stat4'), icon: 'shield-check' }
 ])
 
 const highlights = computed(() => [
-  { icon: 'gear', title: isZh.value ? '自动化生产线' : 'Automated Production Lines', desc: isZh.value ? '8 条高速产线,软糖 / 软胶囊 / 片剂 / 粉剂全覆盖。' : '8 high-speed lines covering gummies, softgels, tablets and powders.' },
-  { icon: 'shield-check', title: isZh.value ? 'GMP 洁净车间' : 'GMP Cleanrooms', desc: isZh.value ? '10 万级净化,温湿度与压差全程监控。' : 'Class 100,000 cleanrooms with full environmental monitoring.' },
-  { icon: 'flask', title: isZh.value ? '自建研发实验室' : 'In-house R&D Laboratory', desc: isZh.value ? '配方开发、稳定性测试与功效验证一站完成。' : 'Formulation, stability and efficacy testing under one roof.' }
+  { icon: 'gear', title: t('fs.highlight.1.title'), desc: t('fs.highlight.1.desc') },
+  { icon: 'shield-check', title: t('fs.highlight.2.title'), desc: t('fs.highlight.2.desc') },
+  { icon: 'flask', title: t('fs.highlight.3.title'), desc: t('fs.highlight.3.desc') }
 ])
 
 const { openOne } = useLightbox()
@@ -31,8 +31,8 @@ const midImages = [
       <div>
         <UiSectionHeading
           :eyebrow="t('fs.eyebrow')"
-          :title="isZh ? '20,000 平方米世界级生产基地' : '20,000 m² of World-Class Production'"
-          :subtitle="isZh ? '专用的高科技产业园,配备自动化产线、洁净车间和自建实验室——为规模化、一致性和合规性而建。' : 'A purpose-built high-tech industrial park with automated lines, cleanrooms and in-house laboratories — engineered for volume, consistency and compliance.'"
+          :title="t('fs.title')"
+          :subtitle="t('fs.subtitle')"
           align="left"
           light
           class="md:max-w-xl"

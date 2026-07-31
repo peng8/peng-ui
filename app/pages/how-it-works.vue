@@ -57,16 +57,32 @@ const faqs = [
     aZh: '当然。我们欢迎现场及线上工厂参观。联系我们预约您的参观。'
   }
 ]
+
+// JSON-LD FAQPage structured data for Google rich results
+useHead({
+  script: [{
+    type: 'application/ld+json',
+    innerHTML: JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: isZh.value ? f.qZh : f.q,
+        acceptedAnswer: { '@type': 'Answer', text: isZh.value ? f.aZh : f.a }
+      }))
+    })
+  }]
+})
 </script>
 
 <template>
   <div>
     <PageHero
-      :eyebrow="isZh ? '合作流程' : 'How It Works'"
-      :title="isZh ? '从询盘到出货,6 步完成' : 'From Inquiry to Shipment in 6 Steps'"
-      :subtitle="isZh ? '清晰透明的流程,从首次接触到出货通常只需 8–12 周。' : 'A clear, transparent process that takes you from first contact to a container on the water — typically 8 to 12 weeks.'"
+      :eyebrow="t('howItWorks.hero.eyebrow')"
+      :title="t('howItWorks.hero.title')"
+      :subtitle="t('howItWorks.hero.subtitle')"
       image="/images/how-it-works/hero.jpg"
-      :breadcrumb="[{ label: isZh ? '首页' : 'Home', to: localePath('/') }, { label: isZh ? '合作流程' : 'How It Works' }]"
+      :breadcrumb="[{ label: t('nav.home'), to: localePath('/') }, { label: t('howItWorks.hero.eyebrow') }]"
     />
 
     <!-- 时间线 -->
@@ -88,9 +104,9 @@ const faqs = [
     <section class="section bg-mist">
       <div class="wrap">
         <UiSectionHeading
-          :eyebrow="isZh ? '一览' : 'At a Glance'"
-          :title="isZh ? '完整旅程' : 'The Complete Journey'"
-          :subtitle="isZh ? '您的产品所经历的每个阶段的视觉概览。' : 'A visual overview of every stage your product goes through.'"
+          :eyebrow="t('howItWorks.overview.eyebrow')"
+          :title="t('howItWorks.overview.title')"
+          :subtitle="t('howItWorks.overview.subtitle')"
         />
         <div class="mt-12 grid gap-4 md:grid-cols-3 lg:grid-cols-6">
           <div
@@ -115,9 +131,9 @@ const faqs = [
     <section class="section bg-white">
       <div class="wrap mx-auto max-w-3xl">
         <UiSectionHeading
-          :eyebrow="isZh ? '常见问题' : 'FAQ'"
-          :title="isZh ? '常见问题解答' : 'Frequently Asked Questions'"
-          :subtitle="isZh ? '新合作伙伴最常问问题的快速解答。' : 'Quick answers to the questions we hear most from new partners.'"
+          :eyebrow="t('howItWorks.faq.eyebrow')"
+          :title="t('howItWorks.faq.title')"
+          :subtitle="t('howItWorks.faq.subtitle')"
         />
         <div class="mt-12 space-y-4">
           <details
@@ -139,17 +155,17 @@ const faqs = [
     <!-- CTA -->
     <section class="section bg-navy">
       <div class="wrap reveal text-center">
-        <h2 class="text-3xl font-bold text-white md:text-4xl">{{ isZh ? '准备好开始了吗?' : 'Ready to Get Started?' }}</h2>
-        <p class="mx-auto mt-4 max-w-xl text-white/75">{{ isZh ? '提交您的询盘,我们的团队将在 24 小时内回复定制方案。' : 'Submit your inquiry and our team will respond within 24 hours with a tailored proposal.' }}</p>
+        <h2 class="text-3xl font-bold text-white md:text-4xl">{{ t('howItWorks.cta.title') }}</h2>
+        <p class="mx-auto mt-4 max-w-xl text-white/75">{{ t('howItWorks.cta.subtitle') }}</p>
         <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <UiAppButton :to="localePath('/contact')" variant="primary" size="lg" icon="send">{{ isZh ? '提交询盘' : 'Submit Inquiry' }}</UiAppButton>
+          <UiAppButton :to="localePath('/contact')" variant="primary" size="lg" icon="send">{{ t('howItWorks.cta.submit') }}</UiAppButton>
           <a
             href="https://wa.me/8618613000659"
             target="_blank"
             rel="noopener noreferrer"
             class="btn btn-outline"
           >
-            <UiAppIcon name="whatsapp" :size="18" />{{ isZh ? 'WhatsApp 在线咨询' : 'Chat on WhatsApp' }}
+            <UiAppIcon name="whatsapp" :size="18" />{{ t('howItWorks.cta.whatsapp') }}
           </a>
         </div>
       </div>
