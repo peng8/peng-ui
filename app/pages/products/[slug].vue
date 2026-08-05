@@ -75,6 +75,8 @@ useSeoMeta({
   title: () => { const p = product.value; return p ? (isZh.value ? (p.nameZh ?? p.name) : seoTitle.value) : '' },
   description: () => { const p = product.value; return p ? (isZh.value ? (p.shortDescZh ?? p.shortDesc) : p.shortDesc) : '' },
   ogTitle: () => { const p = product.value; return p ? (isZh.value ? (p.nameZh ?? p.name) : seoTitle.value) : '' },
+  // og:description 必须与 description 同源(app.vue 全局设了站点级 ogDescription,产品页若不覆盖会沿用站点默认描述,与产品不一致,影响 SEO)
+  ogDescription: () => { const p = product.value; return p ? (isZh.value ? (p.shortDescZh ?? p.shortDesc) : p.shortDesc) : '' },
   ogType: 'product',
   ogImage: () => { const p = product.value; if (!p) return ''; return p.cover.startsWith('http') ? p.cover : `${SITE_URL}${p.cover}` },
   ogImageWidth: 1200,
