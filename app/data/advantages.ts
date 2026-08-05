@@ -10,10 +10,10 @@ export interface Advantage {
 export const advantages: Advantage[] = [
   {
     icon: 'medal',
-    title: '10+ Years of Experience',
-    titleZh: '10+ 年制造经验',
-    desc: 'A decade of expertise in nutritional supplement manufacturing, trusted by brands across 80+ countries worldwide.',
-    descZh: '十年营养补充剂制造专业经验,服务全球 80+ 国家的品牌客户。'
+    title: '6 Years of Experience',
+    titleZh: '6 年制造经验',
+    desc: 'Six years of expertise in nutritional supplement manufacturing, trusted by brands across 30+ countries worldwide.',
+    descZh: '六年营养补充剂制造专业经验,服务全球 30+ 国家的品牌客户。'
   },
   {
     icon: 'layers',

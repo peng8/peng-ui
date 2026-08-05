@@ -7,8 +7,8 @@ useSeoMeta({
     ? '营养补充剂 OEM/ODM 制造商'
     : 'OEM/ODM Nutritional Supplement Manufacturer',
   description: () => isZh.value
-    ? 'MILDY Health 是 GMP 认证的中国营养补充剂制造商。OEM/ODM 白标软糖、软胶囊、片剂、胶囊、粉剂与口服液——FDA、BRC、HALAL 认证。起订量 500 瓶,服务 80+ 国家。'
-    : 'MILDY Health is a GMP-certified Chinese supplement manufacturer. OEM/ODM private-label gummies, softgels, tablets, capsules, powders & drops — FDA, BRC, HALAL. MOQ 500 bottles, serving 80+ countries.'
+    ? 'MILDY Health 是 GMP 认证的中国营养补充剂制造商。OEM/ODM 白标软糖、软胶囊、片剂、胶囊、粉剂与口服液——FDA、BRC、HALAL 认证。起订量 500 瓶,服务 30+ 国家。'
+    : 'MILDY Health is a GMP-certified Chinese supplement manufacturer. OEM/ODM private-label gummies, softgels, tablets, capsules, powders & drops — FDA, BRC, HALAL. MOQ 500 bottles, serving 30+ countries.'
 })
 </script>
 

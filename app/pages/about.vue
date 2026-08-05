@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { site } from '~/data/site'
 import { milestones, team } from '~/data/cases'
+import { promoVideos } from '~/data/videos'
 
 const { t, isZh, localePath } = useLocale()
+const { open: openVideo } = useVideoLightbox()
 
 useSeoMeta({
-  title: () => isZh.value ? '关于我们 — 自 2016 年的补充剂制造商' : 'About Us — Supplement Manufacturer Since 2016',
+  title: () => isZh.value ? '关于我们 — 自 2020 年的补充剂制造商' : 'About Us — Supplement Manufacturer Since 2020',
   description: () => isZh.value
-    ? 'MILDY Health 成立于 2016 年,是占地 20,000 平方米的营养补充剂制造商,服务 80+ 国家。了解我们的历史、团队与世界级工厂。'
-    : 'Founded in 2016, MILDY Health is a 20,000 m² nutritional supplement manufacturer serving 80+ countries. Learn about our history, team and world-class facility.'
+    ? 'MILDY Health 成立于 2020 年,是占地 20,000 平方米的营养补充剂制造商,服务 30+ 国家。了解我们的历史、团队与世界级工厂。'
+    : 'Founded in 2020, MILDY Health is a 20,000 m² nutritional supplement manufacturer serving 30+ countries. Learn about our history, team and world-class facility.'
 })
 
 const values = [
@@ -18,13 +20,20 @@ const values = [
   { icon: 'users', title: 'Partnership Focused', titleZh: '合作为本', desc: 'We grow when our partners grow. Long-term relationships over one-off deals.', descZh: '合作伙伴成长,我们才成长。重视长期关系,而非一锤子买卖。' }
 ]
 
-const { openOne } = useLightbox()
-const campusGallery = [
-  { src: '/images/manufacturing/facility/gmp-cleanroom.jpeg', caption: 'GMP cleanroom workshop', captionZh: 'GMP 洁净车间' },
-  { src: '/images/manufacturing/facility/rd-laboratory.jpeg', caption: 'R&D center', captionZh: '研发中心' },
-  { src: '/images/manufacturing/facility/automation-line.jpeg', caption: 'Automated production line', captionZh: '自动化产线' },
-  { src: '/images/manufacturing/facility/warehouse-coldchain.jpeg', caption: 'Logistics & warehouse', captionZh: '物流仓储' }
-]
+// 视频矩阵：第一排 2 个竖向 3/4，第二排 2 个横向 16:9
+const videoItems = promoVideos.map((v, i) => ({
+  src: v.src,
+  title: () => t(v.captionKey),
+  // 第 0/1 个竖向，第 2/3 个横向
+  ratio: i < 2 ? 'aspect-[3/4]' : 'aspect-video'
+}))
+
+const onOpenVideo = (i: number) => {
+  openVideo(
+    videoItems.map((it) => ({ src: it.src, title: it.title() })),
+    i
+  )
+}
 </script>
 
 <template>
@@ -57,9 +66,14 @@ const campusGallery = [
           </div>
         </div>
         <div class="reveal grid grid-cols-2 gap-4" :style="`transition-delay:120ms`">
-          <button v-for="(g, i) in campusGallery" :key="i" class="group overflow-hidden rounded-xl" @click="openOne({ src: g.src, caption: t(`about.gallery.${i + 1}.caption`) })">
-            <UiLazyImage :src="g.src" :alt="t(`about.gallery.${i + 1}.caption`)" :ratio="i === 0 ? 'aspect-[3/4]' : 'aspect-square'" class="h-full transition-transform duration-700 group-hover:scale-105" :class="i === 0 ? 'row-span-2' : ''" />
-          </button>
+          <UiVideoCard
+            v-for="(v, i) in videoItems"
+            :key="i"
+            :src="v.src"
+            :title="v.title()"
+            :ratio="v.ratio"
+            @open="onOpenVideo(i)"
+          />
         </div>
       </div>
     </section>

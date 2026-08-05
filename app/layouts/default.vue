@@ -21,5 +21,6 @@ onBeforeUnmount(destroyRevealObserver)
     <LayoutTheFooter />
     <LayoutFloatingActions />
     <LayoutLightbox />
+    <LayoutVideoLightbox />
   </div>
 </template>

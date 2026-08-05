@@ -161,10 +161,10 @@ const seoParagraph = computed(() => {
   if (isZh.value) {
     const catNameZh = cat?.nameZh ?? '营养补充剂'
     const productName = p.nameZh ?? p.name
-    return `MILDY Health 是中国领先的 ${catNameZh} OEM/ODM 制造商,为 ${productName} 提供白标贴牌与定制配方服务。我们拥有 20,000 平方米 GMP 认证工厂、FDA 注册与 BRCGS 资质,服务全球 80+ 国家和地区的品牌方、跨境卖家与分销商。我们的${catNameZh}能力覆盖活性成分剂量、口味、形状、植物基配方和品牌包装定制,起订量 ${formatMoq(p.moq)}。欢迎联系我们获取免费配方咨询、样品打样方案和无义务报价。`
+    return `MILDY Health 是中国领先的 ${catNameZh} OEM/ODM 制造商,为 ${productName} 提供白标贴牌与定制配方服务。我们拥有 20,000 平方米 GMP 认证工厂、FDA 注册与 BRCGS 资质,服务全球 30+ 国家和地区的品牌方、跨境卖家与分销商。我们的${catNameZh}能力覆盖活性成分剂量、口味、形状、植物基配方和品牌包装定制,起订量 ${formatMoq(p.moq)}。欢迎联系我们获取免费配方咨询、样品打样方案和无义务报价。`
   }
   const catName = cat?.name ?? 'supplement'
-  return `MILDY Health is a leading OEM/ODM manufacturer of ${catName.toLowerCase()} in China, offering private-label and custom-formulation services for ${p.name}. With a 20,000 m² GMP-certified facility, FDA registration and BRCGS accreditation, we serve supplement brands, cross-border sellers and distributors across 80+ countries. Our ${catName.toLowerCase()} capabilities cover custom active-ingredient dosage, flavors, shapes, vegan bases and branded packaging — starting from ${p.moq}. Request a free formulation consultation, samples within 7–15 days, and a no-obligation quote for your ${catName.toLowerCase()} project.`
+  return `MILDY Health is a leading OEM/ODM manufacturer of ${catName.toLowerCase()} in China, offering private-label and custom-formulation services for ${p.name}. With a 20,000 m² GMP-certified facility, FDA registration and BRCGS accreditation, we serve supplement brands, cross-border sellers and distributors across 30+ countries. Our ${catName.toLowerCase()} capabilities cover custom active-ingredient dosage, flavors, shapes, vegan bases and branded packaging — starting from ${p.moq}. Request a free formulation consultation, samples within 7–15 days, and a no-obligation quote for your ${catName.toLowerCase()} project.`
 })
 
 // 画廊：封面图为主图；若产品附带额外画廊图则追加为缩略图（目前产品仅封面一张）
