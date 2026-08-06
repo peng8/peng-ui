@@ -2,115 +2,14 @@
 // productCategories + curated products only (~50 KB).
 // Full product list (incl. imported) lives in products-mutations.ts (server/API only).
 import { productImageUrl } from './productImageUrl'
-import type { Product, ProductCategory } from './products-types'
+import type { Product } from './products-types'
 
 export type { ProductSpec, Product, ProductCategory } from './products-types'
 
-// ---------- 6 大剂型分类 ----------
-export const productCategories: ProductCategory[] = [
-  {
-    slug: 'gummies',
-    name: 'Gummies',
-    nameZh: '软糖',
-    short: 'Functional Gummies',
-    shortZh: '功能软糖',
-    desc: 'Pectin & gelatin based functional gummies in custom shapes, flavors and active ingredients. The most popular format for modern wellness brands.',
-    descZh: '果胶与明胶基功能软糖,可定制形状、口味与活性成分。现代健康品牌最受欢迎的剂型。',
-    image: productImageUrl('m43182_1782872439842-42.jpg'),
-    features: ['Pectin / Gelatin / Vegan', 'Sugar-free options', 'Custom shapes & colors', 'Multivitamin, Omega-3, Biotin'],
-    moq: '500 bottles',
-    examples: [
-      { name: 'Apple Cider Vinegar Gummies', image: productImageUrl('m43182_1782872439842-42.jpg') },
-      { name: 'Boosts muscle strength High-Potency Creatine Monohydrate Gummies', image: productImageUrl('m43182_1781746241583-15.jpg') },
-      { name: 'Cortisol Health Gummies', image: productImageUrl('m43182_1782872448286-47.jpg') },
-    ]
-  },
-  {
-    slug: 'softgels',
-    name: 'Softgels',
-    nameZh: '软胶囊',
-    short: 'Softgel Capsules',
-    shortZh: '软胶囊',
-    desc: 'Advanced softgel encapsulation for oils and liquids — fish oil, CoQ10, vitamin E and custom lipid formulations with excellent bioavailability.',
-    descZh: '先进的软胶囊包埋工艺,适用于鱼油、辅酶 Q10、维生素 E 及定制脂质配方,生物利用度出色。',
-    image: productImageUrl('m0_mr_x3mrofkgwbc3a6fxekyni95g.jpg'),
-    features: ['Fish oil / Plant oil', 'Enteric coating', 'Sustained release', 'High bioavailability'],
-    moq: '500 bottles',
-    examples: [
-      { name: 'Adult Vegan D3+K2 Coconut Softgels - Bone & Immune', image: productImageUrl('m0_mr_x3mrofkgwbc3a6fxekyni95g.jpg') },
-      { name: 'DHA Fish Oil Vegetarian Capsules 200ct 3x Enteric-Coated', image: productImageUrl('m0_o9_wuo9887ajnqmfi4aa9ai0ro5.jpg') },
-      { name: 'Herbal Softgels GABA/L-Theanine/Vit, Sleep+Immune, 280pc', image: productImageUrl('m0_jg_xgjgpustxj7ccyap6ypsb46j.jpg') },
-    ]
-  },
-  {
-    slug: 'tablets',
-    name: 'Tablets',
-    nameZh: '片剂',
-    short: 'Compressed Tablets',
-    shortZh: '压片片剂',
-    desc: 'High-speed tablet pressing for multivitamins, minerals and herbal blends — including coated, chewable and effervescent formats.',
-    descZh: '高速压片工艺,适用于复合维生素、矿物质及草本复方——含包衣片、咀嚼片与泡腾片。',
-    image: productImageUrl('m0_fc_3ofc52fdgwjb63qbe6hejlys.png'),
-    features: ['Film / Sugar coating', 'Chewable & effervescent', 'High-precision dosing', '24-station rotary press'],
-    moq: '500 bottles',
-    examples: [
-      { name: 'China OEM Vitamin D3 K2 Tablets 365ct - Adults Immunity 24M', image: productImageUrl('m0_fc_3ofc52fdgwjb63qbe6hejlys.png') },
-      { name: 'PL Bone&Muscle Mg Citrate 500mg Tablets Kids&Adults', image: productImageUrl('m0_sn_dksni502k50mxg3489rckzjn.jpg') },
-      { name: 'Pure Himalayan Shilajit Resin Fulvic 50%', image: productImageUrl('m0_7i_767iq7i7ml9luppxt6p3mhzm.jpg') },
-    ]
-  },
-  {
-    slug: 'hard-capsules',
-    name: 'Hard Capsules',
-    nameZh: '硬胶囊',
-    short: 'Hard Shell Capsules',
-    shortZh: '硬胶囊',
-    desc: 'Automatic hard capsule filling for powders, granules and pellets. Vegetarian (HPMC) and gelatin shell options available.',
-    descZh: '全自动硬胶囊灌装,适用于粉剂、颗粒与微丸。可选植物(HPMC)与明胶胶囊壳。',
-    image: productImageUrl('m0_wj_r0wj4jw9yjqexhj9acgq2g62.png'),
-    features: ['Gelatin / HPMC vegan', 'Probiotics & enzymes', 'Delayed release', 'Plant extract blends'],
-    moq: '500 bottles',
-    examples: [
-      { name: 'Cinnamon Capsules - Dietary Supp: Energy & Immune', image: productImageUrl('m0_wj_r0wj4jw9yjqexhj9acgq2g62.png') },
-      { name: 'D3 K2 Capsules 60 for Adults - Immune & Bone Support', image: productImageUrl('m0_4c_tg4ck84dkcflw8lka541ay4z.png') },
-      { name: 'Hair Growth Accelerator - 3wk: Mixed-Berry Chews & Clin Caps', image: productImageUrl('m0_8c_818ci45y2f07992v1xa2u61l.jpg') },
-    ]
-  },
-  {
-    slug: 'powders',
-    name: 'Powders',
-    nameZh: '粉剂',
-    short: 'Powder & Sticks',
-    shortZh: '粉剂条包',
-    desc: 'Powder blending, granulation and stick-pack filling — perfect for protein, collagen, greens and electrolyte drink mixes.',
-    descZh: '粉剂混合、制粒与条包灌装——蛋白、胶原蛋白、绿粉及电解质冲剂的理想之选。',
-    image: productImageUrl('m0_ht_a7htd0actxoxfxttxb4wwedz.jpg'),
-    features: ['Stick packs & tubs', 'Instant dissolution', 'Collagen & protein', 'Custom flavor systems'],
-    moq: '500 bottles',
-    examples: [
-      { name: 'All-Natural Probiotic Prebiotic Ice Lemonade Powder 20B CFU', image: productImageUrl('m0_ht_a7htd0actxoxfxttxb4wwedz.jpg') },
-      { name: 'Cotton Candy Electrolyte Powder - 8 Vitamins Sachets', image: productImageUrl('m0_1f_w61fzrlt3bkh49b6roj7tevu.jpg') },
-      { name: 'Creatine Gummies Adult Supplement - Energy Management', image: productImageUrl('m0_cx_xucx8gnvn9hxa5bg1sgsa9yz.png') },
-    ]
-  },
-  {
-    slug: 'liquid-drops',
-    name: 'Liquid Drops',
-    nameZh: '口服液',
-    short: 'Liquid & Oral Drops',
-    shortZh: '口服液滴剂',
-    desc: 'Liquid filling for oral drops, tinctures and sprays — including vitamin D3 drops, melatonin and herbal liquid extracts.',
-    descZh: '口服液、酊剂与喷雾的液体灌装——包括维生素 D3 滴剂、褪黑素及草本提取液。',
-    image: productImageUrl('m0_xo_wuxou4yvvflxv6xw7c0jcbjh.jpg'),
-    features: ['Glass / PET bottles', 'Dropper & spray', 'Oil & water base', 'Kids & infant formats'],
-    moq: '500 bottles',
-    examples: [
-      { name: '1000mg NAD+ Liquid Supplement with PQQ - Cellular Energy', image: productImageUrl('m0_xo_wuxou4yvvflxv6xw7c0jcbjh.jpg') },
-      { name: 'Active Whale NAD+ 60ml Drops Resveratrol Taurine Immune GMP', image: productImageUrl('m0_0x_q40xqnjvcveim3mlite11b7q.png') },
-      { name: 'ARK Drops Shilajit Booster 30/60ml - MOQ500 Custom Sample', image: productImageUrl('m0_ba_xabauo9fnuhiyojwr51kb4lm.png') },
-    ]
-  },
-]
+// 剂型分类已拆到独立轻量模块 productCategories.ts（不携带 curatedProducts，
+// 客户端页面/组件直接从此模块取分类，避免把整份目录(~160KB)打进 bundle）。
+// 这里 re-export，兼容仍从 products.ts 引入分类的调用方。
+export { productCategories, getCategoryBySlug } from './productCategories'
 
 // ---------- Curated product entries (client-safe, no imported products) ----------
 export const curatedProducts: Product[] = [
@@ -1647,8 +1546,4 @@ export const curatedProducts: Product[] = [
 ]
 
 // Deduplication, mutations, and heavy query helpers moved to products-mutations.ts (server/API only)
-
-/** 按 slug 查剂型分类（仅使用 productCategories，无重量级数据依赖） */
-export function getCategoryBySlug(slug: string): ProductCategory | undefined {
-  return productCategories.find((c) => c.slug === slug)
-}
+// getCategoryBySlug 已移至 productCategories.ts 并在文件顶部 re-export，此处不再重复定义。

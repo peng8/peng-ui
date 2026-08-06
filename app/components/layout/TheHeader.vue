@@ -31,8 +31,8 @@ watch(() => route.fullPath, () => (mobileOpen.value = false))
 
 const { locale, toggle, t, isZh, localePath } = useLocale()
 
-// 去掉路径里的 /en 或 /zh 前缀，用于 isActive 比较
-const stripLocale = (p: string) => p.replace(/^\/(en|zh)(?=\/|$)/, '') || '/'
+// 去掉路径里的 /zh 前缀（英文为裸路径无前缀），用于 isActive 比较
+const stripLocale = (p: string) => p.replace(/^\/zh(?=\/|$)/, '') || '/'
 
 const isActive = (to: string) => {
   const stripped = stripLocale(route.path)

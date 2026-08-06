@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { site } from '~/data/site'
+import { site, SITE_URL } from '~/data/site'
 
 const { t, isZh, localePath } = useLocale()
 
@@ -25,6 +25,46 @@ const contactMethods = [
   { icon: 'phone', key: '3', value: site.contact.phone, href: site.contact.phoneHref, valueParams: { phone: site.contact.phone, hours: site.contact.hours } },
   { icon: 'pin', key: '4', value: null, href: null, valueParams: { address: isZh.value ? site.contact.addressCn : site.contact.address } }
 ]
+
+// ContactPage + Organization 结构化数据（地址/电话/坐标/sameAs 已存在于 site.ts，用于本地/公司实体识别）
+useHead({
+  script: computed(() => [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'ContactPage',
+        name: isZh.value ? site.nameCn : site.name,
+        url: SITE_URL,
+        mainEntity: {
+          '@type': 'Organization',
+          name: site.name,
+          alternateName: site.nameCn,
+          url: SITE_URL,
+          email: site.contact.email,
+          telephone: site.contact.phone,
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: isZh.value ? site.contact.addressCn : site.contact.address,
+            addressCountry: 'CN'
+          },
+          geo: {
+            '@type': 'GeoCoordinates',
+            latitude: site.contact.wgsLat,
+            longitude: site.contact.wgsLng
+          },
+          openingHoursSpecification: {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+            opens: '09:00',
+            closes: '18:00'
+          },
+          ...(site.social.length ? { sameAs: site.social.map((s) => s.href) } : {})
+        }
+      })
+    }
+  ])
+})
 </script>
 
 <template>

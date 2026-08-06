@@ -2,7 +2,7 @@
 // 询价表单 —— 通过 Web3Forms 接收并转发到邮箱
 // access_key 配置在 nuxt.config.ts 的 runtimeConfig.public.web3formsAccessKey
 // 该 key 设计为前端可见（类似 reCAPTCHA site key），可公开
-import { productCategories } from '~/data/products'
+import { productCategories } from '~/data/productCategories'
 
 withDefaults(defineProps<{ variant?: 'light' | 'dark' }>(), { variant: 'light' })
 

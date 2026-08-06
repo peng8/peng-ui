@@ -3,11 +3,12 @@
 // 由各 products 页面传入 category / page，渲染对应内容。
 // 分页与分类切换均用 <NuxtLink> 跳转到路径参数式 URL，便于 SSG 预渲染独立 HTML。
 import type { MessageKey } from '~/i18n/messages'
-import { productCategories } from '~/data/products'
+import { productCategories } from '~/data/productCategories'
 import { productImageUrl } from '~/data/productImageUrl'
 import { normalizeSearchText } from '~/data/searchUtils'
 import type { ProductCardItem, ProductListResponse } from '~/data/products-types'
-import { PRODUCT_PAGE_SIZE, productListApiPath } from '~/composables/useProducts'
+import { PRODUCT_PAGE_SIZE, productListApiPath, productPageUrl } from '~/composables/useProducts'
+import { SITE_URL } from '~/data/site'
 
 const props = withDefaults(
   defineProps<{
@@ -150,16 +151,23 @@ const breadcrumb = computed(() => {
   return base
 })
 
-// 动态 SEO（按 locale 切换）
+// 动态 SEO（按 locale 切换）—— 先定义 title，供下方 JSON-LD 的 ItemList 复用
 const catName = computed(() => productCategories.find((c) => c.slug === activeCat.value))
+// 分类页 H1 含分类名（之前所有分类/分页页共用 t('products.title')，H1 与 meta title 不一致）
+const heroTitle = computed(() => {
+  const n = catName.value
+  if (!n) return t('products.title')
+  return isZh.value ? `${n.nameZh} — 营养补充剂 OEM/ODM` : `${n.name} — Supplement OEM/ODM`
+})
+const documentTitle = computed(() => {
+  const n = catName.value ? (isZh.value ? catName.value.nameZh : catName.value.name) : null
+  const base = n
+    ? (isZh.value ? `${n} — OEM/ODM 营养补充剂制造商` : `${n} — Supplement OEM/ODM`)
+    : (isZh.value ? '全剂型营养补充剂 OEM/ODM' : 'Products — Supplement Dosage Forms OEM/ODM')
+  return safePage.value > 1 ? `${base} | ${isZh.value ? '第' : 'Page'} ${safePage.value}` : base
+})
 useSeoMeta({
-  title: () => {
-    const n = catName.value ? (isZh.value ? catName.value.nameZh : catName.value.name) : null
-    const base = n
-      ? (isZh.value ? `${n} — OEM/ODM 营养补充剂制造商` : `${n} — Supplement OEM/ODM`)
-      : (isZh.value ? '全剂型营养补充剂 OEM/ODM' : 'Products — Supplement Dosage Forms OEM/ODM')
-    return safePage.value > 1 ? `${base} | ${isZh.value ? '第' : 'Page'} ${safePage.value}` : base
-  },
+  title: documentTitle,
   description: () =>
     isZh.value
       ? `探索 MILDY ${catName.value ? catName.value.nameZh : '全剂型'}营养补充剂产品${
@@ -168,6 +176,55 @@ useSeoMeta({
       : `Explore MILDY ${catName.value ? catName.value.name.toLowerCase() : 'supplement'} products${
           safePage.value > 1 ? ` — page ${safePage.value} of ${totalPages.value}` : ''
         }. Private label and custom formulation available.`
+})
+
+// 结构化数据：BreadcrumbList + ItemList —— 分类/列表页（60+ URL）之前完全无 schema，全是裸页。
+// 搜索态是客户端过滤，静态 HTML 无搜索结果，故 ItemList 只在非搜索态输出。
+useHead({
+  script: computed(() => {
+    const scripts = [
+      // BreadcrumbList —— 复用可见面包屑路径
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: breadcrumb.value.map((b, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: b.label,
+          item: b.to ? `${SITE_URL}${b.to}` : undefined
+        }))
+      }
+    ]
+    // ItemList —— 当前页产品条目（静态 HTML 阶段即已确定）
+    const items = isSearching.value ? [] : pageItems.value
+    if (items.length) {
+      scripts.push({
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        name: documentTitle.value,
+        itemListElement: items.map((item, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: isZh.value ? (item.nameZh ?? item.name) : item.name,
+          url: `${SITE_URL}${localePath(`/products/${item.slug}`)}`,
+          image: item.cover
+        }))
+      })
+    }
+    return scripts.map((s) => ({ type: 'application/ld+json', innerHTML: JSON.stringify(s) }))
+  }),
+  // rel=prev/next：分页信号合并（搜索态是客户端过滤，不输出，避免误导爬虫）
+  link: computed(() => {
+    const links: { rel: 'prev' | 'next'; href: string }[] = []
+    if (isSearching.value || totalPages.value <= 1) return links
+    if (safePage.value > 1) {
+      links.push({ rel: 'prev', href: `${SITE_URL}${localePath(productPageUrl(activeCat.value, safePage.value - 1))}` })
+    }
+    if (safePage.value < totalPages.value) {
+      links.push({ rel: 'next', href: `${SITE_URL}${localePath(productPageUrl(activeCat.value, safePage.value + 1))}` })
+    }
+    return links
+  })
 })
 
 // 切换筛选 / 翻页后回到列表顶部
@@ -196,7 +253,7 @@ watch(pageItems, () => {
   <div>
     <PageHero
       :eyebrow="t('products.eyebrow')"
-      :title="t('products.title')"
+      :title="heroTitle"
       :subtitle="t('products.subtitle')"
       :image="productImageUrl('hero.jpg')"
       :breadcrumb="breadcrumb"

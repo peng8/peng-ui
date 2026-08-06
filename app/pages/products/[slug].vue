@@ -2,7 +2,7 @@
 // 产品详情页 —— 封面大图 + 缩略图画廊 + 描述特性 + 规格参数表 + 咨询定制 CTA + 同类推荐
 // Product data fetched from server API; heavy products-mutations.ts is never bundled into client.
 import type { Product, ProductCategory } from '~/data/products'
-import { productCategories } from '~/data/products'
+import { productCategories } from '~/data/productCategories'
 import { SITE_URL } from '~/data/site'
 
 const route = useRoute()
@@ -91,8 +91,13 @@ useSeoMeta({
   ogDescription: seoDescription,
   ogType: 'product',
   ogImage: () => { const p = product.value; if (!p) return ''; return p.cover.startsWith('http') ? p.cover : `${SITE_URL}${p.cover}` },
-  ogImageWidth: 1200,
-  ogImageHeight: 1200,
+  // og:image alt 必须随产品覆盖（app.vue 全局设了站点级 ogImageAlt，不覆盖会与产品图不匹配）
+  ogImageAlt: () => { const p = product.value; return p ? (isZh.value ? (p.nameZh ?? p.name) : p.name) : '' },
+  // 注意：产品图来自 CDN（800×800 / 888×1024 不等），无法预知真实尺寸，
+  // 覆盖为 null 以移除 app.vue 全局的 og:image:width/height(1200×630) ——
+  // 产品页不覆盖会沿用站点级 ogImage 尺寸，与产品图不符反而误导社交爬虫。
+  ogImageWidth: null,
+  ogImageHeight: null,
   twitterCard: 'summary_large_image',
   twitterImage: () => { const p = product.value; if (!p) return ''; return p.cover.startsWith('http') ? p.cover : `${SITE_URL}${p.cover}` }
 })
@@ -122,16 +127,13 @@ useHead({
         name: 'MILDY Health',
         url: SITE_URL
       },
-      // OEM/ODM 无公开标价，用 Offer 表达可询盘 + 起订量，避免价格误导
-      offers: {
-        '@type': 'Offer',
-        url: `${SITE_URL}${zh ? '/zh' : ''}/products/${p.slug}`,
-        availability: 'https://schema.org/InStock',
-        priceCurrency: 'USD',
-        // 询盘类产品不标具体价，提供 businessFunction 表示可定制/询盘
-        businessFunction: 'https://schema.org/Sell',
-        itemCondition: 'https://schema.org/NewCondition',
-        inventoryLevel: { '@type': 'QuantitativeValue', value: p.moq, unitText: 'MOQ' }
+      // OEM/ODM 无公开标价：去掉 offers（priceCurrency 无 price 会被 Google 判为无效 Offer，
+      // inventoryLevel 描述的是现货库存，也不该拿来表达起订量）。
+      // 起订量用干净的 additionalProperty 表达，避免结构化数据告警。
+      additionalProperty: {
+        '@type': 'PropertyValue',
+        name: 'MOQ',
+        value: p.moq
       }
     }
     const localePrefix = zh ? '/zh' : ''

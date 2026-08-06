@@ -1,9 +1,10 @@
 <script setup lang="ts">
 // 产品列表卡片：列表页 + 详情页「同类推荐」共用
 // 沿用原 ProductCard.vue 的卡片视觉风格，点击跳详情页
-import type { Product } from '~/data/products'
+import type { Product } from '~/data/products-types'
 import type { ProductCardItem } from '~/data/products-types'
-import { getCategoryBySlug } from '~/data/products'
+// getCategoryBySlug 从轻量分类模块导入（若从 ~/data/products 导入会把整份 curatedProducts 拖进客户端 bundle）
+import { getCategoryBySlug } from '~/data/productCategories'
 
 const props = defineProps<{ product: Product | ProductCardItem; index?: number }>()
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // 全局错误页（404 / 500 等）—— Nuxt 自动捕获 createError 后渲染此页
 import type { NuxtError } from '#app'
-import { productCategories } from '~/data/products'
+import { productCategories } from '~/data/productCategories'
 
 const props = defineProps<{ error: NuxtError }>()
 

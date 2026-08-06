@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // 某剂型分类第 1 页（放在 /products/categories/ 前缀下，避免与详情页 /products/[slug] 冲突）
-import { productCategories } from '~/data/products'
+import { productCategories } from '~/data/productCategories'
 
 const route = useRoute()
 const category = computed(() => String(route.params.category))

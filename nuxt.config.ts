@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { readdirSync, statSync } from 'node:fs'
+import { join } from 'node:path'
 import { getAllProducts } from './app/data/products-mutations'
 import { getAllProductListRoutes, getAllProductListApiRoutes } from './app/data/productRoutes'
 import { DEFAULT_PRODUCT_IMAGE_BASE_URL } from './app/data/productImageUrl'
@@ -35,6 +37,29 @@ const canonicalBareRoutes = Array.from(new Set([
   ...allProducts.map((p) => `/products/${p.slug}`)
 ]))
 
+// sitemap lastmod：显式 urls + zeroRuntime 时 @nuxtjs/sitemap 无法从源文件推断时间戳，
+// autoLastmod 会被静默丢弃（实测 en-US.xml 里 0 个 <lastmod>）。这里手动注入一个构建日期，
+// 让 Google 知道站点有更新、触发周期性重新抓取。构建日期尽量取最近一次源码改动时间，
+// 避免每次 generate 都产生新的 lastmod 导致无效的「伪更新」。
+const buildDate = (() => {
+  // 取项目内最近被修改的文件时间作为 lastmod（windows 下 git 调用不稳定，用文件系统遍历）
+  try {
+    let latest = 0
+    const walk = (dir: string) => {
+      for (const entry of readdirSync(dir)) {
+        const p = join(dir, entry)
+        let st
+        try { st = statSync(p) } catch { continue }
+        if (st.isDirectory()) walk(p)
+        else latest = Math.max(latest, st.mtimeMs)
+      }
+    }
+    for (const r of ['app', 'public']) walk(r)
+    if (latest > 0) return new Date(latest).toISOString().slice(0, 10)
+  } catch { /* 忽略，回退到固定日期 */ }
+  return '2026-08-01'
+})()
+
 const sitemapEntries = (locale: typeof LOCALES[number]) =>
   canonicalBareRoutes.map((route) => {
     const loc = locale === 'en' ? route : route === '/' ? '/zh' : `/zh${route}`
@@ -43,6 +68,7 @@ const sitemapEntries = (locale: typeof LOCALES[number]) =>
 
     return {
       loc,
+      lastmod: buildDate,
       alternatives: [
         { hreflang: 'en-US', href: enHref },
         { hreflang: 'zh-CN', href: zhHref },
@@ -59,7 +85,9 @@ export default defineNuxtConfig({
   // 1. 详情页 /products/[slug]：列表有分页，crawlLinks 无法稳定发现第 2 页之后的产品链接
   // 2. 列表分页/分类页 /products/page/N、/products/[cat]、/products/[cat]/page/N：
   //    虽用 <NuxtLink> 可被 crawlLinks 发现，但显式注入确保全量生成独立 HTML
-  // 双语改造：英文裸路径，中文 /zh 前缀；旧 /en 路径生成 301 静态兼容页。
+  // 双语改造：英文裸路径，中文 /zh 前缀。
+  // 注：旧站 /en 前缀路径已确认无需兼容（GitHub Pages 上 _redirects 不生效且无人访问），
+  // 不再生成 /en 兼容页，也未保留 _redirects 文件。
   hooks: {
     'nitro:config': (nitroConfig) => {
       nitroConfig.prerender ||= {}

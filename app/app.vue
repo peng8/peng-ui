@@ -55,7 +55,11 @@ useHead({
   titleTemplate: (t) => (t ? `${t} | ${site.brand}` : `${isZh.value ? site.nameCn : site.name} — ${isZh.value ? site.taglineZh : site.tagline}`),
   htmlAttrs: () => localeHead.value.htmlAttrs,
   link: () => localeHead.value.link,
-  meta: () => localeHead.value.meta
+  meta: () => [
+    // theme-color：移动端浏览器地址栏 / PWA 主题色（与页面深蓝主色一致）
+    { name: 'theme-color', content: '#0A2540' },
+    ...localeHead.value.meta
+  ]
 })
 
 useSeoMeta({
@@ -71,6 +75,9 @@ useSeoMeta({
   ogImageHeight: 630,
   ogImageAlt: () => `${isZh.value ? site.nameCn : site.name} — ${isZh.value ? '全球营养补充剂 OEM/ODM 解决方案' : 'Global Nutritional Supplement OEM/ODM Solutions'}`,
   twitterCard: 'summary_large_image',
+  // twitter:title/description 补全（之前只设了 card 和 image；Twitter 卡片展示时标题缺失会用页面标题兜底，显式给出更可控）
+  twitterTitle: () => isZh.value ? site.taglineZh : site.tagline,
+  twitterDescription: () => isZh.value ? site.descriptionZh : site.description,
   twitterImage: `${SITE_URL}/images/ogImage.jpeg`
 })
 
