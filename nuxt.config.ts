@@ -176,6 +176,12 @@ export default defineNuxtConfig({
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' }
         // Inter 字体已自托管在 public/fonts/，通过 main.css 的 @font-face 加载，
         // 无需再引用 Google Fonts（国内访问受限），零外部依赖
+      ],
+      script: [
+        // 渐进增强：JS 可用时给 <html> 加 .js。CSS 中 .reveal 默认可见，
+        // 仅 .js .reveal 才先隐藏再滚动显示 —— 无 JS / JS 失败时内容不被 opacity:0 锁死。
+        // 必须放 <head>：在首帧渲染前标记 .js，避免内容先显示→隐藏→再动画的闪烁。
+        { innerHTML: "document.documentElement.classList.add('js')", tagPosition: 'head' }
       ]
     }
   },

@@ -115,26 +115,31 @@
 }
 
 @layer utilities {
-  /* 滚动进入动画：由 useReveal 在进入视口时挂上 .is-visible */
+  /* 滚动进入动画：由 useReveal 在进入视口时挂上 .is-visible。
+     渐进增强：默认 .reveal 可见（无 JS / JS 失败时内容不隐藏）；
+     仅当 <html> 带 .js（JS 可用，见 nuxt.config 的 head script）时才先隐藏再动画。 */
   .reveal {
+    /* 默认可见：无 JS 时内容直接显示，避免整页空白 */
+  }
+  .js .reveal {
     opacity: 0;
     transform: translateY(24px);
     transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
       transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   }
   @media (prefers-reduced-motion: no-preference) {
-    .reveal {
+    .js .reveal {
       will-change: opacity, transform;
     }
   }
   @media (prefers-reduced-motion: reduce) {
-    .reveal {
+    .js .reveal {
       transition: none;
       opacity: 1;
       transform: none;
     }
   }
-  .reveal.is-visible {
+  .js .reveal.is-visible {
     opacity: 1;
     transform: translateY(0);
   }

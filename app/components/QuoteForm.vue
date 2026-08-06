@@ -8,6 +8,7 @@ withDefaults(defineProps<{ variant?: 'light' | 'dark' }>(), { variant: 'light' }
 
 const { public: { web3formsAccessKey = '' } } = useRuntimeConfig()
 const { isZh } = useLocale()
+const route = useRoute()
 
 interface FormState {
   name: string
@@ -50,8 +51,14 @@ onBeforeUnmount(() => {
 })
 
 const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-// WhatsApp 号码：允许 +、数字、空格、-，至少 6 位数字
-const whatsappRe = /^\+?[\d\s\-]{6,20}$/
+// WhatsApp 号码：允许 +、数字、空格、-、括号、点（容纳 "+1 (555) 123-4567" 等常见格式），
+// 并额外校验位数 7–15（剔除非数字后），避免误拒合法号码导致丢询盘
+const whatsappRe = /^\+?[\d\s\-().]{6,25}$/
+const isValidWhatsapp = (v: string) => {
+  if (!whatsappRe.test(v)) return false
+  const digits = v.replace(/\D/g, '')
+  return digits.length >= 7 && digits.length <= 15
+}
 
 const copy = computed(() => ({
   nameRequired: isZh.value ? '请输入您的姓名' : 'Please enter your name',
@@ -96,13 +103,38 @@ const validate = (): boolean => {
   // 仅 4 项必填：Name、Email、WhatsApp、Project Details
   set('name', form.name.trim() ? '' : copy.value.nameRequired)
   set('email', !form.email.trim() ? copy.value.emailRequired : !emailRe.test(form.email) ? copy.value.emailInvalid : '')
-  set('whatsapp', !form.whatsapp.trim() ? copy.value.whatsappRequired : !whatsappRe.test(form.whatsapp.trim()) ? copy.value.whatsappInvalid : '')
+  set('whatsapp', !form.whatsapp.trim() ? copy.value.whatsappRequired : !isValidWhatsapp(form.whatsapp.trim()) ? copy.value.whatsappInvalid : '')
   set('message', form.message.trim().length >= 10 ? '' : copy.value.messageRequired)
   // 其余字段（company/country/productType）选填，不做校验
   errors.company = ''
   errors.country = ''
   errors.productType = ''
   return ok
+}
+
+// 从产品详情页「Request Quote」跳转过来时预填：?product=产品名
+// 预填 Product Type（若产品名能对上某个剂型）并在 message 里带上产品名，
+// 保证销售邮件始终知道询盘针对哪个产品，避免收到无上下文的询盘。
+const queryProduct = computed(() => (typeof route.query.product === 'string' ? route.query.product : ''))
+const queryType = computed(() => (typeof route.query.type === 'string' ? route.query.type : ''))
+onMounted(() => {
+  const p = queryProduct.value.trim()
+  // 产品页通过 ?type=剂型slug 精确传入剂型（比从长产品名反推可靠），直接预选
+  const matched = productCategories.find((c) => c.slug === queryType.value)
+  if (matched) form.productType = isZh.value ? matched.nameZh : matched.name
+  // 把产品名注入 message 前缀，确保上下文可见（也满足 message ≥10 字符校验）
+  if (p) form.message = isZh.value ? `咨询产品：${p}\n` : `Product inquiry: ${p}\n`
+})
+
+// GA4 事件上报（app.vue 已懒加载 gtag；此处只负责事件，无则静默跳过）
+const trackFormEvent = (event: string, extra: Record<string, unknown> = {}) => {
+  if (!import.meta.client) return
+  const w = window as typeof window & { gtag?: (...args: unknown[]) => void }
+  w.gtag?.('event', event, {
+    page_path: window.location.pathname,
+    product_type: form.productType || 'not-specified',
+    ...extra
+  })
 }
 
 const submit = async () => {
@@ -145,11 +177,18 @@ const submit = async () => {
         company: form.company || 'Not specified',
         country: form.country || 'Not specified',
         product_type: form.productType || 'Not specified',
-        message: form.message
+        message: form.message,
+        // 提交来源页 URL：销售邮件里始终能看到询盘是从哪个页面/产品发起的
+        page_url: import.meta.client ? window.location.href : 'SSG'
       })
     })
     const data = await res.json().catch(() => ({}))
     if (res.ok && data.success) {
+      // GA4 转化事件：询价提交（全站唯一的 lead 转化点）
+      trackFormEvent('generate_lead', {
+        currency: 'USD',
+        inquiry_product: queryProduct.value || null
+      })
       status.value = 'success'
       // 重置表单
       Object.assign(form, {
@@ -166,12 +205,14 @@ const submit = async () => {
     } else {
       status.value = 'error'
       errorMsg.value = data.message || copy.value.submissionFailed
+      trackFormEvent('form_error', data.message || copy.value.submissionFailed)
     }
   } catch (e) {
     status.value = 'error'
     errorMsg.value = (e instanceof DOMException && e.name === 'AbortError')
       ? (isZh.value ? '请求超时,请重试。' : 'Request timed out. Please try again.')
       : copy.value.networkError
+    trackFormEvent('form_error', errorMsg.value)
   } finally {
     clearTimeout(timeout)
   }

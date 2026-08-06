@@ -18,7 +18,22 @@ const dedupeProducts = (items: Product[]) => {
 }
 
 const clippedCopyPattern = /\s*(?:\.{3}|…)\s*$/
+// 源站截断残留：描述以孤立连接词/介词结尾（如 "...improving sleep quality, and"）。
+// 这类结尾在 meta description 和页面正文里都是断句，需修剪。
+const trailingConnectorPattern = /\s(?:and|or|the|with|for|of|to|a|an|in|on|by|from|as|at)\s*[,.;-]?$/i
 const categoryNameMap = Object.fromEntries(productCategories.map((c) => [c.slug, c.name]))
+
+// 修剪尾部孤立连接词（可能连续出现，如 "...with a" → 逐个去掉，保留主体内容）
+const trimTrailingConnector = (s: string): string => {
+  let out = s.trim()
+  while (trailingConnectorPattern.test(out)) {
+    out = out.replace(/\s+(?:and|or|the|with|for|of|to|a|an|in|on|by|from|as|at)\s*[,.;-]*$/i, '').trim()
+  }
+  // 清掉尾部残留标点，补句号（若原本不是以句末标点结束）
+  out = out.replace(/[\s,;:]+$/, '')
+  if (out && !/[.!?…]$/.test(out)) out += '.'
+  return out
+}
 
 const buildShortDesc = (p: Product) =>
   `${p.name} for private-label supplement brands, with custom formulation, dosage and packaging options.`
@@ -33,7 +48,10 @@ function buildFullProducts(): Product[] {
   // 浅拷贝每个产品对象后再改字段，避免 mutate 源数据（curatedProducts/importedProducts）污染 client 模块
   const all = dedupeProducts([...curatedProducts, ...importedProducts]).map((p) => ({ ...p }))
   for (const product of all) {
+    // 省略号截断 → 整体重建（内容已不可恢复）
     if (clippedCopyPattern.test(product.shortDesc)) product.shortDesc = buildShortDesc(product)
+    // 孤立连接词断句 → 只修剪尾部，保留正文
+    else if (trailingConnectorPattern.test(product.shortDesc)) product.shortDesc = trimTrailingConnector(product.shortDesc)
     if (clippedCopyPattern.test(product.description)) product.description = buildDescription(product)
   }
   return all

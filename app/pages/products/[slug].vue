@@ -215,6 +215,20 @@ const otherCategories = computed(() => {
   return productCategories.filter((c) => c.slug !== current)
 })
 
+// 询价链接：携带产品名 + 剂型 slug，让 /contact 表单可预填上下文
+// （直接传 category slug，比从长产品名反推剂型更可靠）
+// 注意：不能在这里用模板字符串内联 isZh（模板里 ref 已解包，isZh.value 会是 undefined），
+// 必须放到 script 里基于 product/isZh 计算。
+const quoteHref = computed(() => {
+  const p = product.value
+  const name = isZh.value ? (p?.nameZh ?? p?.name ?? '') : (p?.name ?? '')
+  const params = new URLSearchParams()
+  if (name) params.set('product', name)
+  if (category.value?.slug) params.set('type', category.value.slug)
+  const qs = params.toString()
+  return `${localePath('/contact')}${qs ? `?${qs}` : ''}`
+})
+
 // 画廊：封面图为主图；若产品附带额外画廊图则追加为缩略图（目前产品仅封面一张）
 const gallery = computed(() => {
   const p = product.value
@@ -336,7 +350,13 @@ const formatSpecLabel = (label: string) => {
               <p class="text-xs text-navy/50">{{ t('detail.moq') }}</p>
               <p class="text-xl font-bold text-navy-500">{{ isZh ? '' : 'from ' }}{{ formatMoq(product.moq) }}</p>
             </div>
-            <UiAppButton :to="localePath('/contact')" variant="primary" size="lg" icon="send" class="ml-auto">
+            <UiAppButton
+              :to="quoteHref"
+              variant="primary"
+              size="lg"
+              icon="send"
+              class="ml-auto"
+            >
               {{ t('detail.requestQuote') }}
             </UiAppButton>
           </div>
