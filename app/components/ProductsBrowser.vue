@@ -46,7 +46,15 @@ const ensureSearchIndex = async () => {
   if (searchIndex.value || searchError.value) return
   searchLoading.value = true
   try {
-    searchIndex.value = await $fetch<Array<ProductCardItem & { searchText: string }>>('/api/products/search-index')
+    // GitHub Pages 是纯静态托管，对无扩展名的 /api/products/search-index 文件
+    // 返回 application/octet-stream（而非 application/json），$fetch 默认按 Content-Type
+    // 猜测会解析成 Blob 而非数组，导致搜索静默空结果。这里强制按文本取回再 JSON.parse，
+    // 与 dev（Nitro 返回 application/json，body 同为 JSON 文本）行为保持一致。
+    const data = await $fetch<Array<ProductCardItem & { searchText: string }>>(
+      '/api/products/search-index',
+      { parseResponse: (txt: string) => JSON.parse(txt) }
+    )
+    searchIndex.value = Array.isArray(data) ? data : []
   } catch {
     searchError.value = true
   } finally {
