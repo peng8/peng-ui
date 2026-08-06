@@ -2,6 +2,7 @@
 // 产品详情页 —— 封面大图 + 缩略图画廊 + 描述特性 + 规格参数表 + 咨询定制 CTA + 同类推荐
 // Product data fetched from server API; heavy products-mutations.ts is never bundled into client.
 import type { Product, ProductCategory } from '~/data/products'
+import { productCategories } from '~/data/products'
 import { SITE_URL } from '~/data/site'
 
 const route = useRoute()
@@ -71,12 +72,23 @@ const seoTitle = computed(() => {
   return `${name}${suffix}`
 })
 
+// 描述 meta 控制在 150-160 字符内（Google 展示截断线），超长按单词边界截断保留关键词；
+// 中文按 ~100 字符截断（中文单字符信息密度更高，展示宽度也受限）
+const truncateTo = (s: string, max: number) =>
+  s.length > max ? s.slice(0, max - 1).replace(/\s+\S*$/, '') + '…' : s
+const seoDescription = computed(() => {
+  const p = product.value
+  if (!p) return ''
+  const raw = isZh.value ? (p.shortDescZh ?? p.shortDesc) : p.shortDesc
+  return truncateTo(raw, isZh.value ? 100 : 155)
+})
+
 useSeoMeta({
   title: () => { const p = product.value; return p ? (isZh.value ? (p.nameZh ?? p.name) : seoTitle.value) : '' },
-  description: () => { const p = product.value; return p ? (isZh.value ? (p.shortDescZh ?? p.shortDesc) : p.shortDesc) : '' },
+  description: seoDescription,
   ogTitle: () => { const p = product.value; return p ? (isZh.value ? (p.nameZh ?? p.name) : seoTitle.value) : '' },
   // og:description 必须与 description 同源(app.vue 全局设了站点级 ogDescription,产品页若不覆盖会沿用站点默认描述,与产品不一致,影响 SEO)
-  ogDescription: () => { const p = product.value; return p ? (isZh.value ? (p.shortDescZh ?? p.shortDesc) : p.shortDesc) : '' },
+  ogDescription: seoDescription,
   ogType: 'product',
   ogImage: () => { const p = product.value; if (!p) return ''; return p.cover.startsWith('http') ? p.cover : `${SITE_URL}${p.cover}` },
   ogImageWidth: 1200,
@@ -102,6 +114,8 @@ useHead({
       description: pd,
       image: p.cover,
       category: cn ?? cat?.name,
+      // sku 用全局唯一的 slug 充当库存标识（Google 推荐 Product 含 sku 或 mpn）
+      sku: p.slug,
       brand: { '@type': 'Brand', name: 'MILDY Health' },
       manufacturer: {
         '@type': 'Organization',
@@ -152,19 +166,51 @@ useHead({
 })
 
 // SEO 正文：基于产品名+剂型+MOQ+OEM 关键词生成，补充详情页文字内容（利于关键词排名）
+// 结构化为 h3 + ul + p，比整段纯文本更利于 Google 抓取权重与关键词密度。
 // 注意：客户端在详情页之间跳转(点同类推荐)时，useAsyncData 重新取数存在空窗，product 可能为 undefined，
 // 故这些 computed 必须对空数据安全（不能用 product.value! 非空断言），否则渲染期抛 TypeError 中断导航。
-const seoParagraph = computed(() => {
+const seoBlocks = computed(() => {
   const p = product.value
-  if (!p) return ''
+  if (!p) return null
   const cat = category.value
-  if (isZh.value) {
-    const catNameZh = cat?.nameZh ?? '营养补充剂'
-    const productName = p.nameZh ?? p.name
-    return `MILDY Health 是中国领先的 ${catNameZh} OEM/ODM 制造商,为 ${productName} 提供白标贴牌与定制配方服务。我们拥有 20,000 平方米 GMP 认证工厂、FDA 注册与 BRCGS 资质,服务全球 30+ 国家和地区的品牌方、跨境卖家与分销商。我们的${catNameZh}能力覆盖活性成分剂量、口味、形状、植物基配方和品牌包装定制,起订量 ${formatMoq(p.moq)}。欢迎联系我们获取免费配方咨询、样品打样方案和无义务报价。`
-  }
   const catName = cat?.name ?? 'supplement'
-  return `MILDY Health is a leading OEM/ODM manufacturer of ${catName.toLowerCase()} in China, offering private-label and custom-formulation services for ${p.name}. With a 20,000 m² GMP-certified facility, FDA registration and BRCGS accreditation, we serve supplement brands, cross-border sellers and distributors across 30+ countries. Our ${catName.toLowerCase()} capabilities cover custom active-ingredient dosage, flavors, shapes, vegan bases and branded packaging — starting from ${p.moq}. Request a free formulation consultation, samples within 7–15 days, and a no-obligation quote for your ${catName.toLowerCase()} project.`
+  const catNameZh = cat?.nameZh ?? '营养补充剂'
+  const productName = isZh.value ? (p.nameZh ?? p.name) : p.name
+  const catKey = catName.toLowerCase()
+  // 产品名常以剂型结尾（如 "…Gummies"），标题里重复剂型显得冗余，去重
+  const dedupeHeading = (name: string, catWord: string) =>
+    name.toLowerCase().endsWith(catWord.toLowerCase()) ? name : `${name} ${catWord}`
+
+  if (isZh.value) {
+    return {
+      heading: `${dedupeHeading(productName, catNameZh)} OEM/ODM —— 为什么选择 MILDY Health`,
+      points: [
+        `20,000 平方米 GMP 认证工厂,持有 FDA 注册、BRCGS 与 NSF GMP 资质`,
+        `${catNameZh} 全面定制:活性成分剂量、口味、形状、植物基配方与品牌包装`,
+        `起订量 ${formatMoq(p.moq)},为新合作伙伴提供试单`,
+        `服务 30+ 国家和地区的品牌方、跨境卖家与分销商`,
+        `免费配方咨询,样品 7–15 天交付,无义务报价`
+      ],
+      closing: `MILDY Health 是中国领先的 ${catNameZh} 合同制造商,为 ${productName} 提供白标贴牌与定制配方一站式服务。立即联系我们,获取您 ${productName} ${catNameZh} 项目的无义务报价,我们的 OEM/ODM 团队将在 24 小时内回复。`
+    }
+  }
+  return {
+    heading: `Start Your ${dedupeHeading(productName, catName)} OEM/ODM Project with MILDY Health`,
+    points: [
+      `GMP-certified 20,000 m² facility with FDA registration, BRCGS and NSF GMP accreditation`,
+      `Full ${catKey} customization: active-ingredient dosage, flavors, shapes, vegan bases and branded packaging`,
+      `MOQ from ${p.moq}, with trial orders available for new partners`,
+      `Serving supplement brands, cross-border sellers and distributors across 30+ countries`,
+      `Free formulation consultation, samples within 7–15 days and a no-obligation quote`
+    ],
+    closing: `Request a no-obligation quote for your ${productName} ${catKey} project today — our OEM/ODM team will respond within 24 hours.`
+  }
+})
+
+// 跨品类内链：排除当前剂型，列出其余分类页（利于站内权重传递 + 爬虫深挖分类页）
+const otherCategories = computed(() => {
+  const current = category.value?.slug
+  return productCategories.filter((c) => c.slug !== current)
 })
 
 // 画廊：封面图为主图；若产品附带额外画廊图则追加为缩略图（目前产品仅封面一张）
@@ -334,8 +380,17 @@ const formatSpecLabel = (label: string) => {
           align="left"
         />
         <p class="reveal mt-6 text-base leading-relaxed text-navy/75">{{ isZh ? product.descriptionZh ?? product.description : product.description }}</p>
-        <!-- SEO 正文：补充关键词密度，利于产品页排名 -->
-        <p class="reveal mt-4 text-sm leading-relaxed text-navy/60">{{ seoParagraph }}</p>
+        <!-- SEO 正文：h3 + ul + p 结构化，补充关键词密度与站内锚文本，利于产品页排名 -->
+        <div v-if="seoBlocks" class="reveal mt-8 rounded-xl bg-white p-6 ring-1 ring-mist-border">
+          <h3 class="text-lg font-bold text-navy">{{ seoBlocks.heading }}</h3>
+          <ul class="mt-4 space-y-2.5">
+            <li v-for="(point, i) in seoBlocks.points" :key="i" class="flex items-start gap-2.5 text-sm text-navy/75">
+              <UiAppIcon name="check" :size="16" class="mt-0.5 shrink-0 text-gold-dark" />
+              {{ point }}
+            </li>
+          </ul>
+          <p class="mt-5 border-t border-mist-border pt-4 text-sm leading-relaxed text-navy/60">{{ seoBlocks.closing }}</p>
+        </div>
       </div>
     </section>
 
@@ -378,6 +433,35 @@ const formatSpecLabel = (label: string) => {
             :product="item"
             :index="i"
           />
+        </div>
+      </div>
+    </section>
+
+    <!-- 其他剂型分类（跨品类内链：把权重引向分类页，利于整站收录与爬虫深挖） -->
+    <section v-if="otherCategories.length" class="section bg-mist">
+      <div class="wrap">
+        <UiSectionHeading
+          :eyebrow="isZh ? '全剂型覆盖' : 'All Dosage Forms'"
+          :title="isZh ? '探索其他产品类型' : 'Explore Other Product Categories'"
+          align="left"
+        />
+        <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <NuxtLink
+            v-for="(c, i) in otherCategories"
+            :key="c.slug"
+            :to="localePath(`/products/categories/${c.slug}`)"
+            class="reveal group flex items-center gap-4 rounded-xl bg-white p-5 ring-1 ring-mist-border transition-all hover:-translate-y-0.5 hover:shadow-card"
+            :style="{ transitionDelay: `${i * 40}ms` }"
+          >
+            <div class="h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-mist-dark">
+              <UiLazyImage :src="c.image" :alt="c.name" ratio="aspect-square" />
+            </div>
+            <div class="min-w-0">
+              <p class="font-semibold text-navy group-hover:text-gold-dark">{{ isZh ? c.nameZh : c.name }}</p>
+              <p class="mt-0.5 truncate text-xs text-navy/55">{{ isZh ? c.shortZh : c.short }}</p>
+            </div>
+            <UiAppIcon name="arrow-right" :size="16" class="ml-auto shrink-0 text-navy/30 transition-all group-hover:translate-x-0.5 group-hover:text-gold-dark" />
+          </NuxtLink>
         </div>
       </div>
     </section>

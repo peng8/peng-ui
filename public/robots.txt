@@ -1,4 +1,15 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /_nuxt/
+Disallow: /pagefind/
+Disallow: /_payload.json
+
+# 图片资源（产品图在独立 CDN 域名，允许抓取）
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Googlebot
+Disallow: /api/
 
 Sitemap: https://www.mildy-health.com/sitemap_index.xml

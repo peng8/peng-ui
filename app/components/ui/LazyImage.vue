@@ -2,6 +2,10 @@
 // 图片懒加载封装：带占位底色 + 加载淡入 + 错误兜底
 // - 站内本地图（/images/...，含已本地化的产品图）→ <NuxtImg>，IPX 预渲染 WebP + 响应式 srcset（利于 LCP）
 // - 外部 http(s) 图 → 原生 <img>：GitHub Pages 纯静态无 IPX 服务，外链图无法预渲染会 404，故直接用原图
+//   产品大图(jpg/png)由 img-storage 项目的 sharp 脚本预生成 w640/w1024/w1536 WebP 变体，
+//   通过 productImageSrcset() 输出 srcset，浏览器按视口选最优尺寸（移动端 -94% 体积）。
+import { productImageSrcset } from '~/data/productImageUrl'
+
 const props = withDefaults(
   defineProps<{
     src: string
@@ -24,6 +28,9 @@ const props = withDefaults(
 // 是否站内本地图（相对路径，可走 IPX）；http(s) 外链图直接用原生 img
 const isLocal = computed(() => !/^https?:\/\//.test(props.src))
 
+// 外链产品大图(jpg/png)才有预生成变体；imported webp 与外链非产品图返回空串
+const srcset = computed(() => (isLocal.value ? '' : productImageSrcset(props.src)))
+
 const loaded = ref(false)
 const error = ref(false)
 
@@ -34,7 +41,6 @@ const onError = () => {
   error.value = true
   loaded.value = true
 }
-
 // src 变化时重置状态：避免切换图片时旧 loaded/error 残留导致新图不显示或无淡入
 watch(() => props.src, () => {
   loaded.value = false
@@ -61,6 +67,7 @@ watch(() => props.src, () => {
       :src="src"
       :alt="alt || ''"
       :loading="eager ? 'eager' : 'lazy'"
+      :fetchpriority="eager ? 'high' : 'auto'"
       :sizes="sizes"
       format="webp"
       quality="80"
@@ -73,12 +80,15 @@ watch(() => props.src, () => {
       @load="onLoad"
       @error="onError"
     />
-    <!-- 外部 CDN 图：原生 img（懒加载 + 淡入保留） -->
+    <!-- 外部 CDN 图：原生 img + srcset（变体由 img-storage sharp 预生成） -->
     <img
       v-else
       :src="src"
       :alt="alt || ''"
       :loading="eager ? 'eager' : 'lazy'"
+      :fetchpriority="eager ? 'high' : 'auto'"
+      :srcset="srcset || undefined"
+      :sizes="srcset ? sizes : undefined"
       :class="[
         'transition-all duration-700',
         cover ? 'h-full w-full object-cover' : 'h-full w-full object-contain',
