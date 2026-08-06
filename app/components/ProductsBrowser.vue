@@ -242,7 +242,7 @@ watch(searchQuery, () => {
 })
 
 // 搜索/翻页是客户端原地更新（路由不变），布局里的 reveal 观察不会重跑，
-// 导致新插入的卡片停在 opacity:0（透明但可点）。列表变化后重新观察 .reveal。
+// 导致新插入的卡片停在 opacity:0（透明但可点）。列表变化后重新观察 .reveal
 const { observeAll } = useReveal()
 watch(pageItems, () => {
   if (import.meta.client) observeAll()
