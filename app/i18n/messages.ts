@@ -24,6 +24,7 @@ export const messages = {
     'nav.certifications': 'Certifications',
     'nav.manufacturing': 'Manufacturing',
     'nav.howItWorks': 'How It Works',
+    'nav.blog': 'Blog',
     'nav.contact': 'Contact',
     'nav.allProducts': 'All Products',
 
@@ -441,6 +442,7 @@ export const messages = {
     'nav.certifications': '资质认证',
     'nav.manufacturing': '生产实力',
     'nav.howItWorks': '合作流程',
+    'nav.blog': '资源中心',
     'nav.contact': '联系我们',
     'nav.allProducts': '全部产品',
 

@@ -77,6 +77,7 @@ export const navKeyMap = {
   '/services': 'nav.services',
   '/manufacturing': 'nav.manufacturing',
   '/how-it-works': 'nav.howItWorks',
+  '/blog': 'nav.blog',
   '/contact': 'nav.contact'
 } as const
 
@@ -92,5 +93,6 @@ export const navItems: NavItem[] = [
   { label: 'Services', to: '/services' },
   { label: 'Manufacturing', to: '/manufacturing' },
   { label: 'How It Works', to: '/how-it-works' },
+  { label: 'Blog', to: '/blog' },
   { label: 'Contact', to: '/contact' }
 ]

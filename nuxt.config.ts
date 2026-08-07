@@ -12,6 +12,16 @@ const LOCALES = ['en', 'zh'] as const
 const withLocales = (bareRoutes: string[]) =>
   LOCALES.flatMap((l) => bareRoutes.map((r) => l === 'en' ? r : `/${l}${r === '/' ? '' : r}`))
 
+// 博客文章 slug 列表（content/blog/*.md 文件名）—— 构建期读取，驱动 SSG 预渲染与 sitemap。
+// 文件不存在时（首次检出未装依赖前）静默回退空数组，避免构建崩溃。
+const blogSlugs = (() => {
+  try {
+    return readdirSync(join(process.cwd(), 'content', 'blog'))
+      .filter((f) => f.endsWith('.md'))
+      .map((f) => f.replace(/\.md$/, ''))
+  } catch { return [] }
+})()
+
 const staticPageRoutes = [
   '/',
   '/about',
@@ -19,6 +29,7 @@ const staticPageRoutes = [
   '/services',
   '/manufacturing',
   '/how-it-works',
+  '/blog',
   '/contact',
   '/privacy',
   '/terms'
@@ -34,7 +45,8 @@ const productListApiRoutes = getAllProductListApiRoutes(allProducts)
 const canonicalBareRoutes = Array.from(new Set([
   ...staticPageRoutes,
   ...productListRoutes,
-  ...allProducts.map((p) => `/products/${p.slug}`)
+  ...allProducts.map((p) => `/products/${p.slug}`),
+  ...blogSlugs.map((s) => `/blog/${s}`)
 ]))
 
 // sitemap lastmod：显式 urls + zeroRuntime 时 @nuxtjs/sitemap 无法从源文件推断时间戳，
@@ -95,11 +107,13 @@ export default defineNuxtConfig({
       const productDetailRoutes = withLocales(allProducts.map((p) => `/products/${p.slug}`))
       const listRoutes = withLocales(productListRoutes)
       const pageRoutes = withLocales(staticPageRoutes)
+      const blogRoutes = withLocales(blogSlugs.map((s) => `/blog/${s}`))
       const productApiRoutes = allProducts.map((p) => `/api/products/${p.slug}`)
       nitroConfig.prerender.routes.push(
         ...pageRoutes,
         ...productDetailRoutes,
         ...listRoutes,
+        ...blogRoutes,
         ...productListApiRoutes,
         ...productApiRoutes,
         '/api/products/search-index',
@@ -111,7 +125,7 @@ export default defineNuxtConfig({
   // 默认开启 SSR，既能 `npm run dev` 跑动态，也能 `npm run generate` 生成全静态站点。
   ssr: true,
 
-  modules: ['@nuxtjs/tailwindcss', '@nuxt/image', '@nuxtjs/sitemap', '@nuxtjs/i18n'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxt/image', '@nuxtjs/sitemap', '@nuxtjs/i18n', '@nuxt/content'],
 
   // 中英文分路径 SEO：英文使用裸路径，中文使用 /zh/...，利于 Google 分别收录 + hreflang
   i18n: {
