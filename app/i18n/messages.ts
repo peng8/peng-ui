@@ -18,7 +18,7 @@ export const messages = {
 
     // 导航
     'nav.home': 'Home',
-    'nav.about': 'About Us',
+    'nav.about': 'About',
     'nav.products': 'Products',
     'nav.services': 'Services',
     'nav.certifications': 'Certifications',

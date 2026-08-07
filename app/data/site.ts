@@ -88,7 +88,7 @@ export interface NavItem {
 
 export const navItems: NavItem[] = [
   { label: 'Home', to: '/' },
-  { label: 'About Us', to: '/about' },
+  { label: 'About', to: '/about' },
   { label: 'Products', to: '/products' },
   { label: 'Services', to: '/services' },
   { label: 'Manufacturing', to: '/manufacturing' },
