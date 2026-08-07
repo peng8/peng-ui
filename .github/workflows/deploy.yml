@@ -25,7 +25,9 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          # 依赖树（nuxt 4.5 / vue-i18n 11 / esbuild 0.28 等）要求 Node >=22，
+          # 与本地开发 Node 24 保持一致，避免 npm ci 因 engines 不匹配跳过安装而报 EUSAGE。
+          node-version: '24'
           cache: 'npm'
 
       - name: Install dependencies
