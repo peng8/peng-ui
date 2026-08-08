@@ -23,7 +23,8 @@ export const blogCategories: { slug: string; name: string; nameZh: string }[] = 
   { slug: 'guides', name: 'Guides', nameZh: '指南' },
   { slug: 'compliance', name: 'Compliance', nameZh: '法规' },
   { slug: 'manufacturing', name: 'Manufacturing', nameZh: '制造' },
-  { slug: 'ingredients', name: 'Ingredients', nameZh: '成分' }
+  { slug: 'ingredients', name: 'Ingredients', nameZh: '成分' },
+  { slug: 'wellness', name: 'Wellness', nameZh: '健康' }
 ]
 
 /** 按 slug 查分类显示名（当前语言），未知分类回退原文 */
